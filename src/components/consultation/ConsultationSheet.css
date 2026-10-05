@@ -1,0 +1,130 @@
+.consultation-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 12, 7, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.consultation-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-modal);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  box-shadow: 0 28px 70px rgba(20, 12, 7, 0.4), inset 0 0 0 1px rgba(201, 168, 76, 0.22);
+  position: relative;
+}
+
+.consultation-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.25rem;
+}
+
+.consultation-close {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  transition: color var(--transition-fast);
+}
+
+.consultation-close:hover {
+  color: var(--color-text-primary);
+}
+
+.consultation-heading {
+  font-family: var(--font-editorial);
+  font-size: var(--text-xl);
+  color: var(--color-espresso);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+
+.consultation-intro {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.consultation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Self-contained, like Training's .training-field: every field is a label
+   plus one control, no CSS grid, so it does not need CheckoutModal's
+   full-width grid modifier. Covers select as well as input/textarea, since
+   this form has two of them. */
+.consultation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.consultation-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.consultation-field input,
+.consultation-field textarea,
+.consultation-field select {
+  padding: 0.75rem 0.9rem;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.consultation-field input:focus,
+.consultation-field textarea:focus,
+.consultation-field select:focus {
+  border-color: var(--color-gold);
+  outline: none;
+}
+
+/* Same red-brown as Training's .training-error, so an enquiry error reads
+   the same colour everywhere on the site. */
+.consultation-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8A2B2B;
+}
+
+.consultation-result {
+  text-align: center;
+  padding: 1.5rem 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.consultation-result-icon {
+  color: var(--color-gold);
+}
+
+.consultation-result p {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 380px;
+}

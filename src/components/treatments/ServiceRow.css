@@ -1,0 +1,67 @@
+/* Text-only treatment row: name, duration/price meta and the guide label on
+   the left as one link, the Book button on the right. No image slot at all,
+   unlike .list-row and .treatment-directory-card. The meta sits under the
+   name, not beside it, because "Price on consultation" is too wide to share
+   a phone row with the name and the button. */
+.service-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 56px;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border-light);
+  break-inside: avoid;
+}
+
+.service-row-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-decoration: none;
+}
+
+.service-row-name {
+  font-family: var(--font-editorial);
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--color-espresso);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-row-link:hover .service-row-name {
+    color: var(--color-gold-hover);
+  }
+}
+
+.service-row-meta {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* Container for a run of ServiceRows. Desktop reads it like a printed price
+   list in three columns (the owner's request, to shorten the scroll),
+   tablets in two, phones in one. */
+.service-list {
+  columns: 3;
+  column-gap: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+  .service-list {
+    columns: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .service-list {
+    columns: 1;
+  }
+
+  /* .btn-sm alone is under 40px tall; this is the one context that needs
+     the bigger phone tap target. */
+  .service-row .btn-sm {
+    min-height: 40px;
+  }
+}

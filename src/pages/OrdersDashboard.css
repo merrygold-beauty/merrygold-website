@@ -1,0 +1,183 @@
+.orders-page-shell {
+  background-color: var(--color-bone);
+  min-height: 100vh;
+}
+
+.orders-header-band {
+  background-color: var(--color-cocoa);
+  padding-top: calc(var(--nav-h) + 3.5rem);
+  padding-bottom: 2.5rem;
+}
+
+.orders-page-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0;
+}
+
+.orders-body {
+  padding: 3rem 0 5rem;
+}
+
+.orders-error {
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  background-color: var(--color-rose-subtle);
+  border-left: 3px solid var(--color-rose);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Sign-in gate: same field pattern as the site's other forms (Contact,
+   Training), namespaced to this page since each page keeps its own. */
+.orders-signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 2.5rem 0;
+}
+
+.orders-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.orders-input-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.orders-input-field input {
+  padding: 0.85rem 1rem;
+  background-color: var(--color-bone-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.orders-input-field input:focus {
+  border-color: var(--color-gold);
+  outline: none;
+}
+
+.orders-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.orders-summary {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+}
+
+.orders-toolbar-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Desktop table and phone cards both render; only one shows at a time. */
+.orders-table-wrap {
+  display: none;
+}
+
+.orders-cards {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .orders-table-wrap {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .orders-cards {
+    display: none;
+  }
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.orders-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border-gold);
+  white-space: nowrap;
+}
+
+.orders-table td {
+  padding: 0.85rem 1rem;
+  vertical-align: top;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.orders-table td div {
+  margin-bottom: 0.15rem;
+}
+
+.orders-table td div:last-child {
+  margin-bottom: 0;
+}
+
+.orders-table a {
+  color: var(--color-gold-hover);
+  font-weight: 500;
+}
+
+/* Phone cards reuse the site's list-row typography classes (list-row-title,
+   list-row-sub, list-row-meta) directly; only the parts a treatment list-row
+   does not have, an items list and the detail lines, are new here. */
+.order-card {
+  padding: 1.1rem 0.25rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.order-card-items {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+}
+
+.order-card-detail {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin: 0.15rem 0 0;
+}
+
+.order-card-stripe {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-gold-hover);
+}
+
+.orders-load-more {
+  display: block;
+  margin: 2rem auto 0;
+}

@@ -1,0 +1,472 @@
+.goldie-chat-wrapper {
+  position: relative;
+  z-index: 9999;
+}
+
+/* Floating Launcher Disc */
+.goldie-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: var(--color-espresso);
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(17, 8, 3, 0.45);
+  transition: border-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
+  z-index: 9998;
+}
+
+.goldie-fab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .goldie-fab::after {
+    animation: goldie-breath 4s ease-out infinite;
+  }
+}
+
+@keyframes goldie-breath {
+  0% { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.goldie-fab:hover {
+  border-color: var(--color-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(211, 165, 75, 0.3);
+}
+
+.goldie-fab-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.goldie-fab-icon-close {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.goldie-fab.active .goldie-fab-icon-mark {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.goldie-fab.active .goldie-fab-icon-close {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.goldie-fab-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #25D366;
+  border: 1.5px solid var(--color-espresso);
+}
+
+/* "Ask Olu" sitting above the butterfly, so visitors know what it opens.
+   Hidden while the chat is open, when the button turns into a close X. */
+.goldie-fab-label {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background-color: var(--color-espresso);
+  border: 1px solid var(--color-border-gold);
+  color: var(--color-gold-light);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.goldie-fab.active .goldie-fab-label {
+  opacity: 0;
+}
+
+/* One-time hint bubble, desktop only */
+.goldie-hint {
+  position: fixed;
+  bottom: 32px;
+  right: 88px;
+  max-width: 230px;
+  background-color: var(--color-espresso);
+  border: 1px solid var(--color-border-gold);
+  color: var(--color-text-on-dark);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  padding: 0.75rem 1rem;
+  border-radius: 14px 14px 4px 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  z-index: 9997;
+  animation: goldie-hint-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes goldie-hint-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Expandable Chat Panel */
+.goldie-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  height: min(520px, 70vh);
+  background-color: var(--color-espresso);
+  border: 1px solid var(--color-border-gold);
+  border-radius: 24px 24px 12px 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(201, 168, 76, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+  transform-origin: bottom right;
+  animation: panelOpen 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes panelOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Backdrop, phones only (rendered conditionally in JS) */
+.goldie-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 12, 7, 0.5);
+  z-index: 9998;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Header */
+.goldie-header {
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color: var(--color-espresso-surface);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.goldie-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.goldie-avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-espresso-surface);
+  border: 1px solid var(--color-border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.goldie-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goldie-name {
+  font-family: var(--font-editorial);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-gold);
+}
+
+.goldie-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #25D366;
+  box-shadow: 0 0 6px #25D366;
+}
+
+.goldie-close-btn {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-on-dark-muted);
+  border-radius: 50%;
+  transition: color var(--transition-fast);
+}
+
+.goldie-close-btn:hover {
+  color: var(--color-gold);
+}
+
+/* Body */
+.goldie-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goldie-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 85%;
+}
+
+.msg-avatar {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.msg-user {
+  align-self: flex-end;
+}
+
+.msg-user .msg-bubble {
+  background-color: var(--color-gold);
+  color: var(--color-espresso);
+  font-weight: 500;
+  border-radius: 18px 18px 4px 18px;
+}
+
+.msg-bot {
+  align-self: flex-start;
+}
+
+.msg-bot .msg-bubble {
+  background-color: var(--color-espresso-surface);
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text-on-dark);
+  border-radius: 18px 18px 18px 4px;
+}
+
+.msg-bubble {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  padding: 10px 14px;
+  word-wrap: break-word;
+  min-width: 0;
+}
+
+.goldie-link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(211, 165, 75, 0.15);
+  color: var(--color-gold);
+  border: 1px solid rgba(211, 165, 75, 0.35);
+  padding: 4px 8px;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 4px 0;
+  text-decoration: none;
+}
+
+.goldie-link-chip:hover {
+  background-color: var(--color-gold);
+  color: var(--color-espresso);
+}
+
+/* Typing Indicator */
+.msg-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+}
+
+.msg-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+
+.msg-typing span:nth-child(2) { animation-delay: 0.2s; }
+.msg-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Chips Row */
+.goldie-chips-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 6px 14px 10px;
+  background-color: var(--color-espresso-surface);
+  border-top: 1px solid var(--color-border-dark);
+  scrollbar-width: none;
+}
+
+.goldie-chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+.goldie-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  font-size: 0.8rem;
+  color: var(--color-text-on-dark-secondary);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border-dark);
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.goldie-chip:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background-color: rgba(211, 165, 75, 0.1);
+}
+
+.goldie-chip-link {
+  color: var(--color-gold);
+  border-color: rgba(211, 165, 75, 0.35);
+  background-color: rgba(211, 165, 75, 0.08);
+}
+
+/* Footer / Input Form */
+.goldie-footer {
+  display: flex;
+  padding: 10px 14px;
+  gap: 8px;
+  background-color: var(--color-espresso);
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.goldie-input {
+  flex: 1;
+  min-width: 0;
+  background-color: var(--color-espresso-surface);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-on-dark);
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.goldie-input:focus-visible {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.18);
+}
+
+.goldie-send-btn {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background-color: var(--color-gold);
+  color: var(--color-espresso);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.goldie-send-btn:hover:not(:disabled) {
+  background-color: var(--color-gold-hover);
+}
+
+.goldie-send-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .goldie-fab {
+    bottom: 78px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .goldie-panel {
+    bottom: 74px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 100%;
+    height: calc(100vh - 90px);
+    max-height: 520px;
+  }
+
+  .goldie-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .goldie-fab {
+    display: none;
+  }
+
+  .goldie-panel.sheet {
+    max-height: 72dvh !important;
+  }
+
+  .goldie-input {
+    font-size: 16px;
+  }
+}

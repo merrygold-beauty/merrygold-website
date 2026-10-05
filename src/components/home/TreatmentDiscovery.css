@@ -1,0 +1,169 @@
+.discovery-section {
+  background-color: var(--color-latte);
+  padding: clamp(5.5rem, 8.5vw, 9rem) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.discovery-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.discovery-titles {
+  max-width: 620px;
+}
+
+.discovery-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.15;
+}
+
+.discovery-desc {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+/* .chip-rail (scroll/overflow/scrollbar hiding) and .chip (font, padding,
+   border, radius, colours, hover, active) come from global.css. Only the
+   section-specific spacing lives here. */
+.category-tabs-scroll {
+  display: flex;
+  gap: 0.65rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.treatments-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.treatment-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition-normal);
+}
+
+.treatment-card:hover {
+  border-color: var(--color-border-gold);
+}
+
+.treatment-thumb-box {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  position: relative;
+  background-color: var(--color-ivory-warm);
+}
+
+.treatment-price-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(20, 12, 7, 0.88);
+  color: var(--color-gold);
+  font-family: var(--font-editorial);
+  font-size: 1.1rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--shape-pill);
+  border: 1px solid var(--color-border-gold);
+  z-index: 2;
+}
+
+.treatment-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.treatment-category-label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.treatment-name {
+  font-family: var(--font-editorial);
+  font-size: 1.25rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 0.45rem;
+}
+
+.treatment-tagline {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.treatment-specs-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: 1.25rem;
+}
+
+.spec-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.treatment-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.discovery-footer-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .treatments-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .treatments-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .discovery-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .discovery-finder-trigger {
+    width: 100%;
+  }
+}

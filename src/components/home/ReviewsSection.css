@@ -1,0 +1,157 @@
+.reviews-section {
+  background-color: var(--color-cocoa);
+  padding: clamp(5.5rem, 8.5vw, 9rem) 0;
+  overflow: hidden;
+}
+
+.reviews-header-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 980px;
+  margin: 0 auto 3.5rem;
+}
+
+.reviews-heading-group {
+  max-width: 640px;
+}
+
+.reviews-main-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.reviews-subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.6;
+}
+
+.reviews-google-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+/* Track duplication, hover-pause and reduced-motion behaviour live on the
+   shared .marquee-wrapper/.marquee-track classes in global.css. This section
+   uses the default gap and duration, so no override is needed here. */
+
+.review-card {
+  width: clamp(340px, 30vw, 420px);
+  flex-shrink: 0;
+  background-color: var(--color-cocoa-surface);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--radius-xs);
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition-normal);
+}
+
+.review-card:hover {
+  border-color: var(--color-border-gold-strong);
+}
+
+.review-rating-stars {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.star-filled {
+  color: var(--color-gold);
+  fill: var(--color-gold);
+}
+
+.review-headline {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-text-on-dark);
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 0.85rem;
+}
+
+.review-body-text {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text-on-dark-secondary);
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.review-author-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-cocoa);
+}
+
+.author-avatar-frame {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--shape-pill);
+  border: 1px solid var(--color-border-gold);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--color-espresso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-avatar-initials {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 0.05em;
+}
+
+.author-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.author-details .author-name {
+  font-family: var(--font-editorial);
+  font-size: 0.9375rem;
+  color: var(--color-text-on-dark);
+  font-weight: 500;
+}
+
+.author-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.treatment-tag {
+  font-size: 0.6875rem;
+  color: var(--color-text-on-dark-muted);
+}
+
+.verified-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  color: var(--color-gold);
+}
+

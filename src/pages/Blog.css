@@ -1,0 +1,157 @@
+.blog-page-shell {
+  background-color: var(--color-ivory);
+  min-height: 100vh;
+}
+
+/* Page header band: cocoa background, shared by the list and article pages
+   so a visitor lands on the same visual language either way. */
+.blog-hero {
+  background-color: var(--color-cocoa);
+  padding-top: calc(var(--nav-h) + 3.5rem);
+  padding-bottom: 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-cocoa);
+}
+
+.blog-page-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+}
+
+/* Article titles run longer than "Blog", so they get a smaller ceiling and a
+   narrower measure to stay readable across two or three lines. */
+.blog-article-title {
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  max-width: 46ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-page-subtext,
+.blog-article-meta {
+  font-size: 0.9375rem;
+  color: var(--color-text-on-dark-secondary);
+  margin: 0;
+}
+
+/* Article list */
+.blog-list-section {
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: var(--section-spacing);
+}
+
+.blog-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (min-width: 900px) {
+  .blog-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.blog-card-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.blog-card-title {
+  font-family: var(--font-editorial);
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.blog-card-title a {
+  color: var(--color-text-primary);
+}
+
+.blog-card-title a:hover {
+  color: var(--color-gold-hover);
+}
+
+.blog-card-date {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.blog-card-excerpt {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.blog-card .link-editorial {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* Article body: a comfortable reading measure, independent of the wider
+   .container grid used elsewhere on the site. */
+.blog-article-body {
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: 3rem var(--container-gutter) 5rem;
+}
+
+.blog-article-body h2 {
+  font-family: var(--font-editorial);
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  font-weight: 400;
+  margin: 2.25rem 0 0.75rem;
+}
+
+.blog-article-body h3 {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+  font-weight: 400;
+  margin: 1.75rem 0 0.6rem;
+}
+
+.blog-article-body p,
+.blog-article-body li {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.blog-article-body p {
+  margin: 0 0 1rem;
+}
+
+.blog-article-body ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.2rem;
+}
+
+.blog-article-body li {
+  margin-bottom: 0.45rem;
+}
+
+.blog-article-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border-light);
+}

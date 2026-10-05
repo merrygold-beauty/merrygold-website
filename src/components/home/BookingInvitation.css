@@ -1,0 +1,78 @@
+.invitation-section {
+  background-color: var(--color-latte);
+  padding: clamp(5rem, 8vw, 8.5rem) 0;
+}
+
+.invitation-card {
+  background-color: var(--color-cocoa);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-arch-soft);
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 5rem);
+  text-align: center;
+  position: relative;
+}
+
+.invitation-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.invitation-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 1.25rem 0 1rem;
+  line-height: 1.15;
+}
+
+.invitation-narrative {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text-on-dark);
+  margin-bottom: 2.5rem;
+}
+
+.invitation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.invitation-actions .btn-secondary {
+  background-color: rgba(250, 246, 240, 0.14);
+  color: var(--color-bone);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .invitation-actions .btn-secondary:hover {
+    background-color: rgba(250, 246, 240, 0.22);
+    color: var(--color-gold);
+  }
+}
+
+.invitation-meta-strip {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: var(--color-text-on-dark-muted);
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.invitation-phone,
+.invitation-assurance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.invitation-phone a {
+  color: var(--color-gold);
+  text-decoration: none;
+}

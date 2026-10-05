@@ -1,0 +1,80 @@
+.results-section {
+  background-color: var(--color-latte);
+  padding: clamp(5.5rem, 8.5vw, 9rem) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.results-header-block {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+}
+
+.results-main-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.results-intro {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.case-study-nav-strip {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.case-study-tab {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.case-study-tab:hover,
+.case-study-tab.active {
+  border-color: var(--color-gold);
+  background-color: var(--color-espresso);
+}
+
+.case-tab-treatment {
+  font-family: var(--font-editorial);
+  font-size: 1rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+}
+
+.case-tab-client {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.case-study-tab.active .case-tab-treatment {
+  color: var(--color-gold);
+}
+
+.case-study-tab.active .case-tab-client {
+  color: var(--color-text-on-dark-muted);
+}
+
+.active-slider-shell {
+  max-width: 840px;
+  margin: 0 auto 3rem;
+}
+
+.results-bottom-actions {
+  text-align: center;
+}

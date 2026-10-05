@@ -1,0 +1,165 @@
+.training-page-shell {
+  background-color: var(--color-ivory);
+  min-height: 100vh;
+}
+
+.training-hero {
+  padding-top: calc(var(--nav-h) + 3.5rem);
+  padding-bottom: 3rem;
+  text-align: center;
+  background-color: var(--color-cocoa);
+  border-bottom: 1px solid var(--color-border-cocoa);
+}
+
+.training-page-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+}
+
+.training-page-subtext {
+  font-size: 1rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.training-body {
+  padding: 4rem 0 6rem;
+}
+
+.training-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.training-programme-list h2,
+.training-form-card h2 {
+  font-family: var(--font-editorial);
+  font-size: 1.6rem;
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin: 0 0 1rem;
+}
+
+.training-programme-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.training-programme-list h3 {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin: 0 0 0.25rem;
+}
+
+.training-programme-list p,
+.training-form-card > p,
+.training-note {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.training-form-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-modal);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.training-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-top: 1.5rem;
+}
+
+.training-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.training-field legend,
+.training-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.training-field input,
+.training-field textarea,
+.training-field select {
+  padding: 0.85rem 1rem;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.training-field input:focus,
+.training-field textarea:focus,
+.training-field select:focus {
+  border-color: var(--color-gold);
+  outline: none;
+}
+
+.training-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.875rem;
+  color: var(--color-espresso);
+  margin-top: 0.45rem;
+}
+
+.training-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8A2B2B;
+}
+
+.training-success-box {
+  text-align: center;
+  padding: 2rem 1.25rem;
+  margin-top: 1.5rem;
+  background-color: var(--color-ivory-warm);
+  border: 1px solid var(--color-border-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.training-success-box p {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 380px;
+}
+
+@media (max-width: 900px) {
+  .training-layout {
+    grid-template-columns: 1fr;
+  }
+}

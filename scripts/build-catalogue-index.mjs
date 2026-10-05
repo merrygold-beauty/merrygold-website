@@ -1,0 +1,73 @@
+// Builds src/data/catalogueIndex.json: the price list the checkout Pages
+// Functions trust. treatments.js and products.js import image assets, so
+// Node cannot import them directly; fields are pulled out with the same
+// regex technique build-sitemap.mjs uses for slugs.
+import fs from 'node:fs';
+
+// The closing quote must be the same character as the opening one, so an
+// apostrophe inside a double-quoted name ("Men's Facial") stays in the value.
+function fieldValue(block, field) {
+  const match = block.match(new RegExp(`\\b${field}:\\s*(["'])((?:(?!\\1).)+)\\1`));
+  return match ? match[2] : null;
+}
+
+function priceValue(block) {
+  const match = block.match(/\bprice:\s*([\d.]+)/);
+  return match ? Number(match[1]) : null;
+}
+
+// A treatment the owner has not priced yet is written "price: null". It stays
+// in the index with pence null so the assistant knows the clinic offers it;
+// checkout.js refuses any line whose pence is null.
+function isUnpriced(block) {
+  return /\bprice:\s*null\b/.test(block);
+}
+
+function toEntry(block, kind, sourcePath) {
+  const price = priceValue(block);
+  if (price === null && !isUnpriced(block)) return null; // category objects carry no price
+  const id = fieldValue(block, 'id');
+  const name = fieldValue(block, 'name');
+  if (!id || !name) throw new Error(`Entry missing id or name in ${sourcePath}: ${block.slice(0, 80)}`);
+  // duration, categoryName and subcategory feed Goldie's prompt; checkout reads only id and pence.
+  return {
+    id,
+    name,
+    kind,
+    pence: price === null ? null : Math.round(price * 100),
+    duration: fieldValue(block, 'duration'),
+    categoryName: fieldValue(block, 'categoryName'),
+    subcategory: fieldValue(block, 'subcategory')
+  };
+}
+
+// Splits everything after arrayMarker into the array's top-level object
+// literals. None of these objects nest another object literal at the same
+// 2-space indent (only arrays of strings), so matching on indentation is
+// enough to find each block's boundary.
+function readArrayEntries(sourcePath, arrayMarker, kind) {
+  const text = fs.readFileSync(sourcePath, 'utf8');
+  const startIndex = text.indexOf(arrayMarker);
+  if (startIndex === -1) throw new Error(`Could not find "${arrayMarker}" in ${sourcePath}`);
+  const arrayText = text.slice(startIndex);
+  const blocks = [...arrayText.matchAll(/^  \{([\s\S]*?)\n  \},?\n/gm)].map((m) => m[1]);
+  return blocks.map((block) => toEntry(block, kind, sourcePath)).filter(Boolean);
+}
+
+function readSingleEntry(sourcePath, objectMarker, kind) {
+  const text = fs.readFileSync(sourcePath, 'utf8');
+  const match = text.match(new RegExp(`${objectMarker}\\s*\\{([\\s\\S]*?)\\n\\};`));
+  if (!match) throw new Error(`Could not find "${objectMarker}" in ${sourcePath}`);
+  const entry = toEntry(match[1], kind, sourcePath);
+  if (!entry) throw new Error(`"${objectMarker}" in ${sourcePath} has no price`);
+  return entry;
+}
+
+const treatments = readArrayEntries('src/data/treatments.js', 'export const treatments = [', 'treatment');
+const consultation = readSingleEntry('src/data/treatments.js', 'export const consultation =', 'treatment');
+const products = readArrayEntries('src/data/products.js', 'export const products = [', 'product');
+
+const index = [...treatments, consultation, ...products];
+
+fs.writeFileSync('src/data/catalogueIndex.json', JSON.stringify(index, null, 2) + '\n', 'utf8');
+console.log(`Wrote src/data/catalogueIndex.json with ${index.length} entries (${treatments.length} treatments + 1 consultation + ${products.length} products)`);

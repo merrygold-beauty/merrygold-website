@@ -1,0 +1,273 @@
+.about-page-shell {
+  background-color: var(--color-ivory);
+  min-height: 100vh;
+}
+
+.about-header-band {
+  padding-top: calc(var(--nav-h) + 3rem);
+  padding-bottom: 3rem;
+  background-color: var(--color-cocoa);
+  border-bottom: 1px solid var(--color-border-cocoa);
+  text-align: center;
+}
+
+.about-header-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+}
+
+.about-header-subtext {
+  font-size: 1rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.about-section {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  background-color: var(--color-ivory);
+}
+
+.about-section--tint {
+  background-color: var(--color-latte);
+}
+
+.about-section-heading {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+/* The clinic */
+.about-clinic-paragraphs {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.about-facts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-fact {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  padding: 1.25rem 1.5rem;
+}
+
+.about-fact-label {
+  display: block;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+  margin-bottom: 0.4rem;
+}
+
+.about-fact p {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.about-facts-links {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+/* Olu, the founder */
+.about-founder-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.about-photo-frame {
+  height: 420px;
+  background-color: var(--color-ivory-warm);
+}
+
+.about-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.about-accreditation-pill {
+  margin-top: 1.1rem;
+  background-color: var(--color-espresso);
+  color: var(--color-gold);
+  border: 1px solid var(--color-border-gold);
+  padding: 0.7rem 1.15rem;
+  border-radius: var(--shape-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about-founder-name {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin: 0 0 0.3rem;
+  line-height: 1.15;
+}
+
+.about-founder-title {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+.about-founder-credentials {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.about-founder-quote {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--color-espresso);
+  background-color: var(--color-ivory-card);
+  border-left: 2px solid var(--color-gold);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.75rem;
+  font-weight: 400;
+}
+
+.about-founder-bio {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Experience and Our standards share this list grid; the checked variant
+   adds the gold check mark used only by Our standards. */
+.about-list-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-list-grid li {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  padding: 1rem 1.25rem;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+}
+
+.about-list-grid--checked li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.about-check-icon {
+  color: var(--color-gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* The team */
+.about-team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.about-team-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  padding: 1.5rem;
+}
+
+.about-team-card h3 {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-espresso);
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+.about-team-preferred-name {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.about-team-title {
+  font-size: 0.8125rem;
+  color: var(--color-gold);
+  margin-bottom: 0.3rem;
+}
+
+.about-team-services {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+/* Closing action strip */
+.about-action-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .about-facts-grid,
+  .about-founder-grid,
+  .about-list-grid,
+  .about-team-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-founder-grid {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 3.5rem;
+  }
+
+  .about-photo-frame {
+    height: 560px;
+  }
+}

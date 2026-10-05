@@ -1,0 +1,239 @@
+.treatment-detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 12, 7, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.treatment-detail-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  box-shadow: 0 32px 80px rgba(20, 12, 7, 0.4), inset 0 0 0 1px rgba(201, 168, 76, 0.2);
+  position: relative;
+}
+
+.treatment-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  color: var(--color-espresso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.treatment-detail-close:hover {
+  background: #FFFFFF;
+  border-color: var(--color-gold);
+}
+
+.treatment-detail-image-wrap {
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-ivory-warm);
+}
+
+.treatment-detail-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.treatment-detail-body {
+  padding: 1.5rem;
+}
+
+.treatment-detail-category {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+.treatment-detail-name {
+  font-family: var(--font-editorial);
+  font-size: 1.6rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.4rem;
+}
+
+.treatment-detail-tagline {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+/* Lives in the footer now (see .treatment-detail-footer below), so it
+   carries no divider or spacing of its own. */
+.treatment-detail-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.treatment-detail-section {
+  margin-bottom: 1.25rem;
+}
+
+.treatment-detail-section h3 {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  margin: 0 0 0.6rem;
+}
+
+.treatment-detail-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.treatment-detail-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.treatment-detail-concerns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.treatment-detail-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Folding sections (preparation, aftercare, good to know). Native <details>,
+   so they open with the keyboard and need no script. */
+.treatment-detail-fold {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.treatment-detail-fold:last-of-type {
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.treatment-detail-fold summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+}
+
+/* Safari draws its own disclosure triangle unless this is hidden too. */
+.treatment-detail-fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.treatment-detail-fold-icon {
+  flex-shrink: 0;
+  color: var(--color-gold-hover);
+  transition: transform var(--transition-fast);
+}
+
+.treatment-detail-fold[open] .treatment-detail-fold-icon {
+  transform: rotate(180deg);
+}
+
+.treatment-detail-fold .treatment-detail-text {
+  margin-bottom: 0.75rem;
+}
+
+.treatment-detail-points {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  /* The global reset strips list markers; these are real bullet points. */
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.treatment-detail-notice {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  margin: 1.25rem 0 0;
+}
+
+.treatment-detail-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border-light);
+  background-color: var(--color-ivory-card);
+}
+
+.treatment-detail-footer .btn {
+  min-width: 200px;
+}
+
+@media (max-width: 640px) {
+  .treatment-detail-image-wrap {
+    aspect-ratio: 16 / 10;
+  }
+
+  .treatment-detail-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .treatment-detail-footer .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+  }
+}

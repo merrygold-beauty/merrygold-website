@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.txt
+
+# robots.txt must ship, so it is exempted from the *.txt rule above
+# (that rule exists to keep changes.txt and agent worklogs local)
+!public/robots.txt
+
+# Secrets. .env.example is the committed template and must stay tracked.
+.env
+.env.*
+!.env.example
+
+# Wrangler local dev state (Pages Functions secrets and persisted bindings)
+.dev.vars
+.wrangler/
+
+# Playwright output (reports, traces, failure videos)
+playwright-report/
+test-results/
+blob-report/
+
+
+# Agent worklogs talk to Claude, not to a customer; they stay local.
+ANTIGRAVITY_WORKLOG.md
+GROK_WORKLOG.md

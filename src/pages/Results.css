@@ -1,0 +1,71 @@
+.results-page-shell {
+  background-color: var(--color-ivory);
+  min-height: 100vh;
+}
+
+.results-page-header {
+  background-color: var(--color-cocoa);
+  padding-top: calc(var(--nav-h) + 3.5rem);
+  padding-bottom: 3.5rem;
+  text-align: center;
+}
+
+.results-page-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 1rem 0 0.75rem;
+  line-height: 1.15;
+}
+
+.results-page-subtext {
+  font-size: 1rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.results-gallery-section {
+  padding: 4rem 0 6rem;
+}
+
+.results-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.results-ethics-notice {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ethics-card {
+  background-color: var(--color-ivory-warm);
+  border: 1px solid var(--color-border-gold);
+  padding: 2.25rem;
+  text-align: center;
+}
+
+.ethics-card h2 {
+  font-family: var(--font-editorial);
+  font-size: 1.35rem;
+  color: var(--color-espresso);
+  margin: 0 0 0.5rem;
+}
+
+.ethics-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .results-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "merrygold",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prebuild": "node scripts/build-catalogue-index.mjs && node scripts/build-sitemap.mjs",
+    "dev": "vite",
+    "dev:functions": "wrangler pages dev --port 5192 --proxy 5191",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "playwright test --project=unit --project=mobile --project=desktop",
+    "test:mobile": "playwright test --project=mobile",
+    "test:safari": "playwright test --project=mobile-safari",
+    "test:unit": "playwright test --project=unit",
+    "test:live": "playwright test --project=mobile --project=desktop --headed --workers=1",
+    "test:prod": "node scripts/test-prod.mjs",
+    "test:report": "playwright show-report"
+  },
+  "dependencies": {
+    "framer-motion": "^13.2.0",
+    "lucide-react": "^1.43.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.61.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "oxlint": "^1.79.0",
+    "vite": "^8.2.2",
+    "wrangler": "^4.132.0"
+  }
+}

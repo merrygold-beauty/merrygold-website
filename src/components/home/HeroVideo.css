@@ -1,0 +1,328 @@
+/* Hero Section with Video Background and Centered Brand */
+.hero-video-section {
+  position: relative;
+  /* svh excludes the browser chrome that vh counts, so iOS Safari does not
+     jump the layout when its address bar shows or hides on scroll. */
+  min-height: 88vh;
+  min-height: 88svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  overflow: hidden;
+  background-color: var(--color-espresso);
+  color: var(--color-text-on-dark);
+}
+
+.hero-media-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-video-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-poster-fallback {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  z-index: 0;
+  transform: scale(1.02);
+  transition: transform 12s ease;
+}
+
+.hero-video-section:hover .hero-poster-fallback {
+  transform: scale(1.05);
+}
+
+.hero-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 12, 7, 0.26) 0%,
+    rgba(20, 12, 7, 0.40) 45%,
+    rgba(20, 12, 7, 0.74) 100%
+  );
+  z-index: 2;
+}
+
+/* Two soft gold pools drifting behind the content. Scoped to
+   .hero-media-wrapper's own stacking context (z-index 1 at the section
+   level), so this never risks outranking the masthead or text block, which
+   escape to the section level on their own z-index. */
+.hero-light {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-light-pool {
+  position: absolute;
+  width: 62vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(243, 225, 178, 0.55) 0%,
+    rgba(201, 168, 76, 0.28) 35%,
+    rgba(201, 168, 76, 0) 70%
+  );
+  filter: blur(64px);
+  mix-blend-mode: screen;
+  opacity: 0.34;
+  will-change: transform;
+}
+
+.hero-light-pool--a {
+  top: -10%;
+  left: -12%;
+}
+
+.hero-light-pool--b {
+  bottom: -20%;
+  right: -15%;
+  opacity: 0.26;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-light-a {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(28vw, 18vh) scale(1.18);
+    }
+  }
+
+  @keyframes hero-light-b {
+    from {
+      transform: translate(0, 0) scale(1.1);
+    }
+    to {
+      transform: translate(-22vw, -16vh) scale(0.94);
+    }
+  }
+
+  .hero-light-pool--a {
+    animation: hero-light-a 24s ease-in-out infinite alternate;
+  }
+
+  .hero-light-pool--b {
+    animation: hero-light-b 31s ease-in-out infinite alternate;
+  }
+}
+
+.hero-content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Centered Bold Brand Masthead */
+.hero-brand-masthead {
+  position: relative;
+  /* The scroll-linked fade animation below gives this element a stacking
+     context (animating opacity/transform triggers one), so without its own
+     z-index it painted beneath .hero-media-wrapper regardless of the logo's
+     own z-index 3, which only ranks inside the masthead's now-separate
+     context. */
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.hero-brand-logo-centered {
+  position: relative;
+  /* Above .hero-media-wrapper (z-index 1); the content container does not
+     form its own stacking context. */
+  z-index: 3;
+  /* Sized so the logo introduces the hero without filling it (Julius,
+     2026-09-30), while the small BEAUTY & AESTHETICS CLINICS line, about
+     2.7% of the logo's width, stays legible. */
+  width: min(30vw, 330px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+}
+
+.hero-text-block {
+  position: relative;
+  /* Sits a little lower than the old two-line headline did, so the copy
+     and the two buttons drop down the frame. */
+  margin-top: 4rem;
+  z-index: 6;
+  max-width: 1040px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-main-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.35rem, 5vw, 4.2rem);
+  line-height: 1.15;
+  font-weight: 400;
+  color: var(--color-ivory-light);
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  max-width: 960px;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(20, 12, 7, 0.55);
+}
+
+.hero-narrative {
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--color-text-on-dark-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 780px;
+  text-align: center;
+  text-shadow: 0 2px 24px rgba(20, 12, 7, 0.55);
+}
+
+/* Row one: Book, then the phone number beside it. Wraps to its own centred
+   line below the button when the row does not fit (phones): one
+   wrap-then-centre rule instead of the fixed-direction column stack a
+   narrow-width override would otherwise need. */
+.hero-book-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-btn-book {
+  min-width: 200px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* Row two: Treatments and Find my treatment, beneath the book row. */
+.hero-actions-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.hero-btn-action {
+  min-width: 130px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.hero-phone {
+  font-size: 0.9375rem;
+  color: var(--color-text-on-dark-secondary);
+  text-decoration: none;
+  text-shadow: 0 2px 24px rgba(20, 12, 7, 0.55);
+  transition: color var(--transition-fast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-phone:hover {
+    color: var(--color-gold-light);
+  }
+}
+
+/* The light-surface secondary fill (rgba gold on cream) is too faint to see
+   over the dark hero, so this scopes the tint to an ivory one instead. */
+.hero-actions-cluster .btn-secondary {
+  background-color: rgba(250, 246, 240, 0.14);
+  color: var(--color-ivory-light);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-actions-cluster .btn-secondary:hover {
+    background-color: rgba(250, 246, 240, 0.22);
+    color: #FFFFFF;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-brand-masthead {
+    margin-bottom: 1.5rem;
+  }
+  .hero-brand-logo-centered {
+    width: min(56vw, 220px);
+  }
+  .hero-light-pool--b {
+    display: none;
+  }
+  .hero-light-pool--a {
+    width: 90vw;
+  }
+  .hero-text-block {
+    margin-top: 2.5rem;
+  }
+  .hero-actions-cluster {
+    flex-direction: row;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+  .hero-btn-action {
+    min-width: 0;
+    min-height: 44px;
+    padding-inline: 1.1rem;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+  }
+  /* Sizes to its label, not the desktop 200px minimum, so it can sit
+     beside the call link instead of forcing a full-width row. */
+  .hero-btn-book {
+    min-width: 0;
+    min-height: 44px;
+    padding-inline: 1.1rem;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Progressive enhancement only: browsers without scroll-driven animations
+   simply keep the hero text at full opacity, which is a fine fallback. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    @keyframes hero-scroll-fade {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0.15;
+        transform: translateY(-24px);
+      }
+    }
+
+    .hero-text-block,
+    .hero-brand-masthead {
+      animation: hero-scroll-fade linear both;
+      animation-timeline: scroll();
+      animation-range: 0 60vh;
+    }
+  }
+}

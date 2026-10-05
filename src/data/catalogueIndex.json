@@ -1,0 +1,1568 @@
+[
+  {
+    "id": "facial-gold",
+    "name": "Gold Facial",
+    "kind": "treatment",
+    "pence": 20000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-derma-pen",
+    "name": "Derma-Pen Microneedling",
+    "kind": "treatment",
+    "pence": 11000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-led",
+    "name": "LED Light Therapy Facial",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "45 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-million-dollar",
+    "name": "MerryGold Million Dollar Facial",
+    "kind": "treatment",
+    "pence": 25000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-pro-glow",
+    "name": "MerryGold Pro-Glow Facial",
+    "kind": "treatment",
+    "pence": 18000,
+    "duration": "1 hour 10 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-chemical-peel",
+    "name": "Chemical Peel",
+    "kind": "treatment",
+    "pence": 11000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-mens",
+    "name": "Men's Facial",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-deep-cleansing",
+    "name": "Deep Cleansing Facial",
+    "kind": "treatment",
+    "pence": 6500,
+    "duration": "45 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-dermaplaning",
+    "name": "Dermaplaning Facial",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-hydra",
+    "name": "Hydra Facial",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-microdermabrasion",
+    "name": "Microdermabrasion Facial",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "foot-facial-express",
+    "name": "Express Foot Facial",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-classic",
+    "name": "Classic/Mini Facial",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-anti-aging-treatment",
+    "name": "Anti Aging Facial Treatment",
+    "kind": "treatment",
+    "pence": 9000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-anti-aging-with-addons",
+    "name": "Anti Aging with Add-ons",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-acne-treatment-facial",
+    "name": "Acne Treatment Facial",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-high-frequency",
+    "name": "High Frequency",
+    "kind": "treatment",
+    "pence": 6500,
+    "duration": "45 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-facial-rejuvenation-massage",
+    "name": "Facial Rejuvenation Massage",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-merrygold-glow-signature-facial",
+    "name": "MerryGold Signature Facial",
+    "kind": "treatment",
+    "pence": 9500,
+    "duration": "1 hour 20 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-detox-and-restore",
+    "name": "Detox and Restore",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "45 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "other-fillers-consultation",
+    "name": "Fillers / Consultation",
+    "kind": "treatment",
+    "pence": 2000,
+    "duration": "45 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-deep-hydration",
+    "name": "Deep Hydration Facial",
+    "kind": "treatment",
+    "pence": 7500,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-brightening",
+    "name": "Brightening Facial",
+    "kind": "treatment",
+    "pence": 7500,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "facial-sensitive-calming",
+    "name": "Sensitive & Calming Facial",
+    "kind": "treatment",
+    "pence": 7500,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "iv-drip-treatment",
+    "name": "IV Drip Treatment",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Facials & Advanced Skin"
+  },
+  {
+    "id": "foot-facial-signature",
+    "name": "Signature Foot Facial",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "45 to 60 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Hand and foot facials"
+  },
+  {
+    "id": "hand-facial-express",
+    "name": "Express Hand Facial",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Hand and foot facials"
+  },
+  {
+    "id": "hand-foot-facial",
+    "name": "Hand and Foot Facial",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Facials & Advanced Skin",
+    "subcategory": "Hand and foot facials"
+  },
+  {
+    "id": "laser-full-body",
+    "name": "Ladies’ Full Body Laser Hair Removal",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "1 hour 20 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser Hair Removal"
+  },
+  {
+    "id": "laser-full-leg-combo",
+    "name": "Full Leg + Bikini + Underarm Laser Combination",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser Hair Removal"
+  },
+  {
+    "id": "laser-face-neck",
+    "name": "Full Face & Neck Laser Hair Removal",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "45 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser Hair Removal"
+  },
+  {
+    "id": "laser-mens",
+    "name": "Men's Laser Hair Removal",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser Hair Removal"
+  },
+  {
+    "id": "other-small-tattoo-removal",
+    "name": "Small Tattoo Removal (1-5cm)",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-consultation-and-patch-test",
+    "name": "Consultation and Patch Test (the consultation is free; the £20 goes towards your treatment)",
+    "kind": "treatment",
+    "pence": 2000,
+    "duration": "20 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-individual-small-areas",
+    "name": "Laser Hair Removal, Individual Small Areas",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-upper-lip",
+    "name": "Laser Hair Removal, Upper Lip",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-chin",
+    "name": "Laser Hair Removal, Chin",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-sideburns",
+    "name": "Laser Hair Removal, Sideburns",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-small-areas-6-sessions",
+    "name": "Laser Hair Removal, Small Areas (6 Sessions)",
+    "kind": "treatment",
+    "pence": 17500,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-individual-medium-areas",
+    "name": "Laser Hair Removal, Individual Medium Areas",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-bikini-line",
+    "name": "Laser Hair Removal, Bikini Line",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-neck",
+    "name": "Laser Hair Removal, Neck",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-half-arms",
+    "name": "Laser Hair Removal, Half Arms",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-medium-areas-6-sessions",
+    "name": "Laser Hair Removal, Medium Areas (6 Sessions)",
+    "kind": "treatment",
+    "pence": 27500,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-individual-large-areas",
+    "name": "Laser Hair Removal, Individual Large Areas",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-large-areas-6-sessions",
+    "name": "Laser Hair Removal, Large Areas (6 Sessions)",
+    "kind": "treatment",
+    "pence": 60000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-full-face",
+    "name": "Laser Hair Removal, Full Face",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-full-face-6-sessions",
+    "name": "Laser Hair Removal, Full Face (6 Sessions)",
+    "kind": "treatment",
+    "pence": 40000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-half-body",
+    "name": "Laser Hair Removal, Half Body",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-half-body-6-sessions",
+    "name": "Laser Hair Removal, Half Body (6 Sessions)",
+    "kind": "treatment",
+    "pence": 75000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-full-body",
+    "name": "Laser Hair Removal, Full Body",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-laser-hair-removal-full-body-6-sessions",
+    "name": "Laser Hair Removal, Full Body (6 Sessions)",
+    "kind": "treatment",
+    "pence": 115000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser hair removal by area"
+  },
+  {
+    "id": "other-medium-tattoo-removal",
+    "name": "Medium Tattoo Removal (5-10cm)",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-large-tattoo-removal",
+    "name": "Large Tattoo Removal (10-20cm)",
+    "kind": "treatment",
+    "pence": 16000,
+    "duration": "25 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-extra-large-tattoo-removal",
+    "name": "Extra Large Tattoo Removal (20-50cm)",
+    "kind": "treatment",
+    "pence": 32000,
+    "duration": "40 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-spmu-removal",
+    "name": "SPMU Removal",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "15 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-pigmentation-removal",
+    "name": "Pigmentation Removal",
+    "kind": "treatment",
+    "pence": 8500,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-pigmentation-removal-6-sessions",
+    "name": "Pigmentation Removal (6 Sessions)",
+    "kind": "treatment",
+    "pence": 40000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-acne-treatment-ipl",
+    "name": "Acne Treatment (IPL)",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-acne-treatment-ipl-6-sessions",
+    "name": "Acne Treatment (IPL, 6 Sessions)",
+    "kind": "treatment",
+    "pence": 55000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-carbon-facial",
+    "name": "Carbon Facial",
+    "kind": "treatment",
+    "pence": 9000,
+    "duration": "30 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "other-carbon-facial-6-sessions",
+    "name": "Carbon Facial (6 Sessions)",
+    "kind": "treatment",
+    "pence": 41000,
+    "duration": "1 hour",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "laser-skin-rejuvenation",
+    "name": "Laser Skin Rejuvenation",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "30 to 60 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "vascular-and-redness-laser-treatment",
+    "name": "Vascular and Redness Laser Treatment",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "15 to 45 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "laser-treatment-for-acne-scarring-and-texture",
+    "name": "Laser Treatment for Acne Scarring and Texture",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "30 to 60 mins",
+    "categoryName": "Laser Hair Removal / Laser Treatment",
+    "subcategory": "Laser tattoo removal and skin rejuvenation"
+  },
+  {
+    "id": "massage-aroma-cryo-sphere",
+    "name": "Aroma Dreamscape",
+    "kind": "treatment",
+    "pence": 9000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-lymphatic-drainage",
+    "name": "Lymphatic Drainage Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-full-body-luxury",
+    "name": "MerryGold Premium Massage Experience",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-four-hands",
+    "name": "Four Hand Massage Experience",
+    "kind": "treatment",
+    "pence": 20000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "face-scalp-facial-massage",
+    "name": "Facial Massage",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "20, 30 or 45 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Face and scalp massage"
+  },
+  {
+    "id": "other-back-neck-shoulders-massage-addon",
+    "name": "Back, Neck & Shoulder Massage",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-foot-leg",
+    "name": "Foot & Leg Massage",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-relaxing-swedish-massage-30",
+    "name": "Relaxing Swedish Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-relaxing-swedish-massage-60",
+    "name": "Relaxing Swedish Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-deep-tissue-massage-30",
+    "name": "Deep Tissue Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-deep-tissue-massage-60",
+    "name": "Deep Tissue Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-couple-massage",
+    "name": "Couple Massage",
+    "kind": "treatment",
+    "pence": 14000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-aromatherapy",
+    "name": "Aromatherapy Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-aromatherapy-30",
+    "name": "Aromatherapy Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-hot-stone",
+    "name": "Hot Stone Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 9000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-hot-stone-30",
+    "name": "Hot Stone Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-sports",
+    "name": "Sports Massage",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-pregnancy",
+    "name": "Pregnancy Massage, 1 Hour",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-pregnancy-30",
+    "name": "Pregnancy Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-lymphatic-drainage-30",
+    "name": "Lymphatic Drainage Massage, 30 Mins",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-sensory",
+    "name": "Sensory Massage",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "50 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-scandinavian-bliss",
+    "name": "Scandinavian Bliss",
+    "kind": "treatment",
+    "pence": 9500,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-tension-relief",
+    "name": "Core Relief",
+    "kind": "treatment",
+    "pence": 9500,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "massage-back-leg-relaxation",
+    "name": "Back in Balance",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "45 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-merrygold-ultimate-rejuvenation",
+    "name": "MerryGold Ultimate Rejuvenation",
+    "kind": "treatment",
+    "pence": 11000,
+    "duration": "1 hour 10 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Massage"
+  },
+  {
+    "id": "other-scalp-massage-addon",
+    "name": "Scalp Massage (Add-on)",
+    "kind": "treatment",
+    "pence": 2000,
+    "duration": "15 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "other-aromatherapy-addon",
+    "name": "Aromatherapy During Session (Add-on)",
+    "kind": "treatment",
+    "pence": 1500,
+    "duration": "5 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "other-foot-scrub-addon",
+    "name": "Foot Scrub (Add-on)",
+    "kind": "treatment",
+    "pence": 2500,
+    "duration": "15 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "addon-face-neck-decollete-massage",
+    "name": "Face, Neck & Décolleté Massage (Add-on)",
+    "kind": "treatment",
+    "pence": 2200,
+    "duration": "15 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "addon-face-warm-oil-scalp-massage",
+    "name": "Face & Warm Oil Scalp Massage (Add-on)",
+    "kind": "treatment",
+    "pence": 2200,
+    "duration": "15 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "addon-feet-hand-massage",
+    "name": "Feet & Hand Massage (Add-on)",
+    "kind": "treatment",
+    "pence": 2200,
+    "duration": "15 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Add-ons"
+  },
+  {
+    "id": "package-mystery-of-the-divine",
+    "name": "Mystery of the Divine",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "50 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Spa packages"
+  },
+  {
+    "id": "package-glow-me-up",
+    "name": "Glow Me Up",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "1 hour",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Spa packages"
+  },
+  {
+    "id": "package-signature-reset",
+    "name": "Signature Reset",
+    "kind": "treatment",
+    "pence": 9500,
+    "duration": "50 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Spa packages"
+  },
+  {
+    "id": "package-zen-day",
+    "name": "Zen Day (for two)",
+    "kind": "treatment",
+    "pence": 17300,
+    "duration": "45 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Spa packages"
+  },
+  {
+    "id": "face-scalp-scalp-massage",
+    "name": "Scalp Massage",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "15 to 45 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Face and scalp massage"
+  },
+  {
+    "id": "face-scalp-relaxation-ritual",
+    "name": "Face and Scalp Relaxation Ritual",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "45 mins",
+    "categoryName": "Massage & Wellbeing",
+    "subcategory": "Face and scalp massage"
+  },
+  {
+    "id": "brow-eye-trio",
+    "name": "Eye Trio: Brow & Lash Tint with Brow Shape",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "45 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "brow-lamination-tint",
+    "name": "Brow Lamination with Tint",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "45 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "lash-lift-tint",
+    "name": "Lash Lift & Tint",
+    "kind": "treatment",
+    "pence": 5500,
+    "duration": "1 hour",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "lash-classic",
+    "name": "Classic Lash Extensions",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "lash-volume",
+    "name": "Volume Lash Extensions",
+    "kind": "treatment",
+    "pence": 9000,
+    "duration": "2 hours",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "lash-hybrid",
+    "name": "Hybrid Lash Extensions",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour 45 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "brow-lamination",
+    "name": "Brow Lamination",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "35 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "lash-hybrid-infills",
+    "name": "Eyelash Extensions - Hybrid Infills",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "40 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows & Lashes"
+  },
+  {
+    "id": "other-brow-definition-thread-wax",
+    "name": "Brow Definition, Thread or Wax",
+    "kind": "treatment",
+    "pence": 700,
+    "duration": "10 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "other-eyebrow-shaping",
+    "name": "Eyebrow Shaping",
+    "kind": "treatment",
+    "pence": 1500,
+    "duration": "20 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "other-tint-brows",
+    "name": "Tint Brows",
+    "kind": "treatment",
+    "pence": 2100,
+    "duration": "25 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "other-henna-brows",
+    "name": "Henna Brows",
+    "kind": "treatment",
+    "pence": 2800,
+    "duration": "40 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "other-brow-spa",
+    "name": "Brow Spa",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "merrygold-signature-brows",
+    "name": "MerryGold Signature Brows",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Brows"
+  },
+  {
+    "id": "other-natural-look-1-1",
+    "name": "Natural Look 1:1/Classic Volume",
+    "kind": "treatment",
+    "pence": 6000,
+    "duration": "1 hour",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "other-2d-volume",
+    "name": "2D Volume/Hybrid Volume",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "other-3d-volume",
+    "name": "3D Volume/Hybrid Volume",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "other-mega-volume",
+    "name": "Mega Volume",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "3 hours",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "lash-lift",
+    "name": "Lash Lift",
+    "kind": "treatment",
+    "pence": 3500,
+    "duration": "30 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "lash-tint",
+    "name": "Lash Tint",
+    "kind": "treatment",
+    "pence": 2000,
+    "duration": "30 mins",
+    "categoryName": "Brows & Lashes",
+    "subcategory": "Lashes"
+  },
+  {
+    "id": "brow-threading",
+    "name": "Eyebrow Threading",
+    "kind": "treatment",
+    "pence": 1500,
+    "duration": "10 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing & Facial Threading"
+  },
+  {
+    "id": "brow-waxing",
+    "name": "Eyebrow Waxing",
+    "kind": "treatment",
+    "pence": 1000,
+    "duration": "10 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing & Facial Threading"
+  },
+  {
+    "id": "wax-hollywood",
+    "name": "Ladies' Waxing - Hollywood",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "25 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing & Facial Threading"
+  },
+  {
+    "id": "wax-brazilian",
+    "name": "Brazilian Waxing",
+    "kind": "treatment",
+    "pence": 4000,
+    "duration": "30 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-lip-waxing",
+    "name": "Lip Waxing",
+    "kind": "treatment",
+    "pence": 490,
+    "duration": "5 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-half-leg-waxing",
+    "name": "Half Leg Waxing",
+    "kind": "treatment",
+    "pence": 1400,
+    "duration": "25 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-full-arm-waxing",
+    "name": "Full Arm Waxing",
+    "kind": "treatment",
+    "pence": 1750,
+    "duration": "20 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-full-face-waxing",
+    "name": "Full Face Waxing",
+    "kind": "treatment",
+    "pence": 1750,
+    "duration": "20 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-bikini-line-waxing",
+    "name": "Bikini Line Waxing",
+    "kind": "treatment",
+    "pence": 2000,
+    "duration": "25 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-back-waxing",
+    "name": "Back Waxing",
+    "kind": "treatment",
+    "pence": 2450,
+    "duration": "35 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-chest-waxing",
+    "name": "Chest Waxing",
+    "kind": "treatment",
+    "pence": 2450,
+    "duration": "30 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-full-leg-waxing",
+    "name": "Full Leg Waxing",
+    "kind": "treatment",
+    "pence": 2450,
+    "duration": "30 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-underarm-waxing",
+    "name": "Underarm Waxing",
+    "kind": "treatment",
+    "pence": 1050,
+    "duration": "20 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "other-full-body-waxing",
+    "name": "Full Body Waxing",
+    "kind": "treatment",
+    "pence": 10500,
+    "duration": "1 hour 55 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "extended-bikini-wax",
+    "name": "Extended Bikini Wax",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "20 to 30 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Waxing"
+  },
+  {
+    "id": "facial-threading-full",
+    "name": "Full Face Threading",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Waxing & Facial Threading",
+    "subcategory": "Threading"
+  },
+  {
+    "id": "spmu-microblading",
+    "name": "Microblading Brows",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "2 hours 30 mins",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-Permanent Makeup"
+  },
+  {
+    "id": "spmu-ombre-brows",
+    "name": "Ombré Powder Brows",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "2 hours 30 mins",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-Permanent Makeup"
+  },
+  {
+    "id": "spmu-lip-colour",
+    "name": "Semi-Permanent Makeup - Lip Colour (Lip Blush)",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "2 hours 30 mins",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-Permanent Makeup"
+  },
+  {
+    "id": "spmu-eyeliner",
+    "name": "Semi-Permanent Makeup - Eyeliner",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-Permanent Makeup"
+  },
+  {
+    "id": "spmu-combination-brows",
+    "name": "Combination Brows",
+    "kind": "treatment",
+    "pence": 23000,
+    "duration": "2 hours 30 mins",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-Permanent Makeup"
+  },
+  {
+    "id": "other-annual-top-up",
+    "name": "Annual Top Up",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "1 hour",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-permanent makeup extras"
+  },
+  {
+    "id": "other-touch-up-4-6-weeks",
+    "name": "Touch-up (4-6 weeks)",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "1 hour",
+    "categoryName": "Semi-Permanent Makeup",
+    "subcategory": "Semi-permanent makeup extras"
+  },
+  {
+    "id": "makeup-bridal-package",
+    "name": "Bridal Makeup & Hair",
+    "kind": "treatment",
+    "pence": 30000,
+    "duration": "2 hours",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-red-carpet-glam",
+    "name": "Red Carpet Glam",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "1 hour",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-bridal-only",
+    "name": "Bridal Makeup",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "1 hour",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-hair-up",
+    "name": "Makeup & Hair Up",
+    "kind": "treatment",
+    "pence": 18000,
+    "duration": "1 hour 30 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-festival",
+    "name": "Festival Makeup",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "45 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-pre-wedding",
+    "name": "Pre-Wedding Makeup",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "45 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "traditional-makeup-1",
+    "name": "Traditional Makeup I",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "On enquiry",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "traditional-makeup-2",
+    "name": "Traditional Makeup II",
+    "kind": "treatment",
+    "pence": 15000,
+    "duration": "On enquiry",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Editorial & Bridal Makeup"
+  },
+  {
+    "id": "makeup-day",
+    "name": "Day Makeup",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "30 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "merrygold-signature-soft-glam",
+    "name": "MerryGold Signature Soft Glam",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "60 to 75 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "party-and-occasion-makeup",
+    "name": "Party and Occasion Makeup",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "60 to 90 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "photoshoot-and-content-makeup",
+    "name": "Photoshoot and Content Makeup",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "60 to 90 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "mature-skin-makeup",
+    "name": "Natural Skin Makeup",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "60 to 90 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "celebrity-luxury-makeup",
+    "name": "Celebrity Luxury Makeup",
+    "kind": "treatment",
+    "pence": null,
+    "duration": "On enquiry",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Makeup"
+  },
+  {
+    "id": "signature-bridal-hair",
+    "name": "Signature Bridal Hair",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "1 hour 30 mins to 2 hours 30 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "bridal-updo",
+    "name": "Bridal Updo",
+    "kind": "treatment",
+    "pence": 8000,
+    "duration": "1 hour",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "soft-waves-and-hollywood-inspired-waves",
+    "name": "Soft Waves and Hollywood-Inspired Waves",
+    "kind": "treatment",
+    "pence": 12000,
+    "duration": "1 hour to 2 hours",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "half-up-half-down-bridal-hair",
+    "name": "Half-Up, Half-Down Bridal Hair",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "1 hour 15 mins to 2 hours",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "bridal-hair-and-makeup-experience",
+    "name": "Bridal Hair and Makeup Experience",
+    "kind": "treatment",
+    "pence": 25000,
+    "duration": "2 hours 30 mins to 4 hours",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "bridesmaids-and-bridal-party-hair",
+    "name": "Bridesmaids and Bridal Party Hair",
+    "kind": "treatment",
+    "pence": 7000,
+    "duration": "45 to 90 mins",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "bridal-hair-trial",
+    "name": "Bridal Hair Trial",
+    "kind": "treatment",
+    "pence": 5000,
+    "duration": "1 hour",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal hair"
+  },
+  {
+    "id": "bridal-foot-hand-facial",
+    "name": "Bridal Special Occasion Luxury Foot & Hand Facial",
+    "kind": "treatment",
+    "pence": 10000,
+    "duration": "1 hour",
+    "categoryName": "Editorial & Bridal Makeup",
+    "subcategory": "Bridal treatments"
+  },
+  {
+    "id": "consultation",
+    "name": "Consultation",
+    "kind": "treatment",
+    "pence": 1000,
+    "duration": "10 mins",
+    "categoryName": "Consultation",
+    "subcategory": null
+  },
+  {
+    "id": "flawless-glow-extra-brightening-serum",
+    "name": "Flawless Glow Extra Brightening Serum 100ml",
+    "kind": "product",
+    "pence": 3500,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  },
+  {
+    "id": "flawless-glow-extra-brightening-cream",
+    "name": "Flawless Glow Extra Brightening Cream",
+    "kind": "product",
+    "pence": 4000,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  },
+  {
+    "id": "flawless-glow-brightening-black-serum",
+    "name": "Flawless Glow Brightening Black Scrub",
+    "kind": "product",
+    "pence": 1499,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  },
+  {
+    "id": "revive-your-radiance",
+    "name": "Revive Your Radiance",
+    "kind": "product",
+    "pence": 1499,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  },
+  {
+    "id": "organic-golden-glow-body-oil",
+    "name": "Organic Golden Glow Body Oil",
+    "kind": "product",
+    "pence": 2000,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  },
+  {
+    "id": "3d-false-eyelashes",
+    "name": "3D False Eyelashes",
+    "kind": "product",
+    "pence": 2000,
+    "duration": null,
+    "categoryName": null,
+    "subcategory": null
+  }
+]

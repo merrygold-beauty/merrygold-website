@@ -1,0 +1,107 @@
+.google-reviews-band {
+  background-color: var(--color-cocoa);
+  padding: var(--section-spacing-sm) 0;
+  overflow: hidden;
+}
+
+.google-reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.google-reviews-heading-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.google-reviews-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 0;
+}
+
+.google-reviews-aggregate {
+  font-size: 0.875rem;
+  color: var(--color-text-on-dark-secondary);
+}
+
+/* Gap only: the wrapper/track/hover-pause/reduced-motion mechanics are the
+   shared .marquee-wrapper/.marquee-track rules in global.css. */
+.google-reviews-stream {
+  --marquee-gap: 1rem;
+}
+
+.google-review-card {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: var(--color-cocoa-surface);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-card);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.google-review-stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.85rem;
+}
+
+/* Mirrors ReviewsSection's .star-filled. Kept as its own rule rather than
+   sharing that class: edits to ReviewsSection.css are scoped to the marquee
+   rename only, so its local styles stay put. */
+.google-review-star {
+  color: var(--color-gold);
+  fill: var(--color-gold);
+}
+
+.google-review-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-on-dark-secondary);
+  margin-bottom: 1.25rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.google-review-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-cocoa);
+}
+
+.google-review-name {
+  font-family: var(--font-editorial);
+  font-size: 0.875rem;
+  color: var(--color-text-on-dark);
+  font-weight: 500;
+}
+
+.google-review-date {
+  font-size: 0.75rem;
+  color: var(--color-text-on-dark-muted);
+}
+
+.google-review-footer svg {
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .google-review-card {
+    width: 260px;
+  }
+}

@@ -1,0 +1,162 @@
+.slider-card-wrapper {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  padding: 1.25rem;
+  transition: border-color var(--transition-normal);
+}
+
+.slider-card-wrapper:hover {
+  border-color: var(--color-border-gold);
+}
+
+.slider-viewport {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  user-select: none;
+  cursor: ew-resize;
+  background-color: var(--color-ivory-warm);
+}
+
+.slider-image-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slider-image-clipped-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slider-image-clipped {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slider-divider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--color-gold);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.slider-handle-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--shape-pill);
+  background-color: var(--color-espresso);
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(20, 12, 7, 0.4);
+}
+
+.slider-tag-before,
+.slider-tag-after {
+  position: absolute;
+  bottom: 14px;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  background-color: rgba(20, 12, 7, 0.85);
+  color: var(--color-ivory);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--shape-pill);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.slider-tag-before {
+  left: 14px;
+}
+
+.slider-tag-after {
+  right: 14px;
+}
+
+.slider-meta-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 1.25rem;
+  gap: 1rem;
+}
+
+.slider-header-info {
+  flex: 1;
+}
+
+.slider-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.slider-concern-badge {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.slider-profile-badge {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  background-color: var(--color-ivory-warm);
+  border: 1px solid var(--color-border-light);
+  padding: 0.12rem 0.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.slider-case-title {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.slider-clinical-notes {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+.slider-timeframe-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background-color: var(--color-ivory-warm);
+  border: 1px solid var(--color-border-light);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}

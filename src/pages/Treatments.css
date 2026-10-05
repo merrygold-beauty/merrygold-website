@@ -1,0 +1,430 @@
+.treatments-page-shell {
+  background-color: var(--color-ivory);
+  min-height: 100vh;
+}
+
+.treatments-hero-header {
+  background-color: var(--color-cocoa);
+  padding-top: calc(var(--nav-h) + 3.5rem);
+  padding-bottom: 3rem;
+  text-align: center;
+}
+
+.treatments-main-heading {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  color: var(--color-text-on-dark);
+  font-weight: 400;
+  margin: 1rem 0 0.75rem;
+  line-height: 1.15;
+}
+
+.treatments-main-subtext {
+  font-size: 1rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+}
+
+.treatments-filter-toolbar {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.treatments-controls-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.treatments-search-box {
+  flex: 1;
+  position: relative;
+}
+
+.treatments-sort-box {
+  flex-shrink: 0;
+  min-width: 180px;
+}
+
+.treatments-sort-select {
+  width: 100%;
+  height: 48px;
+  padding: 0 1.5rem 0 1.25rem;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  font-size: 0.875rem;
+  color: var(--color-espresso);
+  cursor: pointer;
+  appearance: auto;
+  transition: border-color var(--transition-fast);
+}
+
+.treatments-sort-select:focus {
+  border-color: var(--color-gold);
+  outline: none;
+}
+
+/* A category's name at the top of its section on the desktop list. On phones
+   the section heading is the sticky .list-group-heading instead. */
+.treatment-category-heading {
+  font-family: var(--font-editorial);
+  font-size: 2rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+}
+
+.treatment-category-section + .treatment-category-section {
+  margin-top: 4rem;
+}
+
+/* "Other ... services" label between a category's photographed treatments
+   and the .service-list below them. A plain block heading, not a grid item:
+   the card grid only ever holds treatments with a photo. */
+.other-services-heading {
+  font-family: var(--font-editorial);
+  font-size: 1.5rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  padding: 2rem 0 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.other-services-subheading {
+  font-family: var(--font-editorial);
+  font-size: 1.1rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  margin: 1.25rem 0 0.25rem;
+}
+
+.treatments-search-box input {
+  width: 100%;
+  padding: 0.95rem 1.25rem 0.95rem 2.85rem;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  font-size: 0.875rem;
+  color: var(--color-espresso);
+  transition: border-color var(--transition-fast);
+}
+
+.treatments-search-box input:focus {
+  border-color: var(--color-gold);
+  outline: none;
+}
+
+.treatments-search-box .search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+/* Search suggestions panel: floats below the search input, above the sticky
+   category rails (z-index 20 on phone) so it is never tucked underneath them. */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-float);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 30;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.search-suggestion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-xs);
+  text-align: left;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.search-suggestion:hover,
+.search-suggestion.active {
+  background-color: var(--color-ivory-warm);
+}
+
+.search-suggestion-name {
+  font-size: 0.875rem;
+  color: var(--color-espresso);
+}
+
+.search-suggestion-kind,
+.search-suggestion-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.finder-banner-strip {
+  margin: 3rem 0;
+  background-color: var(--color-espresso);
+  color: var(--color-text-on-dark);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-arch-soft);
+  overflow: hidden;
+  padding: 2.25rem 2.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.finder-banner-content h2 {
+  font-family: var(--font-editorial);
+  font-size: 1.5rem;
+  color: var(--color-bone);
+  margin: 0.5rem 0 0.35rem;
+}
+
+.finder-banner-content p {
+  font-size: 0.875rem;
+  color: var(--color-text-on-dark);
+  margin: 0;
+}
+
+.treatments-directory-section {
+  padding-bottom: 6rem;
+}
+
+.treatments-full-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.treatment-directory-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition-normal), transform var(--transition-normal);
+}
+
+/* Scoped to hover-capable pointers so a tap does not leave the card stuck
+   mid-lift on touch devices, which have no hover to clear it. */
+@media (hover: hover) and (pointer: fine) {
+  .treatment-directory-card:hover {
+    border-color: var(--color-border-gold);
+    transform: translateY(-3px);
+  }
+}
+
+.treatment-dir-thumb {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  position: relative;
+  background-color: var(--color-ivory-warm);
+}
+
+.dir-price-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(20, 12, 7, 0.88);
+  color: var(--color-gold);
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--shape-pill);
+  border: 1px solid var(--color-border-gold);
+  z-index: 2;
+}
+
+.treatment-dir-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dir-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.dir-category {
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  color: var(--color-gold);
+}
+
+.dir-title {
+  font-family: var(--font-editorial);
+  font-size: 1.25rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+}
+
+.dir-tagline {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+}
+
+.dir-benefits-box {
+  background-color: var(--color-ivory-warm);
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--color-gold);
+  margin-bottom: 1rem;
+}
+
+.dir-benefits-title {
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.dir-benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dir-benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.35;
+}
+
+.dir-concerns-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+}
+
+.dir-concern-tag {
+  font-size: 0.6875rem;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-border-subtle);
+  padding: 0.2rem 0.55rem;
+  color: var(--color-text-muted);
+}
+
+.dir-footer-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.no-results-box {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+}
+
+/* Phone list: category-grouped rows replace the card grid entirely below
+   640px, so the grid never renders there. */
+.treatments-phone-list {
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .treatments-full-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .finder-banner-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .finder-banner-strip .btn {
+    width: 100%;
+  }
+  .treatments-search-box input {
+    font-size: 16px;
+  }
+  .treatments-controls-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .treatments-sort-box {
+    width: 100%;
+  }
+  .treatments-sort-select {
+    height: 44px;
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .treatments-sticky-rails {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 20;
+    background-color: var(--color-ivory);
+    margin-left: calc(-1 * var(--container-gutter));
+    margin-right: calc(-1 * var(--container-gutter));
+    padding-left: var(--container-gutter);
+    padding-right: var(--container-gutter);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .treatments-sticky-rails .chip-rail {
+    position: static;
+    margin: 0;
+    padding: 0.15rem 0;
+  }
+  .treatment-category-section + .treatment-category-section {
+    margin-top: 1.5rem;
+  }
+  .other-services-heading {
+    font-size: 1.2rem;
+    padding: 1.25rem 0 0.4rem;
+    margin: 1rem 0 0.25rem;
+  }
+}

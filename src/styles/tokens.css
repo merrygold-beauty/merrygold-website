@@ -1,0 +1,136 @@
+:root {
+  /* MerryGold Brand Colors */
+  --color-espresso: #140C07;
+  --color-espresso-surface: #1E130B;
+  --color-espresso-elevated: #281B11;
+  --color-gold: #C9A84C;
+  --color-gold-light: #DFCA8C;
+  --color-gold-hover: #B3903F;
+  --color-gold-subtle: rgba(201, 168, 76, 0.12);
+  --color-gold-glow: rgba(201, 168, 76, 0.25);
+  /* Light champagne: the button fill. Kept apart from --color-gold, which
+     stays reserved for hairlines, text accents, chip active state and the
+     Goldie mark. */
+  --color-champagne: #EAD9A4;
+  --color-champagne-hover: #F3E6BF;
+  --color-rose: #E5C1BD;
+  --color-rose-subtle: rgba(229, 193, 189, 0.15);
+
+  /* Chocolate and latte (added 2026-09-16 for the owner's palette: chocolate
+     brown and gold). Espresso stays on the footer, the hero overlay and the
+     chat panel. Cocoa is the lighter chocolate for section bands, page
+     header bands, the phone drawer and dark cards; latte is the pale cocoa
+     tint used instead of plain ivory on light sections so a page reads warm
+     rather than white. Tune the two cocoa values together. */
+  --color-cocoa: #4F3223;
+  --color-cocoa-surface: #5E3D2C;
+  --color-cocoa-elevated: #6C4A38;
+  --color-border-cocoa: rgba(250, 246, 240, 0.12);
+  --color-latte: #EFE3D3;
+  --color-latte-deep: #E5D5C1;
+
+  /* Light Neutral Foundation (Cream & Ivory matching logo-draft) */
+  --color-bone: #FAF6F0;
+  --color-bone-warm: #F3ECE2;
+  --color-bone-card: #FFFFFF;
+  --color-bone-alt: #EDE5D8;
+  --color-ivory: #FAF6F0;
+  --color-ivory-light: #FFFDF9;
+  --color-ivory-warm: #F3ECE2;
+  --color-ivory-card: #FFFFFF;
+  --color-ivory-alt: #EDE5D8;
+
+  /* Typography Colors - Light Surfaces */
+  --color-text-primary: #140C07;
+  --color-text-secondary: #584E46;
+  --color-text-muted: #887E75;
+
+  /* Typography Colors - Dark Surfaces */
+  --color-text-on-dark: #FAF6F0;
+  --color-text-on-dark-secondary: #DDD4C8;
+  --color-text-on-dark-muted: #9E9489;
+
+  /* Structural Borders */
+  --color-border-light: rgba(20, 12, 7, 0.08);
+  --color-border-subtle: rgba(20, 12, 7, 0.05);
+  --color-border-gold: rgba(201, 168, 76, 0.35);
+  --color-border-gold-strong: rgba(201, 168, 76, 0.7);
+  --color-border-dark: rgba(255, 255, 255, 0.08);
+  --color-border-dark-hover: rgba(201, 168, 76, 0.5);
+
+  /* Spacing Tokens */
+  --nav-h: 80px;
+  --logo-h: 46px;
+  --header-offset: 80px;
+
+  /* Layout Constraints */
+  --container-max: 1320px;
+  --container-narrow: 980px;
+  --container-gutter: clamp(1.25rem, 3.5vw, 3rem);
+  --section-spacing: clamp(5.5rem, 8.5vw, 9rem);
+  --section-spacing-sm: clamp(3.5rem, 5.5vw, 5rem);
+
+  /* Typography Families: Gilda Display (Editorial/Headings), Montserrat (Body/UI/Labels) */
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-editorial: 'Gilda Display', 'Playfair Display', Georgia, serif;
+  --font-label: 'Montserrat', var(--font-sans);
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Fluid Type Scale */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.84rem + 0.18vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-md: clamp(1.125rem, 1.06rem + 0.3vw, 1.25rem);
+  --text-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-xl: clamp(1.625rem, 1.45rem + 0.8vw, 2rem);
+  --text-2xl: clamp(2rem, 1.7rem + 1.4vw, 2.75rem);
+  --text-3xl: clamp(2.5rem, 2rem + 2.2vw, 3.75rem);
+  --text-hero: clamp(3rem, 2.3rem + 3.2vw, 4.85rem);
+
+  /* Architectural Shaped Containers
+     Popup shells share one parallelogram (large opposite corners).
+     Goldie uses a different silhouette: an arch-top alcove.
+     Values must stay large enough that the outline is not a rectangle. */
+  --shape-arch-top: 140px 140px 0 0;
+  --shape-arch-soft: 80px 80px 0 0;
+  --shape-modal: 92px 18px 92px 18px;
+  --shape-chat-panel: 72px 72px 22px 22px;
+  --shape-drawer: 72px 0 0 72px;
+  --shape-pill: 9999px;
+  /* Button geometry: a soft asymmetric parallelogram, replacing the stadium
+     shape (chips and badges keep --shape-pill). Hover deepens the corner cut. */
+  --shape-btn: 14px 3px 14px 3px;
+  --shape-btn-hover: 20px 3px 20px 3px;
+  --shape-btn-sm: 10px 2px 10px 2px;
+  /* One size up from the button geometry, for boxed list items inside a
+     popup (finder matches, cart lines, checkout summaries). */
+  --shape-card: 18px 4px 18px 4px;
+  --hairline-gold: 1px solid var(--color-border-gold);
+  --hairline-subtle: 1px solid var(--color-border-light);
+
+  /* Transitions & Radii - Architectural Flat */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 9999px;
+  
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows - Minimal / Flat Architectural Discipline */
+  --shadow-subtle: none;
+  --shadow-card: none;
+  --shadow-float: none;
+  --shadow-dark: none;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --shape-modal: 56px 14px 56px 14px;
+    --shape-chat-panel: 44px 44px 16px 16px;
+    --shape-drawer: 40px 0 0 40px;
+    --nav-h: 64px;
+  }
+}

@@ -1,0 +1,415 @@
+.product-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 12, 7, 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* Luxury Shaped Modal Container */
+.product-modal-card {
+  background-color: var(--color-ivory-card);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  border-radius: var(--shape-modal);
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  box-shadow: 0 32px 80px rgba(20, 12, 7, 0.42), inset 0 0 0 1px rgba(201, 168, 76, 0.22);
+  position: relative;
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* Circular Luxury Close Seal */
+.product-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  box-shadow: 0 4px 12px rgba(20, 12, 7, 0.08);
+  color: var(--color-espresso);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.product-modal-close:hover {
+  background: #FFFFFF;
+  border-color: var(--color-gold);
+  transform: scale(1.05);
+}
+
+.product-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.22fr;
+  gap: clamp(2rem, 3.5vw, 3.25rem);
+  align-items: start;
+}
+
+/* Cathedral Arch Modal Vitrine */
+.product-modal-vitrine {
+  width: 100%;
+  position: relative;
+}
+
+.product-modal-pedestal {
+  height: 520px;
+  position: relative;
+  border-radius: 160px 160px 24px 24px;
+  background: radial-gradient(circle at 50% 32%, #FFFFFF 0%, #FAF6F0 60%, #EFE5D4 100%);
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.25), 0 20px 45px rgba(20, 12, 7, 0.12);
+  overflow: hidden;
+}
+
+/* Concentric Hairline Gold Outline */
+.product-modal-pedestal::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border-radius: 152px 152px 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  /* Above the photograph, so the hairline frames it. */
+  z-index: 2;
+}
+
+/* The photograph fills the niche; the pedestal's rounded overflow cuts it to the arch shape. */
+.product-modal-image-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.product-modal-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-modal-badge {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(20, 12, 7, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--color-gold);
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  border-radius: var(--shape-pill);
+  z-index: 5;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Centred by left, right and auto margins, so it can still wrap inside a narrow arch. */
+.product-modal-stamp {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  margin-inline: auto;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: var(--shape-pill);
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  z-index: 3;
+}
+
+/* Product Info & Shaped Details Paneling */
+.product-modal-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-meta-strip {
+  display: flex;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.modal-category-pill {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: var(--shape-pill);
+  padding: 0.28rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.modal-volume-pill {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  background: rgba(20, 12, 7, 0.04);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--shape-pill);
+  padding: 0.28rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.modal-product-name {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+  color: var(--color-espresso);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.modal-product-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.35rem;
+  margin-bottom: 1.15rem;
+}
+
+.modal-price-strip {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: 1.15rem;
+}
+
+.modal-price {
+  font-family: var(--font-editorial);
+  font-size: 1.75rem;
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.modal-shipping-note {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.modal-description {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.35rem;
+}
+
+/* Shaped Key Actives Luxury Alcove */
+.modal-actives-box {
+  background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F2 100%);
+  border: 1px solid var(--color-border-gold);
+  box-shadow: 0 4px 16px rgba(20, 12, 7, 0.03);
+  border-radius: var(--shape-card);
+  overflow: hidden;
+  padding: 1.15rem 1.35rem;
+  margin-bottom: 1.15rem;
+}
+
+.actives-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.actives-header h4 {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  margin: 0;
+}
+
+.actives-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.active-chip {
+  font-size: 0.75rem;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(201, 168, 76, 0.32);
+  box-shadow: 0 2px 6px rgba(20, 12, 7, 0.04);
+  border-radius: var(--shape-pill);
+  padding: 0.32rem 0.85rem;
+  color: var(--color-espresso);
+  font-weight: 500;
+}
+
+/* Shaped Clinical Efficacy Luxury Alcove */
+.modal-benefits-box {
+  background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F2 100%);
+  border: 1px solid var(--color-border-gold);
+  box-shadow: 0 4px 16px rgba(20, 12, 7, 0.03);
+  border-radius: var(--shape-card);
+  overflow: hidden;
+  padding: 1.15rem 1.35rem;
+  margin-bottom: 1.15rem;
+}
+
+.benefits-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.benefits-header h4 {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  margin: 0;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+/* Shaped Ritual & Application Alcove */
+.modal-usage-box {
+  background: linear-gradient(145deg, #FBF8F3 0%, #F5EDE1 100%);
+  border: 1px solid var(--color-border-gold);
+  box-shadow: 0 4px 16px rgba(20, 12, 7, 0.04);
+  border-radius: var(--shape-card);
+  overflow: hidden;
+  padding: 1.15rem 1.35rem;
+  margin-bottom: 1.5rem;
+}
+
+.usage-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.usage-header h4 {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  margin: 0;
+}
+
+.modal-usage-box p {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Shaped Action Buttons */
+.modal-actions-strip {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+}
+
+.modal-actions-strip .btn {
+  min-height: 48px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal-guarantee-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: rgba(201, 168, 76, 0.09);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  border-radius: var(--shape-pill);
+  padding: 0.55rem 1.15rem;
+  width: 100%;
+}
+
+@media (max-width: 820px) {
+  .product-modal-card {
+    padding: 1.5rem;
+  }
+  .product-modal-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .product-modal-pedestal {
+    height: 380px;
+    border-radius: 120px 120px 18px 18px;
+  }
+  .product-modal-pedestal::before {
+    border-radius: 112px 112px 12px 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .modal-actions-strip {
+    flex-direction: column;
+  }
+}

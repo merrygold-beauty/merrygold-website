@@ -1,0 +1,76 @@
+.hero-logo {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+}
+
+.hero-logo-sheen {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Fades in as the hero video starts. The keyframes have no end frame, so the
+     logo settles at whatever opacity its own rule gives it (full, today). */
+  .hero-logo .hero-brand-logo-centered {
+    animation: hero-logo-fade-in 1.6s ease-out 0.15s both;
+  }
+}
+
+@keyframes hero-logo-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero-logo-sheen {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+    -webkit-mask-image: var(--hero-logo-mask);
+    mask-image: var(--hero-logo-mask);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  .hero-logo-sheen::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 18%;
+    height: 120%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 248, 230, 0.55) 50%,
+      transparent 100%
+    );
+    transform: translateX(-180%) skewX(-18deg);
+    opacity: 0;
+  }
+
+  .hero-logo:hover .hero-logo-sheen::after {
+    animation: hero-logo-sheen-sweep 1.2s ease-out 0s 1 normal none;
+  }
+}
+
+@keyframes hero-logo-sheen-sweep {
+  0% {
+    transform: translateX(-180%) skewX(-18deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(520%) skewX(-18deg);
+    opacity: 1;
+  }
+}

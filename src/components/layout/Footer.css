@@ -1,0 +1,229 @@
+.clinic-footer {
+  background-color: var(--color-espresso);
+  color: var(--color-text-on-dark);
+  border-top: 1px solid var(--color-border-gold);
+  padding-top: clamp(4.5rem, 7vw, 6.5rem);
+}
+
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr 1.2fr;
+  gap: clamp(2rem, 3.5vw, 3.5rem);
+  padding-bottom: 4rem;
+}
+
+.brand-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.footer-brand-logo {
+  height: clamp(72px, 8vw, 84px);
+  width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.45));
+  transition: transform var(--transition-normal);
+}
+
+.footer-logo-link:hover .footer-brand-logo {
+  transform: scale(1.04);
+}
+
+.footer-tagline {
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-gold);
+  margin-bottom: 0.85rem;
+}
+
+.footer-bio-snippet {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text-on-dark-secondary);
+  margin-bottom: 1.5rem;
+  max-width: 320px;
+}
+
+.footer-social-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-ivory);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-social-link:hover {
+  color: var(--color-gold);
+}
+
+.footer-col-title {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 1.25rem;
+}
+
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-links-list a,
+.footer-btn-link {
+  font-size: 0.8125rem;
+  color: var(--color-text-on-dark-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--transition-fast);
+}
+
+.footer-links-list a:hover,
+.footer-btn-link:hover {
+  color: var(--color-gold);
+}
+
+.footer-contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-on-dark-secondary);
+  line-height: 1.4;
+}
+
+/* A long address or email would otherwise squeeze the icon to nothing. */
+.contact-item svg {
+  flex-shrink: 0;
+}
+
+.contact-item a {
+  color: var(--color-text-on-dark-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.contact-item a:hover {
+  color: var(--color-gold);
+}
+
+.footer-treatwell-btn {
+  margin-bottom: 1.5rem;
+}
+
+.footer-hours-card {
+  background-color: var(--color-espresso-surface);
+  border: 1px solid var(--color-border-dark);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-xs);
+}
+
+.hours-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.75rem;
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-on-dark-muted);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.hours-row:last-child {
+  border-bottom: none;
+}
+
+.footer-bottom-strip {
+  border-top: 1px solid var(--color-border-dark);
+  padding: 1.5rem 0;
+  background-color: rgba(10, 6, 3, 0.9);
+}
+
+.bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--color-text-on-dark-muted);
+}
+
+.copyright-text,
+.statutory-text {
+  margin: 0;
+}
+
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.25rem;
+}
+
+.footer-legal-link {
+  color: var(--color-text-on-dark-secondary);
+  text-decoration: none;
+}
+
+.footer-legal-link:hover {
+  color: var(--color-gold);
+}
+
+@media (max-width: 1024px) {
+  .footer-main-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .bottom-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

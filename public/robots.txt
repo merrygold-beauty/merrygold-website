@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /checkout/
+Disallow: /admin/
+Disallow: /confirmation/
+
+Sitemap: https://www.merrygoldbeautyclinics.com/sitemap.xml

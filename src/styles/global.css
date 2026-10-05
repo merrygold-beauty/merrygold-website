@@ -1,0 +1,737 @@
+@import "./tokens.css";
+@import "./reset.css";
+
+/* Container Systems */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+/* Section Shells */
+.section {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+  position: relative;
+}
+
+.section-dark {
+  background-color: var(--color-espresso);
+  color: var(--color-text-on-dark);
+}
+
+.section-warm {
+  background-color: var(--color-bone-warm);
+}
+
+/* Section Header (Anti-Tell: Single Honest Heading, No Eyebrows, No Slogans) */
+.section-header {
+  margin-bottom: clamp(2.5rem, 5vw, 4.25rem);
+}
+
+.section-header.centered {
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-editorial);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+
+.section-dark .section-title {
+  color: var(--color-text-on-dark);
+}
+
+.section-subtitle {
+  margin-top: 1rem;
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.section-header.centered .section-subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-dark .section-subtitle {
+  color: var(--color-text-on-dark-muted);
+}
+
+/* Editorial Typography */
+.hero-headline {
+  font-family: var(--font-editorial);
+  font-size: var(--text-hero);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-espresso);
+}
+
+.hero-subheadline {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+/* Button & Action System - a soft asymmetric shape (--shape-btn), not the
+   stadium pill (chips, badges and Goldie's discs keep that). No outlines:
+   every variant carries its own tinted or solid fill instead, so it reads
+   as a button on whatever surface it sits on. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.67rem 1.05rem;
+  font-size: 0.8125rem;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 0;
+  border-radius: var(--shape-btn);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    border-radius var(--transition-fast),
+    transform var(--transition-fast),
+    color var(--transition-fast);
+  white-space: nowrap;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* An inline SVG defaults to inline-block and inherits the text line box,
+   which was adding a few px of unrequested height to every button. */
+.btn svg {
+  display: block;
+}
+
+.btn-sm {
+  border-radius: var(--shape-btn-sm);
+  padding: 0.54rem 0.8rem;
+  font-size: 0.75rem;
+}
+
+.btn-lg {
+  padding: 0.55rem 1.5rem;
+}
+
+.btn-primary {
+  background: var(--color-champagne);
+  color: var(--color-espresso);
+  box-shadow: 0 4px 14px rgba(201, 168, 76, 0.18);
+}
+
+.btn-secondary {
+  background-color: rgba(201, 168, 76, 0.14);
+  color: var(--color-espresso);
+}
+
+.btn-dark {
+  background-color: var(--color-espresso);
+  color: var(--color-bone);
+}
+
+/* The one deliberate outlined variant. Currently unused in the app; kept
+   for a context that genuinely wants an outline rather than a fill. */
+.btn-gold-outline {
+  background-color: transparent;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+}
+
+/* Shared WhatsApp tint: one class, so every WhatsApp control (header,
+   mobile drawer, phone dock, finder, Goldie's chip) reads the same green
+   regardless of which base variant it is layered on. Light surfaces get
+   this; dark surfaces (the dock, Goldie's dark chip row) override below. */
+.btn-whatsapp {
+  background-color: rgba(37, 211, 102, 0.14);
+  color: #1F8F4A;
+}
+
+.mobile-sticky-bar .btn-whatsapp,
+.goldie-chips-row .btn-whatsapp {
+  background-color: rgba(37, 211, 102, 0.18);
+  color: #25D366;
+  border-radius: 12px;
+}
+
+/* Hover lives only here, gated to devices that actually hover, so a tap
+   never gets stuck mid-transition on a touchscreen. */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    border-radius: var(--shape-btn-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-champagne-hover);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(201, 168, 76, 0.2);
+  }
+
+  .btn-dark:hover {
+    background-color: var(--color-espresso-elevated);
+  }
+
+  .btn-gold-outline:hover {
+    background: linear-gradient(135deg, #DFCA8C 0%, #C9A84C 50%, #B3903F 100%);
+    color: var(--color-espresso);
+    border-color: var(--color-gold);
+  }
+
+  .btn-whatsapp:hover {
+    background-color: rgba(37, 211, 102, 0.22);
+  }
+}
+
+/* Interactive Text Links */
+.link-editorial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--color-gold);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: all var(--transition-fast);
+}
+
+.link-editorial:hover {
+  color: var(--color-gold-light);
+  border-bottom-color: var(--color-gold-light);
+  gap: 0.75rem;
+}
+
+/* Luxury Card System - Flat Architectural */
+.card-luxury {
+  background-color: var(--color-bone-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xs);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  transition: border-color var(--transition-fast);
+  position: relative;
+}
+
+.card-luxury:hover {
+  border-color: var(--color-border-gold);
+}
+
+.card-dark {
+  background-color: var(--color-espresso-surface);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-xs);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  transition: border-color var(--transition-fast);
+  color: var(--color-text-on-dark);
+}
+
+.card-dark:hover {
+  border-color: var(--color-border-gold);
+}
+
+/* Badge / Data Chip (Only for factual data: price, duration, verified) */
+.data-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bone-warm);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.data-chip-dark {
+  color: var(--color-gold);
+  background-color: rgba(211, 165, 75, 0.1);
+  border: 1px solid rgba(211, 165, 75, 0.25);
+}
+
+/* Architectural Shaped Containers */
+.arch-frame {
+  border-radius: var(--shape-arch-top);
+  border: 1px solid var(--color-border-gold);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-ivory-warm);
+}
+
+.arch-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.arch-frame:hover img {
+  transform: scale(1.03);
+}
+
+.arch-soft-frame {
+  border-radius: var(--shape-arch-soft);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-ivory-warm);
+  transition: border-color var(--transition-normal);
+}
+
+.arch-soft-frame:hover {
+  border-color: var(--color-border-gold);
+}
+
+.arch-soft-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.arch-soft-frame:hover img {
+  transform: scale(1.03);
+}
+
+/* Popup shells clip to their radius; inner pane owns the scrollbar. */
+.overlay-shell {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-shell-scroll {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Luxury Label & Badge */
+.luxury-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--color-border-gold);
+  background-color: rgba(201, 168, 76, 0.06);
+  border-radius: var(--shape-pill);
+}
+
+/* Image Presentation Helper */
+.img-editorial {
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+  position: relative;
+}
+
+.img-editorial img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.img-editorial:hover img {
+  transform: scale(1.03);
+}
+
+/* Accessibility: Focus visible outline */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Anchored targets sit below the fixed navbar */
+[id] {
+  scroll-margin-top: calc(var(--nav-h, 76px) + 16px);
+}
+
+/* Floating Dock for Mobile */
+.mobile-sticky-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  /* Touch floor: a button has no min-height on desktop (it is sized by its
+     own padding), but a finger needs a bigger target than a cursor does. */
+  .btn {
+    min-height: 40px;
+  }
+
+  .mobile-sticky-bar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    height: 64px;
+    padding: 6px 8px 6px 4px;
+    background-color: rgba(20, 12, 7, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border-gold);
+    border-radius: 18px 6px 18px 6px;
+    box-shadow: 0 12px 32px rgba(20, 12, 7, 0.35);
+    z-index: 9990;
+  }
+
+  /* Call, WhatsApp and Goldie: icon-over-label, no button chrome. */
+  .dock-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 52px;
+    color: var(--color-text-on-dark-secondary);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    background: none;
+    border: none;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Book is the one filled control in the dock: .btn.btn-primary sized down
+     to fit beside the three icon items. It keeps the full 44px touch target
+     even though the general phone floor above is 40px. */
+  .dock-book {
+    flex: 0 0 auto;
+    min-width: 118px;
+    min-height: 44px;
+    padding: 0 1rem;
+    gap: 0.45rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared phone primitives (added 2026-09-16). Every overlay, chip row  */
+/* and compact list on the site uses these; do not copy them elsewhere. */
+/* ------------------------------------------------------------------ */
+
+/* Press feedback. Hover never fires on touch, so every tappable control
+   gets a short press-in instead. Scoped to touch devices so desktop keeps
+   its hover styles untouched. */
+@media (hover: none) {
+  .btn:active,
+  .chip:active,
+  .list-row:active,
+  .dock-item:active,
+  .product-card:active,
+  .nav-cart-btn:active,
+  .nav-mobile-toggle:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+}
+
+/* Chip rail: one horizontal row of filter chips that snaps as it scrolls.
+   Replaces the wrapped, centred Michroma pills that broke one-per-line on
+   phones. Desktop may still let the rail wrap via .chip-rail--wrap. */
+.chip-rail {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+
+.chip-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-rail--wrap {
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: visible;
+}
+
+.chip {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-text-secondary);
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--shape-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.chip.active {
+  background-color: var(--color-espresso);
+  color: var(--color-gold);
+  border-color: var(--color-espresso);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--color-gold);
+    color: var(--color-espresso);
+  }
+}
+
+/* Sticky chip rail under the header on phones. */
+.chip-rail--sticky {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 20;
+  background-color: var(--color-ivory);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-left: calc(-1 * var(--container-gutter));
+  margin-right: calc(-1 * var(--container-gutter));
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+/* Compact list row: thumbnail left, text middle, chevron right. Used by
+   the phone treatment list. Tap target is the whole row. */
+.list-row {
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  min-height: 92px;
+  padding: 0.6rem 0.25rem 0.6rem 0;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-light);
+  background: transparent;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.list-row-thumb {
+  width: 76px;
+  height: 76px;
+  border-radius: 28px 28px 8px 8px;
+  overflow: hidden;
+  background-color: var(--color-ivory-warm);
+  border: 1px solid var(--color-border-light);
+}
+
+.list-row-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.list-row-title {
+  font-family: var(--font-editorial);
+  font-size: 1.05rem;
+  line-height: 1.2;
+  color: var(--color-espresso);
+  margin: 0 0 0.2rem;
+}
+
+.list-row-sub {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-row-meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* The small underlined "About this treatment" text. Inside a row that is
+   already one link (phone list rows, text-only service rows) it is a span,
+   a cue and not a second link; on the pricing page it is the link itself.
+   Espresso text with a gold underline: gold text alone is under the AA
+   contrast floor on ivory at this size. */
+.treatment-info-label {
+  display: block;
+  align-self: flex-start;
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-underline-offset: 3px;
+}
+
+/* Shared by every duration/price meta line (list rows, service rows, the
+   treatment detail sheet): the price reads in gold, the rest inherits. */
+.price {
+  color: var(--color-gold-hover);
+}
+
+.list-row-chevron {
+  color: var(--color-text-muted);
+}
+
+/* Sticky group heading inside a list (category name). */
+.list-group-heading {
+  position: sticky;
+  top: calc(var(--nav-h) + 60px);
+  z-index: 10;
+  background-color: var(--color-ivory);
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  color: var(--color-espresso);
+  padding: 1rem 0 0.5rem;
+  margin: 0;
+}
+
+/* Sheet shell. On desktop each overlay keeps its own placement; the
+   .sheet class only takes over on phones, where every overlay becomes a
+   bottom sheet: full width, rounded top, drag handle, slides up. The
+   component still owns its inner layout. */
+.sheet-handle {
+  display: none;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .sheet-backdrop {
+    align-items: flex-end !important;
+    justify-content: stretch !important;
+    padding: 0 !important;
+  }
+
+  .sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 88dvh !important;
+    border-radius: 24px 24px 0 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -12px 40px rgba(20, 12, 7, 0.28) !important;
+    animation: sheet-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet .sheet-handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--color-border-gold-strong);
+    margin: 10px auto 6px;
+    flex-shrink: 0;
+  }
+
+  /* Nothing floats over an open sheet. */
+  body[data-sheets-open] .goldie-fab,
+  body[data-sheets-open] .mobile-sticky-bar,
+  body[data-sheets-open] .cookie-notice {
+    display: none;
+  }
+}
+
+/* Continuous right-to-left marquee: a track duplicated by its caller for a
+   seamless loop, paused on hover, and turned into a plain scroller when
+   motion is reduced. Shared by ReviewsSection and GoogleReviewsStream; a
+   caller can override --marquee-gap and --marquee-duration per instance. */
+.marquee-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: var(--marquee-gap, 2rem);
+  width: max-content;
+  animation: marqueeRightToLeft var(--marquee-duration, 72s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeRightToLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    overflow-x: auto;
+  }
+}
