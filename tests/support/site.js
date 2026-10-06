@@ -52,7 +52,7 @@ export const CATEGORIES = [
 ];
 
 export const CLINIC = {
-  phoneHref: 'tel:+447939402111',
+  phoneHref: 'tel:+447946200515',
   emailHref: 'mailto:hello@merrygoldbeautyclinics.com',
   email: 'hello@merrygoldbeautyclinics.com',
   treatwellBookingUrl: 'https://trea.tw/bGnj8v279digB9A3f',

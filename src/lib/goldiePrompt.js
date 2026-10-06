@@ -83,7 +83,7 @@ KEY CLINIC KNOWLEDGE:
 - WhatsApp: https://wa.me/${WHATSAPP_E164}
 - Email: ${clinicData.contact.email}
 - Opening Hours: Monday to Saturday 10:00 - 20:00; Sunday 10:00 - 18:00.
-- Booking: Book directly on our website at /treatments or by phone/WhatsApp (${WHATSAPP_DISPLAY}). Every booking is added to the bag and checked out on our website.
+- Booking: Book directly on our website at /treatments or by phone (${clinicData.contact.phone}) or WhatsApp (${WHATSAPP_DISPLAY}). Every booking is added to the bag and checked out on our website.
 - Categories: We offer ${CATEGORY_NAMES.length} categories: ${CATEGORY_NAMES.join(', ')}.
 - Free consultation: A visitor can request one any time from the "${FREE_CONSULTATION_LABEL}" button on the site, answered by phone or WhatsApp.
 

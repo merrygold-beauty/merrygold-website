@@ -49,7 +49,7 @@ test.describe('Facts agree everywhere they appear', () => {
     await page.goto('/contact');
     const footer = await page.locator('footer.clinic-footer').innerText();
     const contact = await page.locator('main').innerText();
-    for (const [label, value] of [['phone', '+44 793 940 2111'], ['email', CLINIC.email], ['postcode', CLINIC.postcode]]) {
+    for (const [label, value] of [['phone', '+44 794 620 0515'], ['email', CLINIC.email], ['postcode', CLINIC.postcode]]) {
       expect(footer, `footer ${label}`).toContain(value);
       expect(contact, `contact page ${label}`).toContain(value);
     }

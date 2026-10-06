@@ -42,8 +42,8 @@ export const clinicData = {
     ]
   },
   contact: {
-    phone: "+44 793 940 2111",
-    phoneHref: "tel:+447939402111",
+    phone: "+44 794 620 0515",
+    phoneHref: "tel:+447946200515",
     whatsappUrl: buildWhatsAppUrl("Hello MerryGold, I would like to enquire about a treatment."),
     email: CLINIC_EMAIL,
     emailHref: `mailto:${CLINIC_EMAIL}`,
