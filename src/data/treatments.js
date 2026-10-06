@@ -4329,7 +4329,7 @@ export function isTreatmentItem(item) {
 }
 
 // Only a priced treatment can go in the bag: checkout prices every line from
-// catalogueIndex.json and refuses one with no price.
+// catalogueIndex.js and refuses one with no price.
 export function isBookableOnline(treatment) {
   return typeof treatment.price === "number";
 }

@@ -50,7 +50,7 @@ npm run build
 ```
 
 Before the build, `scripts/build-catalogue-index.mjs` writes
-`src/data/catalogueIndex.json` (the prices checkout trusts) and
+`src/data/catalogueIndex.js` (the prices checkout trusts) and
 `scripts/build-sitemap.mjs` writes `public/sitemap.xml`. The build then bundles the
 site, builds a server copy into `dist-ssr`, and `scripts/prerender.mjs` writes one
 HTML file into `dist` for every URL in the sitemap, plus the checkout and orders

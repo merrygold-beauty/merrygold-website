@@ -1,12 +1,12 @@
 // Cloudflare Pages Function: POST /api/checkout
 //
 // Starts a Stripe Checkout session for the bag, a single treatment, or a
-// single product. Prices are looked up in catalogueIndex.json (built by
+// single product. Prices are looked up in catalogueIndex.js (built by
 // scripts/build-catalogue-index.mjs from treatments.js and products.js),
 // never taken from the request body, so a tampered client cannot change
 // what a customer pays.
 
-import catalogueIndex from '../../src/data/catalogueIndex.json' with { type: 'json' };
+import catalogueIndex from '../../src/data/catalogueIndex.js';
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { rateLimitResponse } from '../../src/lib/rateLimit.js';
 

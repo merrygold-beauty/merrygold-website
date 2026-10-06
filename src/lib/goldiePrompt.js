@@ -1,14 +1,14 @@
 // Single source for Goldie's system prompt, used by functions/api/goldie.js
 // to build the OpenRouter request. It is not imported by the browser bundle:
 // src/services/goldieChat.js now only posts to /api/goldie and never builds
-// the prompt itself. Built from catalogueIndex.json, not treatments.js:
+// the prompt itself. Built from catalogueIndex.js, not treatments.js:
 // treatments.js imports every treatment photo at module load, and a Pages
 // Function bundle cannot pull in image files, so the prompt's price list
 // comes from the same dependency-free index checkout.js already prices
 // orders against. That index does not carry category or duration, so the
 // catalogue section here is a flat name/price list, not the category-grouped,
 // duration-carrying block the old client-side prompt used.
-import catalogueIndex from '../data/catalogueIndex.json';
+import catalogueIndex from '../data/catalogueIndex.js';
 import { WHATSAPP_E164, WHATSAPP_DISPLAY, clinicData, formatClinicAddress } from '../data/clinic.js';
 import { FREE_CONSULTATION_LABEL } from '../data/labels.js';
 import { formatPounds } from './formatPounds.js';

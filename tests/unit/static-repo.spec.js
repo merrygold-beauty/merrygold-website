@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { CANONICAL_ORIGIN, DEAD_DOMAIN, ROUTES, PLANNED_ROUTES } from '../support/site.js';
 import { LEGACY_WORDPRESS_PATHS } from '../fixtures/legacy-wordpress-urls.js';
 
@@ -155,12 +156,12 @@ test.describe('Code and copy hygiene', () => {
 });
 
 test.describe('Checkout price index', () => {
-  // The checkout Pages Functions price every order from catalogueIndex.json,
+  // The checkout Pages Functions price every order from catalogueIndex.js,
   // never from the client, so a stale index would let checkout charge the
   // wrong amount. "node scripts/build-catalogue-index.mjs" (wired as
   // "prebuild") regenerates it from these same two data files.
-  test('STA-15 catalogueIndex.json has every treatment and product at its current price', () => {
-    const index = JSON.parse(read('src/data/catalogueIndex.json'));
+  test('STA-15 catalogueIndex.js has every treatment and product at its current price', async () => {
+    const index = (await import(pathToFileURL(path.join(repoRoot(), 'src/data/catalogueIndex.js')).href)).default;
     const byId = new Map(index.map((entry) => [entry.id, entry]));
 
     const treatmentsText = read('src/data/treatments.js');
@@ -177,7 +178,7 @@ test.describe('Checkout price index', () => {
       const id = block.match(/\bid:\s*["']([^"']+)["']/)?.[1];
       const expectedPence = Math.round(Number(priceMatch[1]) * 100);
       const entry = byId.get(id);
-      if (!entry) problems.push(`${source} ${id} is missing from catalogueIndex.json`);
+      if (!entry) problems.push(`${source} ${id} is missing from catalogueIndex.js`);
       else if (entry.pence !== expectedPence) problems.push(`${source} ${id} is now £${priceMatch[1]} but the index still has ${entry.pence}p`);
     };
 

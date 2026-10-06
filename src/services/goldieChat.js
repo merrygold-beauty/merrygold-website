@@ -1,5 +1,5 @@
 import { WHATSAPP_E164, WHATSAPP_DISPLAY, clinicData, formatClinicAddress } from "../data/clinic.js";
-import catalogueIndex from "../data/catalogueIndex.json";
+import catalogueIndex from "../data/catalogueIndex.js";
 import { formatPounds } from "../lib/formatPounds.js";
 
 // The offline replies read their prices from the same catalogue the checkout
