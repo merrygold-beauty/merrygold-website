@@ -1,19 +1,24 @@
 // Cloudflare Pages Function: POST /api/stripe-webhook
 //
-// Emails the clinic, then the customer, when a checkout session is paid. Configure this endpoint
+// When a checkout session is paid: adds a booking to the clinic's Google
+// Calendar, then emails the clinic, then the customer. Configure this endpoint
 // in the Stripe dashboard for the checkout.session.completed event; every
 // other event type is acknowledged and ignored.
 //
 // A retried delivery (Stripe retries anything that does not answer 2xx) will
 // email the clinic again: there is no dedup store here, so an occasional
-// duplicate is the accepted cost of keeping this function stateless.
+// duplicate is the accepted cost of keeping this function stateless. The
+// calendar event cannot be duplicated, because its id comes from the session.
 
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse, timingSafeEqual } from '../../src/lib/functionsShared.js';
 import { isNotifyConfigured, sendClinicEmail, sendCustomerEmail } from '../../src/lib/notify.js';
-import { buildOrderSubject, buildOrderBody, buildCustomerSubject, buildCustomerBody } from '../../src/lib/enquiryEmail.js';
+import { buildOrderSubject, buildOrderBody, buildCustomerSubject, buildCustomerBody, formatPence } from '../../src/lib/enquiryEmail.js';
 import { buildCustomerHtml } from '../../src/lib/customerEmailHtml.js';
+import { GAP_MINUTES, appointmentInterval, clashesWithBusy, parseTime } from '../../src/lib/bookingSlots.js';
+import { addEvent, busyBlocks, eventIdFor, isCalendarConfigured } from '../../src/lib/googleCalendar.js';
 
 const SIGNATURE_TOLERANCE_SECONDS = 300;
+const GAP_MS = GAP_MINUTES * 60 * 1000;
 
 async function hmacSha256Hex(secret, message) {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
@@ -36,6 +41,50 @@ async function verifyStripeSignature(rawBody, header, secret) {
 
   const expected = await hmacSha256Hex(secret, `${timestamp}.${rawBody}`);
   return candidates.some((candidate) => timingSafeEqual(candidate, expected));
+}
+
+// Adds a paid booking to the clinic calendar and says what happened, for the
+// clinic email: 'added', 'clash' (added, but the time overlaps something
+// already there, such as a Treatwell booking), 'failed', or null for an order
+// with no appointment time. Never throws: a calendar problem must not stop
+// the order being emailed.
+async function addBookingToCalendar(env, session, { customerName, customerEmail, phone, stripeUrl }) {
+  const metadata = session.metadata || {};
+  const minutes = Number(metadata.appointment_minutes);
+  if (!metadata.appointment_date || parseTime(metadata.appointment_time) === null || !minutes) return null;
+  if (!isCalendarConfigured(env)) {
+    console.error('Stripe webhook: calendar not configured, booking not added', session.id);
+    return 'failed';
+  }
+
+  try {
+    const interval = appointmentInterval(metadata.appointment_date, metadata.appointment_time, minutes);
+    const taken = await busyBlocks(env, interval.startMs - GAP_MS, interval.endMs + GAP_MS);
+    const clash = clashesWithBusy(interval, taken);
+    const description = [
+      'Booked and paid on the website.',
+      `Customer: ${customerName}`,
+      `Phone: ${phone}`,
+      `Email: ${customerEmail}`,
+      metadata.notes ? `Notes: ${metadata.notes}` : null,
+      `Paid: ${formatPence(session.amount_total)}`,
+      `Reference: ${session.payment_intent}`,
+      stripeUrl
+    ].filter(Boolean).join('\n');
+    const result = await addEvent(env, {
+      id: await eventIdFor(session.id),
+      summary: `${clash ? 'CLASH, ' : ''}${metadata.appointment_treatment || 'Website booking'}: ${customerName}`,
+      description,
+      ...interval
+    });
+    // A retried delivery finds the event already there, and its busy check
+    // above saw that event itself, so the clash answer means nothing then.
+    if (result === 'already-added') return 'added';
+    return clash ? 'clash' : 'added';
+  } catch (err) {
+    console.error('Stripe webhook could not add the booking to the calendar:', session.id, err.message);
+    return 'failed';
+  }
 }
 
 export async function onRequestPost(context) {
@@ -63,11 +112,20 @@ export async function onRequestPost(context) {
     return jsonResponse({ received: true });
   }
 
+  const metadata = session.metadata || {};
+  const customerName = metadata.customer_name || session.customer_details?.name || '';
+  const customerEmail = session.customer_details?.email || '';
+  const phone = metadata.phone || '';
+  const stripeUrl = `https://dashboard.stripe.com/${session.livemode ? '' : 'test/'}payments/${session.payment_intent}`;
+
+  // First, so the booking reaches the calendar even when email is not set up.
+  const calendarStatus = await addBookingToCalendar(env, session, { customerName, customerEmail, phone, stripeUrl });
+
   // Nothing downstream needs a Stripe line-items call if there is nowhere to
   // send the result, so this is checked before that fetch, not after it.
   if (!isNotifyConfigured(env)) {
     console.log('Stripe webhook: email not configured, order not emailed', session.id);
-    return jsonResponse({ received: true, emailed: false });
+    return jsonResponse({ received: true, emailed: false, calendar: calendarStatus });
   }
 
   let lineItemsResponse;
@@ -92,7 +150,6 @@ export async function onRequestPost(context) {
     amountPence: line.amount_total
   }));
 
-  const metadata = session.metadata || {};
   const subject = buildOrderSubject({
     firstItemName: items[0]?.name || 'order',
     extraItemCount: Math.max(items.length - 1, 0),
@@ -101,19 +158,20 @@ export async function onRequestPost(context) {
   const text = buildOrderBody({
     reference: session.payment_intent,
     createdAt: new Date(session.created * 1000),
-    customerName: metadata.customer_name || session.customer_details?.name || '',
-    customerEmail: session.customer_details?.email || '',
-    phone: metadata.phone || '',
+    customerName,
+    customerEmail,
+    phone,
     items,
     totalPence: session.amount_total,
     appointmentDate: metadata.appointment_date,
+    appointmentTime: metadata.appointment_time,
+    calendarStatus,
     notes: metadata.notes,
     deliveryAddress: metadata.delivery_address,
     deliveryPostcode: metadata.delivery_postcode,
-    stripeUrl: `https://dashboard.stripe.com/${session.livemode ? '' : 'test/'}payments/${session.payment_intent}`
+    stripeUrl
   });
 
-  const customerEmail = session.customer_details?.email || '';
   try {
     await sendClinicEmail(env, { subject, text, replyTo: customerEmail || undefined });
   } catch (err) {
@@ -127,10 +185,11 @@ export async function onRequestPost(context) {
   if (customerEmail) {
     const customerDetails = {
       reference: session.payment_intent,
-      customerName: metadata.customer_name || session.customer_details?.name || '',
+      customerName,
       items,
       totalPence: session.amount_total,
       appointmentDate: metadata.appointment_date,
+      appointmentTime: metadata.appointment_time,
       deliveryAddress: metadata.delivery_address,
       deliveryPostcode: metadata.delivery_postcode
     };
@@ -147,5 +206,5 @@ export async function onRequestPost(context) {
     }
   }
 
-  return jsonResponse({ received: true, emailed: true, customerEmailed });
+  return jsonResponse({ received: true, emailed: true, customerEmailed, calendar: calendarStatus });
 }

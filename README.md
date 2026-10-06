@@ -12,10 +12,15 @@ send enquiries, and ask questions of Goldie, the site's chat assistant.
   own title, description, canonical link and share tags, then hydrated in the
   browser.
 - Cloudflare Pages hosts the site; Cloudflare Pages Functions in `functions/api`
-  handle everything that needs a secret: checkout, the Stripe webhook, enquiries,
-  the chat assistant, Google reviews and the orders dashboard.
+  handle everything that needs a secret: checkout, booking times, the Stripe
+  webhook, enquiries, the chat assistant, Google reviews and the orders dashboard.
 - Stripe Checkout takes payment, Resend sends the clinic and customer emails, and
   OpenRouter runs the chat assistant.
+- The clinic's Google Calendar holds the bookings. Checkout offers only the start
+  times the calendar shows free (rules in `src/lib/bookingSlots.js`), an unpaid
+  checkout holds its time for 31 minutes, and the Stripe webhook adds each paid
+  booking to the calendar. Preview and production share the one calendar, so a
+  test booking on the preview lands in the clinic's real calendar: delete it after.
 
 ## Layout
 

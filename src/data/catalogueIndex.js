@@ -6,6 +6,7 @@ export default [
     "kind": "treatment",
     "pence": 20000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -15,6 +16,7 @@ export default [
     "kind": "treatment",
     "pence": 11000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -24,6 +26,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -33,6 +36,7 @@ export default [
     "kind": "treatment",
     "pence": 25000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -42,6 +46,7 @@ export default [
     "kind": "treatment",
     "pence": 18000,
     "duration": "1 hour 10 mins",
+    "minutes": 70,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -51,6 +56,7 @@ export default [
     "kind": "treatment",
     "pence": 11000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -60,6 +66,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -69,6 +76,7 @@ export default [
     "kind": "treatment",
     "pence": 6500,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -78,6 +86,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -87,6 +96,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -96,6 +106,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -105,6 +116,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -114,6 +126,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -123,6 +136,7 @@ export default [
     "kind": "treatment",
     "pence": 9000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -132,6 +146,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -141,6 +156,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -150,6 +166,7 @@ export default [
     "kind": "treatment",
     "pence": 6500,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -159,6 +176,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -168,6 +186,7 @@ export default [
     "kind": "treatment",
     "pence": 9500,
     "duration": "1 hour 20 mins",
+    "minutes": 80,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -177,6 +196,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -186,6 +206,7 @@ export default [
     "kind": "treatment",
     "pence": 2000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -195,6 +216,7 @@ export default [
     "kind": "treatment",
     "pence": 7500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -204,6 +226,7 @@ export default [
     "kind": "treatment",
     "pence": 7500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -213,6 +236,7 @@ export default [
     "kind": "treatment",
     "pence": 7500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -222,6 +246,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Facials & Advanced Skin"
   },
@@ -231,6 +256,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "45 to 60 mins",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Hand and foot facials"
   },
@@ -240,6 +266,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Hand and foot facials"
   },
@@ -249,6 +276,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Facials & Advanced Skin",
     "subcategory": "Hand and foot facials"
   },
@@ -258,6 +286,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "1 hour 20 mins",
+    "minutes": 80,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser Hair Removal"
   },
@@ -267,6 +296,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser Hair Removal"
   },
@@ -276,6 +306,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser Hair Removal"
   },
@@ -285,6 +316,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser Hair Removal"
   },
@@ -294,6 +326,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -303,6 +336,7 @@ export default [
     "kind": "treatment",
     "pence": 2000,
     "duration": "20 mins",
+    "minutes": 20,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -312,6 +346,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -321,6 +356,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -330,6 +366,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -339,6 +376,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -348,6 +386,7 @@ export default [
     "kind": "treatment",
     "pence": 17500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -357,6 +396,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -366,6 +406,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -375,6 +416,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -384,6 +426,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -393,6 +436,7 @@ export default [
     "kind": "treatment",
     "pence": 27500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -402,6 +446,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -411,6 +456,7 @@ export default [
     "kind": "treatment",
     "pence": 60000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -420,6 +466,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -429,6 +476,7 @@ export default [
     "kind": "treatment",
     "pence": 40000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -438,6 +486,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -447,6 +496,7 @@ export default [
     "kind": "treatment",
     "pence": 75000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -456,6 +506,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -465,6 +516,7 @@ export default [
     "kind": "treatment",
     "pence": 115000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser hair removal by area"
   },
@@ -474,6 +526,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -483,6 +536,7 @@ export default [
     "kind": "treatment",
     "pence": 16000,
     "duration": "25 mins",
+    "minutes": 25,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -492,6 +546,7 @@ export default [
     "kind": "treatment",
     "pence": 32000,
     "duration": "40 mins",
+    "minutes": 40,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -501,6 +556,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -510,6 +566,7 @@ export default [
     "kind": "treatment",
     "pence": 8500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -519,6 +576,7 @@ export default [
     "kind": "treatment",
     "pence": 40000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -528,6 +586,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -537,6 +596,7 @@ export default [
     "kind": "treatment",
     "pence": 55000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -546,6 +606,7 @@ export default [
     "kind": "treatment",
     "pence": 9000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -555,6 +616,7 @@ export default [
     "kind": "treatment",
     "pence": 41000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -564,6 +626,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "30 to 60 mins",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -573,6 +636,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "15 to 45 mins",
+    "minutes": 45,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -582,6 +646,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "30 to 60 mins",
+    "minutes": 60,
     "categoryName": "Laser Hair Removal / Laser Treatment",
     "subcategory": "Laser tattoo removal and skin rejuvenation"
   },
@@ -591,6 +656,7 @@ export default [
     "kind": "treatment",
     "pence": 9000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -600,6 +666,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -609,6 +676,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -618,6 +686,7 @@ export default [
     "kind": "treatment",
     "pence": 20000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -627,6 +696,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "20, 30 or 45 mins",
+    "minutes": 45,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Face and scalp massage"
   },
@@ -636,6 +706,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -645,6 +716,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -654,6 +726,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -663,6 +736,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -672,6 +746,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -681,6 +756,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -690,6 +766,7 @@ export default [
     "kind": "treatment",
     "pence": 14000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -699,6 +776,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -708,6 +786,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -717,6 +796,7 @@ export default [
     "kind": "treatment",
     "pence": 9000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -726,6 +806,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -735,6 +816,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -744,6 +826,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -753,6 +836,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -762,6 +846,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -771,6 +856,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "50 mins",
+    "minutes": 50,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -780,6 +866,7 @@ export default [
     "kind": "treatment",
     "pence": 9500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -789,6 +876,7 @@ export default [
     "kind": "treatment",
     "pence": 9500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -798,6 +886,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -807,6 +896,7 @@ export default [
     "kind": "treatment",
     "pence": 11000,
     "duration": "1 hour 10 mins",
+    "minutes": 70,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Massage"
   },
@@ -816,6 +906,7 @@ export default [
     "kind": "treatment",
     "pence": 2000,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -825,6 +916,7 @@ export default [
     "kind": "treatment",
     "pence": 1500,
     "duration": "5 mins",
+    "minutes": 5,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -834,6 +926,7 @@ export default [
     "kind": "treatment",
     "pence": 2500,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -843,6 +936,7 @@ export default [
     "kind": "treatment",
     "pence": 2200,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -852,6 +946,7 @@ export default [
     "kind": "treatment",
     "pence": 2200,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -861,6 +956,7 @@ export default [
     "kind": "treatment",
     "pence": 2200,
     "duration": "15 mins",
+    "minutes": 15,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Add-ons"
   },
@@ -870,6 +966,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "50 mins",
+    "minutes": 50,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Spa packages"
   },
@@ -879,6 +976,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Spa packages"
   },
@@ -888,6 +986,7 @@ export default [
     "kind": "treatment",
     "pence": 9500,
     "duration": "50 mins",
+    "minutes": 50,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Spa packages"
   },
@@ -897,6 +996,7 @@ export default [
     "kind": "treatment",
     "pence": 17300,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Spa packages"
   },
@@ -906,6 +1006,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "15 to 45 mins",
+    "minutes": 45,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Face and scalp massage"
   },
@@ -915,6 +1016,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Massage & Wellbeing",
     "subcategory": "Face and scalp massage"
   },
@@ -924,6 +1026,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -933,6 +1036,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -942,6 +1046,7 @@ export default [
     "kind": "treatment",
     "pence": 5500,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -951,6 +1056,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -960,6 +1066,7 @@ export default [
     "kind": "treatment",
     "pence": 9000,
     "duration": "2 hours",
+    "minutes": 120,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -969,6 +1076,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour 45 mins",
+    "minutes": 105,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -978,6 +1086,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "35 mins",
+    "minutes": 35,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -987,6 +1096,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "40 mins",
+    "minutes": 40,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows & Lashes"
   },
@@ -996,6 +1106,7 @@ export default [
     "kind": "treatment",
     "pence": 700,
     "duration": "10 mins",
+    "minutes": 10,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1005,6 +1116,7 @@ export default [
     "kind": "treatment",
     "pence": 1500,
     "duration": "20 mins",
+    "minutes": 20,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1014,6 +1126,7 @@ export default [
     "kind": "treatment",
     "pence": 2100,
     "duration": "25 mins",
+    "minutes": 25,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1023,6 +1136,7 @@ export default [
     "kind": "treatment",
     "pence": 2800,
     "duration": "40 mins",
+    "minutes": 40,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1032,6 +1146,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1041,6 +1156,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Brows & Lashes",
     "subcategory": "Brows"
   },
@@ -1050,6 +1166,7 @@ export default [
     "kind": "treatment",
     "pence": 6000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1059,6 +1176,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1068,6 +1186,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1077,6 +1196,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "3 hours",
+    "minutes": 180,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1086,6 +1206,7 @@ export default [
     "kind": "treatment",
     "pence": 3500,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1095,6 +1216,7 @@ export default [
     "kind": "treatment",
     "pence": 2000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Brows & Lashes",
     "subcategory": "Lashes"
   },
@@ -1104,6 +1226,7 @@ export default [
     "kind": "treatment",
     "pence": 1500,
     "duration": "10 mins",
+    "minutes": 10,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing & Facial Threading"
   },
@@ -1113,6 +1236,7 @@ export default [
     "kind": "treatment",
     "pence": 1000,
     "duration": "10 mins",
+    "minutes": 10,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing & Facial Threading"
   },
@@ -1122,6 +1246,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "25 mins",
+    "minutes": 25,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing & Facial Threading"
   },
@@ -1131,6 +1256,7 @@ export default [
     "kind": "treatment",
     "pence": 4000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1140,6 +1266,7 @@ export default [
     "kind": "treatment",
     "pence": 490,
     "duration": "5 mins",
+    "minutes": 5,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1149,6 +1276,7 @@ export default [
     "kind": "treatment",
     "pence": 1400,
     "duration": "25 mins",
+    "minutes": 25,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1158,6 +1286,7 @@ export default [
     "kind": "treatment",
     "pence": 1750,
     "duration": "20 mins",
+    "minutes": 20,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1167,6 +1296,7 @@ export default [
     "kind": "treatment",
     "pence": 1750,
     "duration": "20 mins",
+    "minutes": 20,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1176,6 +1306,7 @@ export default [
     "kind": "treatment",
     "pence": 2000,
     "duration": "25 mins",
+    "minutes": 25,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1185,6 +1316,7 @@ export default [
     "kind": "treatment",
     "pence": 2450,
     "duration": "35 mins",
+    "minutes": 35,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1194,6 +1326,7 @@ export default [
     "kind": "treatment",
     "pence": 2450,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1203,6 +1336,7 @@ export default [
     "kind": "treatment",
     "pence": 2450,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1212,6 +1346,7 @@ export default [
     "kind": "treatment",
     "pence": 1050,
     "duration": "20 mins",
+    "minutes": 20,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1221,6 +1356,7 @@ export default [
     "kind": "treatment",
     "pence": 10500,
     "duration": "1 hour 55 mins",
+    "minutes": 115,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1230,6 +1366,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "20 to 30 mins",
+    "minutes": 30,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Waxing"
   },
@@ -1239,6 +1376,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Waxing & Facial Threading",
     "subcategory": "Threading"
   },
@@ -1248,6 +1386,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "2 hours 30 mins",
+    "minutes": 150,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-Permanent Makeup"
   },
@@ -1257,6 +1396,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "2 hours 30 mins",
+    "minutes": 150,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-Permanent Makeup"
   },
@@ -1266,6 +1406,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "2 hours 30 mins",
+    "minutes": 150,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-Permanent Makeup"
   },
@@ -1275,6 +1416,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-Permanent Makeup"
   },
@@ -1284,6 +1426,7 @@ export default [
     "kind": "treatment",
     "pence": 23000,
     "duration": "2 hours 30 mins",
+    "minutes": 150,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-Permanent Makeup"
   },
@@ -1293,6 +1436,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-permanent makeup extras"
   },
@@ -1302,6 +1446,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Semi-Permanent Makeup",
     "subcategory": "Semi-permanent makeup extras"
   },
@@ -1311,6 +1456,7 @@ export default [
     "kind": "treatment",
     "pence": 30000,
     "duration": "2 hours",
+    "minutes": 120,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1320,6 +1466,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1329,6 +1476,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1338,6 +1486,7 @@ export default [
     "kind": "treatment",
     "pence": 18000,
     "duration": "1 hour 30 mins",
+    "minutes": 90,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1347,6 +1496,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1356,6 +1506,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "45 mins",
+    "minutes": 45,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1365,6 +1516,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "On enquiry",
+    "minutes": 180,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1374,6 +1526,7 @@ export default [
     "kind": "treatment",
     "pence": 15000,
     "duration": "On enquiry",
+    "minutes": 180,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Editorial & Bridal Makeup"
   },
@@ -1383,6 +1536,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "30 mins",
+    "minutes": 30,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1392,6 +1546,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "60 to 75 mins",
+    "minutes": 75,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1401,6 +1556,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "60 to 90 mins",
+    "minutes": 90,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1410,6 +1566,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "60 to 90 mins",
+    "minutes": 90,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1419,6 +1576,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "60 to 90 mins",
+    "minutes": 90,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1428,6 +1586,7 @@ export default [
     "kind": "treatment",
     "pence": null,
     "duration": "On enquiry",
+    "minutes": 180,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Makeup"
   },
@@ -1437,6 +1596,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "1 hour 30 mins to 2 hours 30 mins",
+    "minutes": 150,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1446,6 +1606,7 @@ export default [
     "kind": "treatment",
     "pence": 8000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1455,6 +1616,7 @@ export default [
     "kind": "treatment",
     "pence": 12000,
     "duration": "1 hour to 2 hours",
+    "minutes": 120,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1464,6 +1626,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "1 hour 15 mins to 2 hours",
+    "minutes": 120,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1473,6 +1636,7 @@ export default [
     "kind": "treatment",
     "pence": 25000,
     "duration": "2 hours 30 mins to 4 hours",
+    "minutes": 240,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1482,6 +1646,7 @@ export default [
     "kind": "treatment",
     "pence": 7000,
     "duration": "45 to 90 mins",
+    "minutes": 90,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1491,6 +1656,7 @@ export default [
     "kind": "treatment",
     "pence": 5000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal hair"
   },
@@ -1500,6 +1666,7 @@ export default [
     "kind": "treatment",
     "pence": 10000,
     "duration": "1 hour",
+    "minutes": 60,
     "categoryName": "Editorial & Bridal Makeup",
     "subcategory": "Bridal treatments"
   },
@@ -1509,6 +1676,7 @@ export default [
     "kind": "treatment",
     "pence": 1000,
     "duration": "10 mins",
+    "minutes": 10,
     "categoryName": "Consultation",
     "subcategory": null
   },
@@ -1518,6 +1686,7 @@ export default [
     "kind": "product",
     "pence": 3500,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   },
@@ -1527,6 +1696,7 @@ export default [
     "kind": "product",
     "pence": 4000,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   },
@@ -1536,6 +1706,7 @@ export default [
     "kind": "product",
     "pence": 1499,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   },
@@ -1545,6 +1716,7 @@ export default [
     "kind": "product",
     "pence": 1499,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   },
@@ -1554,6 +1726,7 @@ export default [
     "kind": "product",
     "pence": 2000,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   },
@@ -1563,6 +1736,7 @@ export default [
     "kind": "product",
     "pence": 2000,
     "duration": null,
+    "minutes": null,
     "categoryName": null,
     "subcategory": null
   }

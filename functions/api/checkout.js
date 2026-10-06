@@ -4,18 +4,26 @@
 // single product. Prices are looked up in catalogueIndex.js (built by
 // scripts/build-catalogue-index.mjs from treatments.js and products.js),
 // never taken from the request body, so a tampered client cannot change
-// what a customer pays.
+// what a customer pays. A treatment also carries its chosen start time,
+// checked here against the opening hours, the calendar and the other open
+// checkouts before Stripe is called.
 
-import catalogueIndex from '../../src/data/catalogueIndex.js';
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { rateLimitResponse } from '../../src/lib/rateLimit.js';
+import { catalogueById } from '../../src/lib/catalogueById.js';
+import { appointmentInterval, clashesWithBusy, freeStartTimes, isBookableDate } from '../../src/lib/bookingSlots.js';
+import { isCalendarConfigured } from '../../src/lib/googleCalendar.js';
+import { HOLDER_KEY_PATTERN, takenBlocksForDay } from '../../src/lib/bookingAvailability.js';
 
 const MAX_ITEMS = 20;
 const MAX_QUANTITY = 10;
 const MAX_METADATA_LENGTH = 500;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const catalogueById = new Map(catalogueIndex.map((entry) => [entry.id, entry]));
+// How long an unpaid checkout holds its time. Stripe's shortest allowed
+// expiry is 30 minutes from creation; the extra minute keeps the request
+// clear of that limit if the clocks differ slightly.
+const HOLD_SECONDS = 31 * 60;
 
 function badRequest(message) {
   return jsonResponse({ error: message }, 400);
@@ -73,6 +81,33 @@ function validateItems(items) {
   return { priced };
 }
 
+// A treatment needs a start time that fits the opening hours and is still
+// free. Returns { appointment }, or { error, status } for the response. If the
+// calendar cannot be read the time is accepted: the webhook checks it again
+// after payment and flags a clash to the clinic, so a calendar failure never
+// stops a customer paying.
+async function validateAppointment(env, treatment, booking) {
+  const date = booking?.date;
+  const time = booking?.time;
+  const nowMs = Date.now();
+  if (!isBookableDate(date, nowMs)) return { error: 'Please choose a date in the next 90 days.', status: 400 };
+  const fitsOpeningHours = freeStartTimes({ date, durationMinutes: treatment.minutes, busy: [], nowMs }).includes(time);
+  if (!fitsOpeningHours) return { error: 'Please choose one of the times shown.', status: 400 };
+
+  const holderKey = HOLDER_KEY_PATTERN.test(booking?.holder || '') ? booking.holder : '';
+  if (isCalendarConfigured(env)) {
+    try {
+      const taken = await takenBlocksForDay(env, date, holderKey);
+      if (clashesWithBusy(appointmentInterval(date, time, treatment.minutes), taken)) {
+        return { error: 'That time has just been taken. Please choose another.', status: 409 };
+      }
+    } catch (err) {
+      console.error('Checkout could not re-check the calendar, time accepted:', err.message);
+    }
+  }
+  return { appointment: { date, time, minutes: treatment.minutes, holderKey } };
+}
+
 function validateCustomer(customer) {
   const name = customer?.name;
   const email = customer?.email;
@@ -113,6 +148,15 @@ export async function onRequestPost(context) {
   }
 
   const { priced } = itemsResult;
+
+  const treatmentLine = priced.find(({ entry }) => entry.kind === 'treatment');
+  let appointment = null;
+  if (treatmentLine) {
+    const appointmentResult = await validateAppointment(env, treatmentLine.entry, booking);
+    if (appointmentResult.error) return jsonResponse({ error: appointmentResult.error }, appointmentResult.status);
+    appointment = appointmentResult.appointment;
+  }
+
   const origin = env.SITE_ORIGIN || new URL(request.url).origin;
 
   const lineItems = priced.map(({ entry, quantity }) => ({
@@ -132,7 +176,13 @@ export async function onRequestPost(context) {
   const metadata = {
     customer_name: truncate(String(customer.name), MAX_METADATA_LENGTH),
     phone: truncate(String(customer.phone), MAX_METADATA_LENGTH),
-    appointment_date: truncate(booking?.date || '', MAX_METADATA_LENGTH),
+    // The webhook, the success page and bookingAvailability.js's holds read
+    // the appointment fields.
+    appointment_treatment: appointment ? treatmentLine.entry.name : '',
+    appointment_date: appointment?.date || '',
+    appointment_time: appointment?.time || '',
+    appointment_minutes: appointment ? String(appointment.minutes) : '',
+    holder_key: appointment?.holderKey || '',
     notes: truncate(notes, MAX_METADATA_LENGTH),
     delivery_address: truncate(delivery?.address || '', MAX_METADATA_LENGTH),
     delivery_postcode: truncate(delivery?.postcode || '', MAX_METADATA_LENGTH),
@@ -145,6 +195,8 @@ export async function onRequestPost(context) {
     success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/checkout/cancelled`,
     line_items: lineItems,
+    // Only a booking holds anything, so product orders keep Stripe's default expiry.
+    expires_at: appointment ? Math.floor(Date.now() / 1000) + HOLD_SECONDS : undefined,
     // The same metadata goes on the PaymentIntent too: the Payments view in
     // the Stripe dashboard, which the owner reads, shows the intent, not
     // the session. receipt_email makes Stripe send its receipt to the buyer.

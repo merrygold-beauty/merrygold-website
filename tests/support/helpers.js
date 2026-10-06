@@ -149,7 +149,12 @@ export async function fillCheckout(page, client = TEST_CLIENT) {
   await form.getByLabel(/email/i).fill(client.email);
   await form.getByLabel(/telephone/i).fill(client.phone);
   const date = form.getByLabel(/date/i);
-  if (await date.count()) await date.fill(futureDate());
+  if (await date.count()) {
+    // The Vite dev server runs no Functions, so the free times are faked here.
+    await page.route('**/api/availability*', (route) => route.fulfill({ json: { times: ['10:00', '10:15'] } }));
+    await date.fill(futureDate());
+    await form.getByRole('button', { name: '10:00' }).click();
+  }
   const address = form.getByLabel(/delivery address/i);
   if (await address.count()) await address.fill(client.address);
   const postcode = form.getByLabel(/postal code|postcode/i);

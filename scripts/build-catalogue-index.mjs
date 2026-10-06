@@ -3,6 +3,7 @@
 // Node cannot import them directly; fields are pulled out with the same
 // regex technique build-sitemap.mjs uses for slugs.
 import fs from 'node:fs';
+import { durationMinutes } from '../src/lib/treatmentDuration.js';
 
 // The closing quote must be the same character as the opening one, so an
 // apostrophe inside a double-quoted name ("Men's Facial") stays in the value.
@@ -29,13 +30,22 @@ function toEntry(block, kind, sourcePath) {
   const id = fieldValue(block, 'id');
   const name = fieldValue(block, 'name');
   if (!id || !name) throw new Error(`Entry missing id or name in ${sourcePath}: ${block.slice(0, 80)}`);
-  // duration, categoryName and subcategory feed Goldie's prompt; checkout reads only id and pence.
+  const duration = fieldValue(block, 'duration');
+  // A bookable treatment needs a length to find it a free time, so one whose
+  // duration cannot be read stops the build here, not at checkout.
+  const minutes = kind === 'treatment' ? durationMinutes(duration) : null;
+  if (kind === 'treatment' && price !== null && minutes === null) {
+    throw new Error(`Treatment "${id}" in ${sourcePath} has a duration the booking calendar cannot read: "${duration}"`);
+  }
+  // duration, categoryName and subcategory feed Goldie's prompt; checkout reads
+  // id, kind, pence and minutes.
   return {
     id,
     name,
     kind,
     pence: price === null ? null : Math.round(price * 100),
-    duration: fieldValue(block, 'duration'),
+    duration,
+    minutes,
     categoryName: fieldValue(block, 'categoryName'),
     subcategory: fieldValue(block, 'subcategory')
   };

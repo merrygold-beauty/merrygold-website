@@ -7,7 +7,7 @@ export default function Cookies() {
       heading="Cookie Notice"
       title="Cookie Notice | MerryGold Beauty Clinic"
       description="MerryGold Beauty Clinic uses no advertising or analytics cookies. This notice explains the essential browser storage we use and how to close the notice."
-      updated="14 September 2026"
+      updated="6 October 2026"
     >
       <p>
         UK law requires us to tell you what we store in your browser and why. This site does not use advertising cookies, analytics cookies, or social media tracking pixels.
@@ -17,6 +17,9 @@ export default function Cookies() {
       <ul>
         <li>
           <strong>Shopping bag.</strong> Product identifiers and quantities are saved in local storage under a MerryGold bag key so your selection is still there if you reload the page. This is needed to complete a purchase.
+        </li>
+        <li>
+          <strong>Booking time.</strong> When you book a treatment, a random code is saved in session storage for that browser tab, so the time you chose stays yours while you pay on Stripe. It is deleted when you close the tab.
         </li>
         <li>
           <strong>Cookie notice.</strong> When you close the notice, we save a flag in local storage so the same message does not appear on every page load.

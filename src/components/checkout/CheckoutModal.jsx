@@ -6,9 +6,29 @@ import { isTreatmentItem } from '../../data/treatments';
 import useSheetOpen from '../../hooks/useSheetOpen';
 import useEscapeKey from '../../hooks/useEscapeKey';
 import { formatPounds } from '../../lib/formatPounds';
+import { formatAppointment } from '../../lib/enquiryEmail';
+import AppointmentPicker from './AppointmentPicker';
 import './CheckoutModal.css';
 
 const CHECKOUT_SUBTEXT = "You'll pay on Stripe's secure page and get a receipt by email.";
+const HOLDER_STORAGE_KEY = 'merrygold-booking-holder';
+
+// A random key for this browser tab, sent with the availability and checkout
+// requests so a customer's own unpaid checkout never hides the time they
+// chose (see src/lib/bookingAvailability.js). Kept for the tab's life, so it
+// survives the round trip to Stripe and back.
+function readHolderKey() {
+  if (typeof window === 'undefined') return '';
+  try {
+    const saved = window.sessionStorage.getItem(HOLDER_STORAGE_KEY);
+    if (saved) return saved;
+    const created = window.crypto.randomUUID();
+    window.sessionStorage.setItem(HOLDER_STORAGE_KEY, created);
+    return created;
+  } catch {
+    return window.crypto?.randomUUID?.() || '';
+  }
+}
 
 export default function CheckoutModal() {
   const { checkoutModal, closeCheckout, cart, cartTotal } = useShop();
@@ -17,12 +37,15 @@ export default function CheckoutModal() {
     email: '',
     phone: '',
     date: '',
+    time: '',
     notes: '',
     address: '',
     postcode: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [holderKey] = useState(readHolderKey);
+  const [timesRefreshCount, setTimesRefreshCount] = useState(0);
 
   const handleClose = () => {
     setIsSubmitting(false);
@@ -44,7 +67,8 @@ export default function CheckoutModal() {
   // what is in it: a date for any treatment, a delivery address for any
   // product.
   const bagLines = isCart ? cart : [{ product: item, quantity }];
-  const hasTreatment = bagLines.some((line) => isTreatmentItem(line.product));
+  const treatmentLine = bagLines.find((line) => isTreatmentItem(line.product));
+  const hasTreatment = Boolean(treatmentLine);
   const hasProduct = bagLines.some((line) => !isTreatmentItem(line.product));
 
   const heading = isTreatment ? 'Book treatment' : isSingleProduct ? 'Buy product' : 'Your order';
@@ -54,6 +78,10 @@ export default function CheckoutModal() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // A new date has its own free times, so a time picked on the old one is dropped.
+  const handleDateChange = (date) => setFormData({ ...formData, date, time: '' });
+  const handleTimeChange = (time) => setFormData({ ...formData, time });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +99,9 @@ export default function CheckoutModal() {
         body: JSON.stringify({
           items,
           customer: { name: formData.name, email: formData.email, phone: formData.phone },
-          booking: hasTreatment ? { date: formData.date, notes: formData.notes } : null,
+          booking: hasTreatment
+            ? { date: formData.date, time: formData.time, notes: formData.notes, holder: holderKey }
+            : null,
           delivery: hasProduct ? { address: formData.address, postcode: formData.postcode } : null
         })
       });
@@ -79,6 +109,11 @@ export default function CheckoutModal() {
       if (!response.ok || !data.url) {
         setErrorMessage(data?.error || 'The payment could not be started. Please try again.');
         setIsSubmitting(false);
+        // 409: someone else took the time first, so offer the times still free.
+        if (response.status === 409) {
+          setFormData((current) => ({ ...current, time: '' }));
+          setTimesRefreshCount((count) => count + 1);
+        }
         return;
       }
       window.location.assign(data.url);
@@ -126,7 +161,9 @@ export default function CheckoutModal() {
                   <h4 className="summary-name">{item?.name}</h4>
                   <div className="summary-specs">
                     <span><Clock size={12} /> {item?.duration}</span>
-                    <span><Calendar size={12} /> Flexible Scheduling</span>
+                    {formData.time && (
+                      <span><Calendar size={12} /> {formatAppointment(formData.date, formData.time)}</span>
+                    )}
                   </div>
                 </div>
                 <div className="summary-price-tag">
@@ -213,25 +250,22 @@ export default function CheckoutModal() {
 
             {hasTreatment && (
               <>
-                <div className="form-field">
-                  <label htmlFor="chk-date">Preferred Appointment Date *</label>
-                  <input
-                    id="chk-date"
-                    name="date"
-                    type="date"
-                    required
-                    min={new Date().toISOString().slice(0, 10)}
-                    value={formData.date}
-                    onChange={handleChange}
-                  />
-                </div>
+                <AppointmentPicker
+                  treatmentId={treatmentLine.product.id}
+                  holderKey={holderKey}
+                  date={formData.date}
+                  time={formData.time}
+                  refreshCount={timesRefreshCount}
+                  onDateChange={handleDateChange}
+                  onTimeChange={handleTimeChange}
+                />
                 <div className="form-field full-width">
                   <label htmlFor="chk-notes">Anything we should know? (optional)</label>
                   <textarea
                     id="chk-notes"
                     name="notes"
                     rows={2}
-                    placeholder="Preferred times, questions"
+                    placeholder="Questions or requests"
                     value={formData.notes}
                     onChange={handleChange}
                   />
@@ -285,7 +319,7 @@ export default function CheckoutModal() {
             <button
               type="submit"
               className="btn btn-primary w-full"
-              disabled={isSubmitting}
+              disabled={isSubmitting || (hasTreatment && !formData.time)}
             >
               {isSubmitting ? 'Opening Stripe...' : <span>Continue to payment</span>}
             </button>

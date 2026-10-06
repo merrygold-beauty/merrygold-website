@@ -3,6 +3,8 @@ import { onRequestPost as enquiryPost } from '../../functions/api/enquiry.js';
 import { onRequestPost as webhookPost } from '../../functions/api/stripe-webhook.js';
 import { onRequestGet as ordersGet } from '../../functions/api/orders.js';
 import { onRequestPost as checkoutPost } from '../../functions/api/checkout.js';
+import { onRequestGet as availabilityGet } from '../../functions/api/availability.js';
+import { addDays, londonDateString, londonTimeToInstant } from '../../src/lib/bookingSlots.js';
 
 // Every test stubs globalThis.fetch to capture the outgoing Resend/Stripe
 // call instead of making one; this restores the real fetch afterwards so
@@ -29,6 +31,55 @@ async function signStripePayload(secret, rawBody, timestamp = Math.floor(Date.no
   const signatureBuffer = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${timestamp}.${rawBody}`));
   const hex = [...new Uint8Array(signatureBuffer)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
   return `t=${timestamp},v1=${hex}`;
+}
+
+// A week ahead, so it is always inside the 90 day booking window, and 12:00,
+// which every day's opening hours include.
+const BOOKING_DATE = addDays(londonDateString(Date.now()), 7);
+const BOOKING_TIME = '12:00';
+const CALENDAR_ID = 'clinic@example.com';
+
+function londonIso(time) {
+  const [hours, minutes] = time.split(':').map(Number);
+  return new Date(londonTimeToInstant(BOOKING_DATE, hours * 60 + minutes)).toISOString();
+}
+
+// A throwaway service account: a real RSA key, so googleCalendar.js signs its
+// token request exactly as it does in production.
+let calendarEnv;
+test.beforeAll(async () => {
+  const { privateKey } = await crypto.subtle.generateKey(
+    { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
+    true,
+    ['sign', 'verify']
+  );
+  const pkcs8 = Buffer.from(await crypto.subtle.exportKey('pkcs8', privateKey)).toString('base64');
+  const serviceAccount = { client_email: 'bookings@example.iam.gserviceaccount.com', private_key: `-----BEGIN PRIVATE KEY-----
+${pkcs8}
+-----END PRIVATE KEY-----
+` };
+  calendarEnv = { GOOGLE_SERVICE_ACCOUNT_JSON: JSON.stringify(serviceAccount), BOOKING_CALENDAR_ID: CALENDAR_ID };
+});
+
+// Stands in for Google (token, freeBusy, event insert), Stripe (open sessions,
+// new session, line items) and Resend. Records every call.
+function stubServices({ busy = [], openSessions = [], freeBusyStatus = 200, insertStatus = 200, lineItems = [] } = {}) {
+  const calls = [];
+  globalThis.fetch = async (url, init = {}) => {
+    const href = String(url);
+    calls.push({ url: href, init });
+    const json = (body, status = 200) => new Response(JSON.stringify(body), { status });
+    if (href.startsWith('https://oauth2.googleapis.com/token')) return json({ access_token: 'google-token', expires_in: 3600 });
+    if (href.endsWith('/freeBusy')) {
+      return freeBusyStatus === 200 ? json({ calendars: { [CALENDAR_ID]: { busy } } }) : json({ error: { message: 'backend error' } }, freeBusyStatus);
+    }
+    if (href.includes('/events')) return json({ id: 'event' }, insertStatus);
+    if (href.includes('/checkout/sessions?status=open')) return json({ data: openSessions });
+    if (href.includes('/line_items')) return json({ data: lineItems });
+    if (href.endsWith('/checkout/sessions')) return json({ url: 'https://checkout.stripe.test/s' });
+    return json({ id: 'email_1' });
+  };
+  return calls;
 }
 
 const NOTIFY_ENV = { RESEND_API_KEY: 'key', NOTIFY_FROM_EMAIL: 'MerryGold <from@merrygoldclinics.com>', NOTIFY_TO_EMAIL: 'to@merrygoldclinics.com' };
@@ -156,7 +207,7 @@ test.describe('POST /api/stripe-webhook', () => {
     const response = await webhookPost({ request, env: WEBHOOK_ENV });
 
     expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ received: true, emailed: true, customerEmailed: true });
+    expect(await response.json()).toEqual({ received: true, emailed: true, customerEmailed: true, calendar: null });
     expect(calls).toHaveLength(3);
     expect(calls[0].url).toContain('/checkout/sessions/cs_test_123/line_items');
     expect(calls[1].url).toBe('https://api.resend.com/emails');
@@ -194,7 +245,7 @@ test.describe('POST /api/stripe-webhook', () => {
     const response = await webhookPost({ request, env: WEBHOOK_ENV });
 
     expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ received: true, emailed: true, customerEmailed: false });
+    expect(await response.json()).toEqual({ received: true, emailed: true, customerEmailed: false, calendar: null });
   });
 
   test('FN-13 email not configured answers 200 with emailed:false and no Stripe call', async () => {
@@ -207,7 +258,7 @@ test.describe('POST /api/stripe-webhook', () => {
     const response = await webhookPost({ request, env: { STRIPE_WEBHOOK_SECRET: WEBHOOK_SECRET, STRIPE_SECRET_KEY: 'sk_test_123' } });
 
     expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ received: true, emailed: false });
+    expect(await response.json()).toEqual({ received: true, emailed: false, calendar: null });
     expect(fetchCalled).toBe(false);
   });
 
@@ -300,7 +351,7 @@ test.describe('POST /api/checkout', () => {
   const CUSTOMER = { name: 'Jane Doe', email: 'jane@example.com', phone: '07700 900123' };
 
   function checkoutRequest(items) {
-    return jsonRequest('https://example.test/api/checkout', { items, customer: CUSTOMER, booking: { date: '2026-11-02' } });
+    return jsonRequest('https://example.test/api/checkout', { items, customer: CUSTOMER, booking: { date: BOOKING_DATE, time: BOOKING_TIME } });
   }
 
   function stubStripe() {
@@ -334,7 +385,7 @@ test.describe('POST /api/checkout', () => {
     stubStripe();
     const statuses = [];
     for (let attempt = 0; attempt < 11; attempt += 1) {
-      const request = jsonRequest('https://example.test/api/checkout', { items: [{ id: 'facial-gold', quantity: 1 }], customer: CUSTOMER }, '203.0.113.7');
+      const request = jsonRequest('https://example.test/api/checkout', { items: [{ id: 'facial-gold', quantity: 1 }], customer: CUSTOMER, booking: { date: BOOKING_DATE, time: BOOKING_TIME } }, '203.0.113.7');
       statuses.push((await checkoutPost({ request, env: CHECKOUT_ENV })).status);
     }
     expect(statuses.slice(0, 10).every((status) => status === 200)).toBe(true);
@@ -349,5 +400,203 @@ test.describe('POST /api/checkout', () => {
     });
     expect(response.status).toBe(200);
     expect(calls).toHaveLength(1);
+  });
+});
+
+test.describe('GET /api/availability', () => {
+  function availabilityRequest(params) {
+    const query = new URLSearchParams({ treatment: 'facial-gold', date: BOOKING_DATE, ...params });
+    return new Request(`https://example.test/api/availability?${query}`, { headers: { 'CF-Connecting-IP': `198.51.100.${nextClientNumber++ % 250}` } });
+  }
+  const env = () => ({ STRIPE_SECRET_KEY: 'sk_test_x', ...calendarEnv });
+
+  test('AV-01 answers 503 when the calendar is not configured', async () => {
+    const response = await availabilityGet({ request: availabilityRequest({}), env: { STRIPE_SECRET_KEY: 'sk_test_x' } });
+    expect(response.status).toBe(503);
+  });
+
+  test('AV-02 a product or unknown id is refused with 400', async () => {
+    stubServices();
+    for (const treatment of ['flawless-glow-extra-brightening-serum', 'no-such-treatment']) {
+      const response = await availabilityGet({ request: availabilityRequest({ treatment }), env: env() });
+      expect(response.status).toBe(400);
+    }
+  });
+
+  test('AV-03 a date more than 90 days ahead is refused with 400', async () => {
+    stubServices();
+    const date = addDays(londonDateString(Date.now()), 91);
+    const response = await availabilityGet({ request: availabilityRequest({ date }), env: env() });
+    expect(response.status).toBe(400);
+  });
+
+  test('AV-04 lists only start times clear of the calendar and of other customers holds, never the busy blocks', async () => {
+    stubServices({
+      busy: [{ start: londonIso('12:00'), end: londonIso('13:00') }],
+      openSessions: [
+        { metadata: { appointment_date: BOOKING_DATE, appointment_time: '15:00', appointment_minutes: '30', holder_key: 'someone-else-123' } },
+        { metadata: { appointment_date: BOOKING_DATE, appointment_time: '16:30', appointment_minutes: '30', holder_key: 'this-visitor-123' } }
+      ]
+    });
+    const response = await availabilityGet({ request: availabilityRequest({ holder: 'this-visitor-123' }), env: env() });
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(Object.keys(data)).toEqual(['times']);
+    expect(data.times).toContain('10:00');
+    for (const taken of ['11:00', '12:00', '13:00', '14:00', '15:00']) expect(data.times).not.toContain(taken);
+    expect(data.times).toContain('13:15');
+    expect(data.times).toContain('16:30');
+  });
+
+  test('AV-05 a calendar failure answers 502 with a message to call', async () => {
+    stubServices({ freeBusyStatus: 500 });
+    const response = await availabilityGet({ request: availabilityRequest({}), env: env() });
+    expect(response.status).toBe(502);
+    expect((await response.json()).error).toMatch(/call us/);
+  });
+});
+
+test.describe('POST /api/checkout with a booking time', () => {
+  const CUSTOMER = { name: 'Jane Doe', email: 'jane@example.com', phone: '07700 900123' };
+  const env = () => ({ STRIPE_SECRET_KEY: 'sk_test_x', ...calendarEnv });
+  const bookingRequest = (booking) =>
+    jsonRequest('https://example.test/api/checkout', { items: [{ id: 'facial-gold', quantity: 1 }], customer: CUSTOMER, booking });
+  const sessionCreates = (calls) => calls.filter((call) => call.url.endsWith('/checkout/sessions'));
+
+  test('FN-34 a treatment with no time, or a time outside opening hours or the steps, is refused with 400', async () => {
+    const calls = stubServices();
+    for (const booking of [{ date: BOOKING_DATE }, { date: BOOKING_DATE, time: '07:00' }, { date: BOOKING_DATE, time: '12:05' }]) {
+      const response = await checkoutPost({ request: bookingRequest(booking), env: env() });
+      expect(response.status).toBe(400);
+    }
+    expect(sessionCreates(calls)).toHaveLength(0);
+  });
+
+  test('FN-35 a time taken in the calendar answers 409 and starts no payment', async () => {
+    const calls = stubServices({ busy: [{ start: londonIso('12:30'), end: londonIso('13:00') }] });
+    const response = await checkoutPost({ request: bookingRequest({ date: BOOKING_DATE, time: BOOKING_TIME }), env: env() });
+    expect(response.status).toBe(409);
+    expect((await response.json()).error).toBe('That time has just been taken. Please choose another.');
+    expect(sessionCreates(calls)).toHaveLength(0);
+  });
+
+  test('FN-36 a free time goes to Stripe in the metadata, with a 31 minute expiry as the hold', async () => {
+    const calls = stubServices();
+    const before = Math.floor(Date.now() / 1000);
+    const response = await checkoutPost({
+      request: bookingRequest({ date: BOOKING_DATE, time: BOOKING_TIME, holder: 'this-visitor-123' }),
+      env: env()
+    });
+    expect(response.status).toBe(200);
+    const [create] = sessionCreates(calls);
+    const form = new URLSearchParams(create.init.body);
+    expect(form.get('metadata[appointment_date]')).toBe(BOOKING_DATE);
+    expect(form.get('metadata[appointment_time]')).toBe(BOOKING_TIME);
+    expect(form.get('metadata[appointment_minutes]')).toBe('60');
+    expect(form.get('metadata[appointment_treatment]')).toBe('Gold Facial');
+    expect(form.get('metadata[holder_key]')).toBe('this-visitor-123');
+    expect(Number(form.get('expires_at')) - before).toBeGreaterThanOrEqual(31 * 60);
+  });
+
+  test('FN-37 a calendar that cannot be read does not stop the payment', async () => {
+    const calls = stubServices({ freeBusyStatus: 500 });
+    const response = await checkoutPost({ request: bookingRequest({ date: BOOKING_DATE, time: BOOKING_TIME }), env: env() });
+    expect(response.status).toBe(200);
+    expect(sessionCreates(calls)).toHaveLength(1);
+  });
+
+  test('FN-38 a product order has no appointment and keeps the default Stripe expiry', async () => {
+    const calls = stubServices();
+    const request = jsonRequest('https://example.test/api/checkout', {
+      items: [{ id: 'flawless-glow-extra-brightening-serum', quantity: 1 }],
+      customer: CUSTOMER,
+      delivery: { address: '1 High Street', postcode: 'IG11 7AA' }
+    });
+    const response = await checkoutPost({ request, env: env() });
+    expect(response.status).toBe(200);
+    const form = new URLSearchParams(sessionCreates(calls)[0].init.body);
+    expect(form.get('expires_at')).toBeNull();
+    expect(form.get('metadata[appointment_time]')).toBe('');
+  });
+});
+
+test.describe('POST /api/stripe-webhook with a booking time', () => {
+  const WEBHOOK_SECRET = 'whsec_test_secret';
+  const env = () => ({ STRIPE_WEBHOOK_SECRET: WEBHOOK_SECRET, STRIPE_SECRET_KEY: 'sk_test_123', ...NOTIFY_ENV, ...calendarEnv });
+  const LINE_ITEMS = [{ description: 'Gold Facial', quantity: 1, amount_total: 20000 }];
+
+  async function deliverBooking() {
+    const rawBody = JSON.stringify({
+      type: 'checkout.session.completed',
+      data: {
+        object: {
+          id: 'cs_test_456',
+          payment_status: 'paid',
+          payment_intent: 'pi_test_456',
+          livemode: false,
+          created: 1700000000,
+          amount_total: 20000,
+          customer_details: { email: 'client@example.com', name: 'Client Name' },
+          metadata: {
+            customer_name: 'Client Name',
+            phone: '07700 900123',
+            appointment_treatment: 'Gold Facial',
+            appointment_date: BOOKING_DATE,
+            appointment_time: '14:30',
+            appointment_minutes: '60',
+            notes: 'TEST, ignore'
+          }
+        }
+      }
+    });
+    const signature = await signStripePayload(WEBHOOK_SECRET, rawBody);
+    const request = new Request('https://example.test/api/stripe-webhook', { method: 'POST', headers: { 'Stripe-Signature': signature }, body: rawBody });
+    return webhookPost({ request, env: env() });
+  }
+
+  const eventInsert = (calls) => calls.find((call) => call.url.includes('/events'));
+  const emails = (calls) => calls.filter((call) => call.url === 'https://api.resend.com/emails').map((call) => JSON.parse(call.init.body));
+
+  test('FN-40 a paid booking is added to the calendar at its time and both emails show the time', async () => {
+    const calls = stubServices({ lineItems: LINE_ITEMS });
+    const response = await deliverBooking();
+    expect(response.status).toBe(200);
+    expect((await response.json()).calendar).toBe('added');
+
+    const event = JSON.parse(eventInsert(calls).init.body);
+    expect(event.id).toMatch(/^[0-9a-f]{64}$/);
+    expect(event.summary).toBe('Gold Facial: Client Name');
+    expect(event.start.dateTime).toBe(londonIso('14:30'));
+    expect(Date.parse(event.end.dateTime) - Date.parse(event.start.dateTime)).toBe(60 * 60 * 1000);
+    expect(event.description).toContain('07700 900123');
+
+    const [clinic, customer] = emails(calls);
+    expect(clinic.text).toMatch(/Appointment: \w+ \d{1,2} \w+ \d{4} at 14:30/);
+    expect(clinic.text).not.toContain('Calendar:');
+    expect(customer.text).toMatch(/Appointment: \w+ \d{1,2} \w+ \d{4} at 14:30/);
+    expect(customer.html).toContain('at 14:30');
+  });
+
+  test('FN-41 a booking that overlaps the calendar is still added, marked CLASH, and flagged to the clinic', async () => {
+    const calls = stubServices({ lineItems: LINE_ITEMS, busy: [{ start: londonIso('15:00'), end: londonIso('16:00') }] });
+    const response = await deliverBooking();
+    expect((await response.json()).calendar).toBe('clash');
+    expect(JSON.parse(eventInsert(calls).init.body).summary.startsWith('CLASH, ')).toBe(true);
+    expect(emails(calls)[0].text).toContain('Calendar: this time overlaps something already in the calendar');
+  });
+
+  test('FN-42 a calendar failure still emails the order with 200 and asks the clinic to add it by hand', async () => {
+    const calls = stubServices({ lineItems: LINE_ITEMS, freeBusyStatus: 500 });
+    const response = await deliverBooking();
+    expect(response.status).toBe(200);
+    expect((await response.json()).calendar).toBe('failed');
+    expect(emails(calls)[0].text).toContain('Please add it by hand.');
+  });
+
+  test('FN-43 a retried delivery finds its event already there and reports no clash', async () => {
+    const calls = stubServices({ lineItems: LINE_ITEMS, insertStatus: 409, busy: [{ start: londonIso('14:30'), end: londonIso('15:30') }] });
+    const response = await deliverBooking();
+    expect((await response.json()).calendar).toBe('added');
+    expect(emails(calls)[0].text).not.toContain('Calendar:');
   });
 });

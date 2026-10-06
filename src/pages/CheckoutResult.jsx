@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import SEO from '../components/common/SEO';
+import { formatAppointment } from '../lib/enquiryEmail';
 import './CheckoutResult.css';
 
 function formatTotal(pence, currency) {
@@ -115,7 +116,11 @@ function SuccessView() {
       {/* True once Stripe customer receipts are switched on for the live account (go-live item G5). */}
       <p className="checkout-result-text">Your receipt will be emailed to {result.customerEmail}.</p>
       {hasTreatment && (
-        <p className="checkout-result-text">We'll confirm your appointment time by phone or WhatsApp.</p>
+        <p className="checkout-result-text">
+          {result.appointmentTime
+            ? `Appointment: ${formatAppointment(result.appointmentDate, result.appointmentTime)}. We will contact you by phone or WhatsApp to confirm it.`
+            : "We'll confirm your appointment time by phone or WhatsApp."}
+        </p>
       )}
       <div className="checkout-result-actions">
         <Link to="/" className="btn btn-primary">Back to home</Link>

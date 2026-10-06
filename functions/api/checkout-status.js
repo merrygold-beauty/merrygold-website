@@ -41,7 +41,8 @@ export async function onRequestGet(context) {
     currency: session.currency,
     customerEmail: session.customer_details?.email ?? null,
     items: (session.line_items?.data || []).map((line) => ({ name: line.description, quantity: line.quantity })),
-    appointmentDate: session.metadata?.appointment_date || null
+    appointmentDate: session.metadata?.appointment_date || null,
+    appointmentTime: session.metadata?.appointment_time || null
   };
 
   return jsonResponse(payload, 200, { 'Cache-Control': 'no-store' });

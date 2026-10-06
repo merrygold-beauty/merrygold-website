@@ -50,9 +50,17 @@ export function buildEnquiryBody(type, fields) {
   return lines.join('\n');
 }
 
-function formatPence(pence) {
+export function formatPence(pence) {
   return `£${(pence / 100).toFixed(2)}`;
 }
+
+// What the clinic is told about the calendar, by the status
+// functions/api/stripe-webhook.js reports. Nothing is said when it was added
+// cleanly.
+const CALENDAR_NOTES = {
+  clash: 'Calendar: this time overlaps something already in the calendar (it was still added, marked CLASH). Move one of them when you call.',
+  failed: 'Calendar: the booking could not be added to the Google Calendar. Please add it by hand.'
+};
 
 export function buildOrderSubject({ firstItemName, extraItemCount, hasAppointment }) {
   const lead = hasAppointment ? 'New paid booking' : 'New paid order';
@@ -72,6 +80,8 @@ export function buildOrderBody({
   items,
   totalPence,
   appointmentDate,
+  appointmentTime,
+  calendarStatus,
   notes,
   deliveryAddress,
   deliveryPostcode,
@@ -83,10 +93,17 @@ export function buildOrderBody({
     timeStyle: 'short'
   }).format(createdAt);
 
-  // A paid booking only has a date until the clinic agrees a time with the
-  // customer, who has been told to expect that call; so it leads the email.
+  // The website cannot see Treatwell's bookings, so every paid booking is
+  // still confirmed by a call; the customer has been told to expect it. A
+  // booking from before time slots (date only) still needs its time agreed.
   const toDo = appointmentDate
-    ? [`To do: call or WhatsApp ${customerName} on ${phone} to confirm the appointment time.`, '']
+    ? [
+        appointmentTime
+          ? `To do: call or WhatsApp ${customerName} on ${phone} to confirm the appointment.`
+          : `To do: call or WhatsApp ${customerName} on ${phone} to confirm the appointment time.`,
+        ...(CALENDAR_NOTES[calendarStatus] ? [CALENDAR_NOTES[calendarStatus]] : []),
+        ''
+      ]
     : [];
 
   const lines = [
@@ -102,7 +119,7 @@ export function buildOrderBody({
     `Total: ${formatPence(totalPence)}`
   ];
 
-  if (appointmentDate) lines.push(`Requested date: ${formatAppointmentDate(appointmentDate)}`);
+  if (appointmentDate) lines.push(`${appointmentLabelFor(appointmentTime)}: ${formatAppointment(appointmentDate, appointmentTime)}`);
   if (notes) lines.push(`Notes: ${notes}`);
   if (deliveryAddress) lines.push(`Delivery address: ${deliveryAddress}`);
   if (deliveryPostcode) lines.push(`Delivery postcode: ${deliveryPostcode}`);
@@ -125,6 +142,23 @@ function formatAppointmentDate(appointmentDate) {
   return `${weekday} ${dayMonthYear}`;
 }
 
+// appointmentTime is the "HH:MM" chosen at checkout. Bookings paid before
+// time slots existed carry a date only.
+export function formatAppointment(appointmentDate, appointmentTime) {
+  const date = formatAppointmentDate(appointmentDate);
+  return appointmentTime ? `${date} at ${appointmentTime}` : date;
+}
+
+function appointmentLabelFor(appointmentTime) {
+  return appointmentTime ? 'Appointment' : 'Requested date';
+}
+
+function confirmNoteFor(appointmentTime) {
+  return appointmentTime
+    ? 'We will contact you by phone or WhatsApp to confirm your appointment.'
+    : 'We will contact you by phone or WhatsApp to confirm your appointment time.';
+}
+
 // What the customer's confirmation says, once. buildCustomerBody renders it as
 // plain text and src/lib/customerEmailHtml.js as the branded HTML version, so
 // the two can never say different things.
@@ -134,6 +168,7 @@ export function buildCustomerContent({
   items,
   totalPence,
   appointmentDate,
+  appointmentTime,
   deliveryAddress,
   deliveryPostcode
 }) {
@@ -142,8 +177,9 @@ export function buildCustomerContent({
     intro: `Thank you for ${appointmentDate ? 'booking with' : 'your order from'} ${clinicData.name}. We have received your payment.`,
     lines: items.map((item) => ({ label: `${item.name} x ${item.quantity}`, amount: formatPence(item.amountPence) })),
     total: formatPence(totalPence),
-    requestedDate: appointmentDate ? formatAppointmentDate(appointmentDate) : null,
-    confirmNote: appointmentDate ? 'We will contact you by phone or WhatsApp to confirm your appointment time.' : null,
+    appointmentLabel: appointmentDate ? appointmentLabelFor(appointmentTime) : null,
+    appointment: appointmentDate ? formatAppointment(appointmentDate, appointmentTime) : null,
+    confirmNote: appointmentDate ? confirmNoteFor(appointmentTime) : null,
     deliveryTo: deliveryAddress ? [deliveryAddress, deliveryPostcode].filter(Boolean).join(', ') : null,
     reference,
     changeNote: `To change anything, reply to this email or call us on ${clinicData.contact.phone}.`,
@@ -163,7 +199,7 @@ export function buildCustomerBody(details) {
     ''
   ];
 
-  if (content.requestedDate) lines.push(`Requested date: ${content.requestedDate}`, content.confirmNote, '');
+  if (content.appointment) lines.push(`${content.appointmentLabel}: ${content.appointment}`, content.confirmNote, '');
   if (content.deliveryTo) lines.push(`We will send your order to: ${content.deliveryTo}`, '');
 
   lines.push(

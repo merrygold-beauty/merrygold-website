@@ -39,15 +39,15 @@ function detailRow(label, value, { strong = false } = {}) {
 
 export function buildCustomerHtml(details) {
   const content = buildCustomerContent(details);
-  const heading = content.requestedDate ? 'Your booking is paid' : 'Your order is paid';
+  const heading = content.appointment ? 'Your booking is paid' : 'Your order is paid';
 
   const rows = [
     ...content.lines.map((line) => detailRow(line.label, line.amount)),
     detailRow('Total paid', content.total, { strong: true })
   ].join('\n');
 
-  const dateBlock = content.requestedDate
-    ? `<p style="${P}"><strong>Requested date:</strong> ${escapeHtml(content.requestedDate)}</p>
+  const dateBlock = content.appointment
+    ? `<p style="${P}"><strong>${escapeHtml(content.appointmentLabel)}:</strong> ${escapeHtml(content.appointment)}</p>
 <p style="${P}">${escapeHtml(content.confirmNote)}</p>`
     : '';
   const deliveryBlock = content.deliveryTo

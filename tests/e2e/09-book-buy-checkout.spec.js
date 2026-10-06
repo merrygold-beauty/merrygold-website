@@ -245,6 +245,55 @@ test.describe('Checkout hands off to Stripe', () => {
     expect((await date.getAttribute('min')) >= today).toBe(true);
   });
 
+  test('CHK-13 a treatment offers the free start times for the chosen day and posts the one picked', async ({ page }) => {
+    const availabilityUrls = [];
+    await page.route('**/api/availability*', (route) => {
+      availabilityUrls.push(new URL(route.request().url()));
+      return route.fulfill({ json: { times: ['11:00', '14:30'] } });
+    });
+    let postedBody = null;
+    await page.route('**/api/checkout', (route) => {
+      postedBody = route.request().postDataJSON();
+      return route.fulfill({ status: 400, json: { error: 'Stopped by the test.' } });
+    });
+
+    await bookFromTreatmentPage(page, 'facial-gold', 'Gold Facial');
+    if (!(await ui.checkout(page).isVisible())) await startCheckoutFromBag(page);
+    const form = ui.checkout(page);
+    await form.getByLabel(/full name/i).fill(TEST_CLIENT.name);
+    await form.getByLabel(/email/i).fill(TEST_CLIENT.email);
+    await form.getByLabel(/telephone/i).fill(TEST_CLIENT.phone);
+
+    const submit = form.locator('button[type=submit]');
+    await expect(form.getByText('Choose a date to see the free times.')).toBeVisible();
+    await expect(submit, 'payment should wait for a time').toBeDisabled();
+
+    const date = form.getByLabel(/date/i);
+    const max = await date.getAttribute('max');
+    expect(max > (await date.getAttribute('min')), 'the date picker should allow days ahead').toBe(true);
+    await date.fill(max);
+    await expect.poll(() => availabilityUrls.length).toBe(1);
+    expect(availabilityUrls[0].searchParams.get('treatment')).toBe('facial-gold');
+    expect(availabilityUrls[0].searchParams.get('date')).toBe(max);
+    expect(availabilityUrls[0].searchParams.get('holder')).toBeTruthy();
+
+    await form.getByRole('button', { name: '14:30' }).click();
+    await expect(form.getByRole('button', { name: '14:30' })).toHaveAttribute('aria-pressed', 'true');
+    await submitCheckout(page);
+    await expect.poll(() => postedBody).not.toBeNull();
+    expect(postedBody.booking).toMatchObject({ date: max, time: '14:30' });
+    expect(postedBody.booking.holder).toBe(availabilityUrls[0].searchParams.get('holder'));
+  });
+
+  test('CHK-14 a day with no free times says so', async ({ page }) => {
+    await page.route('**/api/availability*', (route) => route.fulfill({ json: { times: [] } }));
+    await bookFromTreatmentPage(page, 'facial-gold', 'Gold Facial');
+    if (!(await ui.checkout(page).isVisible())) await startCheckoutFromBag(page);
+    const date = ui.checkout(page).getByLabel(/date/i);
+    await date.fill(await date.getAttribute('max'));
+    await expect(ui.checkout(page).getByText('No free times on this day. Please choose another day.')).toBeVisible();
+  });
+
   test('CHK-08 checkout asks for no health information', async ({ page }) => {
     await page.goto('/treatments');
     await page.locator('.treatment-directory-card').first().getByRole('button', { name: 'Book' }).click();

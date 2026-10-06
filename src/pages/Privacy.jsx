@@ -9,7 +9,7 @@ export default function Privacy() {
       heading="Privacy Policy"
       title="Privacy Policy | MerryGold Beauty Clinic"
       description="How MerryGold Beauty Clinic collects, uses, and stores personal information for bookings, shop orders, enquiries, and clinic care."
-      updated="14 September 2026"
+      updated="6 October 2026"
     >
       <p>
         This notice explains what personal information {clinicData.legalName} ("MerryGold", "we") collects, why we use it, and the choices you have. We are the data controller. Company No. {clinicData.companyNumber}, registered in {clinicData.jurisdiction}.
@@ -21,7 +21,7 @@ export default function Privacy() {
       <h2>What we collect</h2>
       <ul>
         <li>Identity and contact details: name, email, telephone, and postal address when you book, buy, or send an enquiry.</li>
-        <li>Booking details: the treatment or product you choose, preferred dates, and notes you give us about your skin or appointment.</li>
+        <li>Booking details: the treatment or product you choose, your appointment date and time, and notes you give us about your skin or appointment.</li>
         <li>Payment records: we do not store card numbers on this website. Stripe processes card payments on its own pages.</li>
         <li>Training enquiries: name, contact details, the programmes you select, your experience level, and any notes, sent to us on WhatsApp at your request.</li>
         <li>Messages: emails, WhatsApp chats, the contact form, and {ASSISTANT_NAME} questions you type.</li>
@@ -49,6 +49,7 @@ export default function Privacy() {
       <h2>Who we share it with</h2>
       <ul>
         <li>Stripe, to take payment. Card data is entered securely on Stripe's checkout.</li>
+        <li>Google, which runs the clinic's appointment calendar. When you book and pay for a treatment, your name, telephone number, email, the treatment, your notes and the payment reference are added to that calendar so the clinic can see your appointment. The booking page reads the calendar only to show which times are free.</li>
         <li>WhatsApp (Meta), if you send us a WhatsApp message, including a training enquiry. Meta provides that service under its own terms.</li>
         <li>Our email delivery provider, to send your contact, consultation, or training enquiry to the clinic's inbox.</li>
         <li>The {ASSISTANT_NAME} concierge provider, only when that live connection is switched on, so a reply can be generated. If it is not connected, answers stay on this site.</li>
