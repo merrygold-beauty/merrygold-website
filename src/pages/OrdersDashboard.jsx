@@ -33,6 +33,12 @@ async function fetchOrders(password, cursor) {
   return response.json();
 }
 
+// "2026-12-08 at 11:30"; bookings paid before time slots carry a date only.
+function appointmentText(order) {
+  if (!order.appointmentDate) return null;
+  return order.appointmentTime ? `${order.appointmentDate} at ${order.appointmentTime}` : order.appointmentDate;
+}
+
 function OrderCard({ order }) {
   const delivery = [order.deliveryAddress, order.deliveryPostcode].filter(Boolean).join(", ");
   return (
@@ -48,7 +54,7 @@ function OrderCard({ order }) {
         ))}
       </ul>
       <p className="list-row-meta price">{formatMoney(order.amountTotal, order.currency)}</p>
-      <p className="order-card-detail">{order.appointmentDate ? `Appointment: ${order.appointmentDate}` : "No appointment"}</p>
+      <p className="order-card-detail">{order.appointmentDate ? `Appointment: ${appointmentText(order)}` : "No appointment"}</p>
       {delivery && <p className="order-card-detail">Delivery: {delivery}</p>}
       <a className="order-card-stripe" href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a>
     </div>
@@ -206,7 +212,7 @@ export default function OrdersDashboard() {
                         ))}
                       </td>
                       <td>{formatMoney(order.amountTotal, order.currency)}</td>
-                      <td>{order.appointmentDate || "No appointment"}</td>
+                      <td>{appointmentText(order) || "No appointment"}</td>
                       <td>{[order.deliveryAddress, order.deliveryPostcode].filter(Boolean).join(", ") || "No delivery"}</td>
                       <td><a href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a></td>
                     </tr>

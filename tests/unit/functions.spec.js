@@ -315,7 +315,7 @@ test.describe('GET /api/orders', () => {
           amount_total: 5000,
           currency: 'gbp',
           customer_details: { email: 'a@b.com', name: 'A B' },
-          metadata: { customer_name: 'A B', phone: '07700000000', appointment_date: '2026-10-01' },
+          metadata: { customer_name: 'A B', phone: '07700000000', appointment_date: '2026-10-01', appointment_time: '11:30' },
           line_items: { data: [{ description: 'Facial', quantity: 1, amount_total: 5000 }] }
         },
         {
@@ -340,7 +340,7 @@ test.describe('GET /api/orders', () => {
     expect(response.status).toBe(200);
     const data = await response.json();
     expect(data.orders).toHaveLength(1);
-    expect(data.orders[0]).toMatchObject({ id: 'cs_1', customerName: 'A B', amountTotal: 5000, reference: 'pi_1' });
+    expect(data.orders[0]).toMatchObject({ id: 'cs_1', customerName: 'A B', amountTotal: 5000, reference: 'pi_1', appointmentTime: '11:30' });
     expect(data.hasMore).toBe(true);
     expect(data.nextCursor).toBe('cs_2');
   });

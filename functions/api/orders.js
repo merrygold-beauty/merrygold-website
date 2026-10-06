@@ -36,6 +36,7 @@ function shapeOrder(session) {
       amountTotal: line.amount_total
     })),
     appointmentDate: metadata.appointment_date || null,
+    appointmentTime: metadata.appointment_time || null,
     notes: metadata.notes || null,
     deliveryAddress: metadata.delivery_address || null,
     deliveryPostcode: metadata.delivery_postcode || null,
