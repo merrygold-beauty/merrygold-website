@@ -182,6 +182,11 @@ test.describe('Checkout price index', () => {
       else if (entry.pence !== expectedPence) problems.push(`${source} ${id} is now £${priceMatch[1]} but the index still has ${entry.pence}p`);
     };
 
+    // Without these, a source file the regexes cannot split (CRLF line
+    // endings did exactly that) checks nothing and still passes.
+    expect(treatmentBlocks.length, 'treatment listings parsed from treatments.js').toBeGreaterThan(100);
+    expect(productBlocks.length, 'products parsed from products.js').toBeGreaterThan(0);
+
     treatmentBlocks.forEach((block) => check(block, 'treatment'));
     check(consultationBlock, 'treatment');
     productBlocks.forEach((block) => check(block, 'product'));

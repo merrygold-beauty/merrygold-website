@@ -1,0 +1,4 @@
+# Keep every text file LF on disk, whatever core.autocrlf says. The build
+# scripts parse source files with regular expressions written for LF, and a
+# CRLF checkout on Windows silently emptied the checkout price index.
+* text=auto eol=lf
