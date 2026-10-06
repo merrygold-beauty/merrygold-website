@@ -11,6 +11,7 @@
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse, timingSafeEqual } from '../../src/lib/functionsShared.js';
 import { isNotifyConfigured, sendClinicEmail, sendCustomerEmail } from '../../src/lib/notify.js';
 import { buildOrderSubject, buildOrderBody, buildCustomerSubject, buildCustomerBody } from '../../src/lib/enquiryEmail.js';
+import { buildCustomerHtml } from '../../src/lib/customerEmailHtml.js';
 
 const SIGNATURE_TOLERANCE_SECONDS = 300;
 
@@ -124,19 +125,21 @@ export async function onRequestPost(context) {
   // retried, because a Stripe retry would email the clinic a second time.
   let customerEmailed = false;
   if (customerEmail) {
+    const customerDetails = {
+      reference: session.payment_intent,
+      customerName: metadata.customer_name || session.customer_details?.name || '',
+      items,
+      totalPence: session.amount_total,
+      appointmentDate: metadata.appointment_date,
+      deliveryAddress: metadata.delivery_address,
+      deliveryPostcode: metadata.delivery_postcode
+    };
     try {
       await sendCustomerEmail(env, {
         to: customerEmail,
         subject: buildCustomerSubject({ firstItemName: items[0]?.name || 'order', hasAppointment: Boolean(metadata.appointment_date) }),
-        text: buildCustomerBody({
-          reference: session.payment_intent,
-          customerName: metadata.customer_name || session.customer_details?.name || '',
-          items,
-          totalPence: session.amount_total,
-          appointmentDate: metadata.appointment_date,
-          deliveryAddress: metadata.delivery_address,
-          deliveryPostcode: metadata.delivery_postcode
-        })
+        text: buildCustomerBody(customerDetails),
+        html: buildCustomerHtml(customerDetails)
       });
       customerEmailed = true;
     } catch (err) {

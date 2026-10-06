@@ -125,7 +125,10 @@ function formatAppointmentDate(appointmentDate) {
   return `${weekday} ${dayMonthYear}`;
 }
 
-export function buildCustomerBody({
+// What the customer's confirmation says, once. buildCustomerBody renders it as
+// plain text and src/lib/customerEmailHtml.js as the branded HTML version, so
+// the two can never say different things.
+export function buildCustomerContent({
   reference,
   customerName,
   items,
@@ -134,32 +137,40 @@ export function buildCustomerBody({
   deliveryAddress,
   deliveryPostcode
 }) {
+  return {
+    greeting: `Dear ${customerName || 'customer'},`,
+    intro: `Thank you for ${appointmentDate ? 'booking with' : 'your order from'} ${clinicData.name}. We have received your payment.`,
+    lines: items.map((item) => ({ label: `${item.name} x ${item.quantity}`, amount: formatPence(item.amountPence) })),
+    total: formatPence(totalPence),
+    requestedDate: appointmentDate ? formatAppointmentDate(appointmentDate) : null,
+    confirmNote: appointmentDate ? 'We will contact you by phone or WhatsApp to confirm your appointment time.' : null,
+    deliveryTo: deliveryAddress ? [deliveryAddress, deliveryPostcode].filter(Boolean).join(', ') : null,
+    reference,
+    changeNote: `To change anything, reply to this email or call us on ${clinicData.contact.phone}.`,
+    termsUrl: `${SITE_ORIGIN}/terms`
+  };
+}
+
+export function buildCustomerBody(details) {
+  const content = buildCustomerContent(details);
   const lines = [
-    `Dear ${customerName || 'customer'},`,
+    content.greeting,
     '',
-    `Thank you for ${appointmentDate ? 'booking with' : 'your order from'} ${clinicData.name}. We have received your payment.`,
+    content.intro,
     '',
-    ...items.map((item) => `${item.name} x ${item.quantity}, ${formatPence(item.amountPence)}`),
-    `Total paid: ${formatPence(totalPence)}`,
+    ...content.lines.map((line) => `${line.label}, ${line.amount}`),
+    `Total paid: ${content.total}`,
     ''
   ];
 
-  if (appointmentDate) {
-    lines.push(
-      `Requested date: ${formatAppointmentDate(appointmentDate)}`,
-      'We will contact you by phone or WhatsApp to confirm your appointment time.',
-      ''
-    );
-  }
-  if (deliveryAddress) {
-    lines.push(`We will send your order to: ${[deliveryAddress, deliveryPostcode].filter(Boolean).join(', ')}`, '');
-  }
+  if (content.requestedDate) lines.push(`Requested date: ${content.requestedDate}`, content.confirmNote, '');
+  if (content.deliveryTo) lines.push(`We will send your order to: ${content.deliveryTo}`, '');
 
   lines.push(
-    `Your reference: ${reference}`,
+    `Your reference: ${content.reference}`,
     '',
-    `To change anything, reply to this email or call us on ${clinicData.contact.phone}.`,
-    `Booking and cancellation terms: ${SITE_ORIGIN}/terms`,
+    content.changeNote,
+    `Booking and cancellation terms: ${content.termsUrl}`,
     '',
     clinicData.name,
     formatClinicAddress(),

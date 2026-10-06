@@ -13,7 +13,7 @@ export function isNotifyConfigured(env) {
 }
 
 // Throws on any non-2xx response.
-async function sendEmail(env, { to, subject, text, replyTo }) {
+async function sendEmail(env, { to, subject, text, html, replyTo }) {
   const response = await fetch(RESEND_API_URL, {
     method: 'POST',
     headers: {
@@ -25,6 +25,7 @@ async function sendEmail(env, { to, subject, text, replyTo }) {
       to,
       subject,
       text,
+      html,
       reply_to: replyTo
     })
   });
@@ -46,6 +47,6 @@ export async function sendClinicEmail(env, { subject, text, replyTo }) {
 
 // A customer's reply goes to the clinic's public address, not to the
 // sending address, which may not have a mailbox behind it.
-export async function sendCustomerEmail(env, { to, subject, text }) {
-  await sendEmail(env, { to: [to], subject, text, replyTo: clinicData.contact.email });
+export async function sendCustomerEmail(env, { to, subject, text, html }) {
+  await sendEmail(env, { to: [to], subject, text, html, replyTo: clinicData.contact.email });
 }

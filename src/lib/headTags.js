@@ -4,6 +4,7 @@
 // after it loads can never differ.
 
 import { getLocalBusinessSchema } from "../data/clinic.js";
+import { escapeHtml } from "./escapeHtml.js";
 
 // Every <meta> or <link> this module manages carries this attribute, so the
 // browser updates the tags the pre-rendered HTML sent instead of adding copies.
@@ -39,9 +40,6 @@ export function pickDescription(candidates) {
   const cut = usable[0].slice(0, DESCRIPTION_MAX + 1);
   return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:]$/, "");
 }
-
-const escapeHtml = (value) =>
-  String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 // JSON inside a <script> only needs "</" broken up so it cannot close the tag.
 const scriptSafeJson = (data) => JSON.stringify(data).replace(/<\//g, "<\\/");
