@@ -5,6 +5,7 @@ import { useShop } from '../../context/ShopContext';
 import { isTreatmentItem } from '../../data/treatments';
 import useSheetOpen from '../../hooks/useSheetOpen';
 import useEscapeKey from '../../hooks/useEscapeKey';
+import { formatPounds } from '../../lib/formatPounds';
 import './CheckoutModal.css';
 
 const CHECKOUT_SUBTEXT = "You'll pay on Stripe's secure page and get a receipt by email.";
@@ -130,7 +131,7 @@ export default function CheckoutModal() {
                 </div>
                 <div className="summary-price-tag">
                   <span className="price-label">Total</span>
-                  <span className="price-val">£{amount}</span>
+                  <span className="price-val">{formatPounds(amount)}</span>
                 </div>
               </div>
             )}
@@ -145,7 +146,7 @@ export default function CheckoutModal() {
                 </div>
                 <div className="summary-price-tag">
                   <span className="price-label">Total</span>
-                  <span className="price-val">£{amount}</span>
+                  <span className="price-val">{formatPounds(amount)}</span>
                 </div>
               </div>
             )}
@@ -155,12 +156,12 @@ export default function CheckoutModal() {
                 {cart.map(i => (
                   <div key={i.product.id} className="summary-cart-item">
                     <span>{i.product.name} (x{i.quantity})</span>
-                    <strong>£{i.product.price * i.quantity}</strong>
+                    <strong>{formatPounds(i.product.price * i.quantity)}</strong>
                   </div>
                 ))}
                 <div className="summary-cart-total">
                   <span>Total:</span>
-                  <strong>£{cartTotal}</strong>
+                  <strong>{formatPounds(cartTotal)}</strong>
                 </div>
               </div>
             )}

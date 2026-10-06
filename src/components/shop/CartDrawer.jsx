@@ -8,6 +8,7 @@ import { isTreatmentItem } from '../../data/treatments';
 import useMediaQuery, { PHONE_QUERY } from '../../hooks/useMediaQuery';
 import useSheetOpen from '../../hooks/useSheetOpen';
 import useEscapeKey from '../../hooks/useEscapeKey';
+import { formatPounds } from '../../lib/formatPounds';
 import './CartDrawer.css';
 
 export default function CartDrawer() {
@@ -59,7 +60,7 @@ export default function CartDrawer() {
                 {cartTotal >= freeShippingThreshold ? (
                   <span>You qualify for <strong>Complimentary UK Express Delivery</strong></span>
                 ) : (
-                  <span>Add <strong>£{remainingForFree.toFixed(0)}</strong> more for complimentary delivery</span>
+                  <span>Add <strong>{formatPounds(remainingForFree)}</strong> more for complimentary delivery</span>
                 )}
               </p>
               <div className="shipping-track">
@@ -98,7 +99,7 @@ export default function CartDrawer() {
                     <div className="cart-item-details">
                       {product.volume ? <span className="cart-item-volume">{product.volume}</span> : null}
                       <h4 className="cart-item-name">{product.name}</h4>
-                      <span className="cart-item-price">£{product.price} each</span>
+                      <span className="cart-item-price">{formatPounds(product.price)} each</span>
 
                       <div className="cart-item-controls">
                         {/* A treatment is booked once, so it has no quantity to change. */}
@@ -142,7 +143,7 @@ export default function CartDrawer() {
               <div className="cart-footer">
                 <div className="cart-total-strip">
                   <span className="subtotal-label">Subtotal</span>
-                  <span className="subtotal-val">£{cartTotal}</span>
+                  <span className="subtotal-val">{formatPounds(cartTotal)}</span>
                 </div>
                 <p className="cart-tax-notice">Taxes and delivery calculated at Stripe checkout</p>
                 <button
