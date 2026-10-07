@@ -829,8 +829,9 @@ test.describe('Shop stock (sold out products)', () => {
   function memoryStore() {
     const values = new Map();
     return {
-      get: async (key, type) => (values.has(key) ? (type === 'json' ? JSON.parse(values.get(key)) : values.get(key)) : null),
-      put: async (key, value) => { values.set(key, value); }
+      get: async (key) => (values.has(key) ? values.get(key) : null),
+      put: async (key, value) => { values.set(key, value); },
+      delete: async (key) => { values.delete(key); }
     };
   }
   const SERUM = 'flawless-glow-extra-brightening-serum';
@@ -838,12 +839,14 @@ test.describe('Shop stock (sold out products)', () => {
     method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${password}` }, body: JSON.stringify(body)
   });
 
-  test('ST-01 staff can mark a product sold out and the public list shows it', async () => {
+  test('ST-01 staff can mark a product sold out and back, and the public list follows', async () => {
     const env = { ORDERS_DASHBOARD_PASSWORD: 'letmein', SHOP_SETTINGS: memoryStore() };
-    const response = await stockPost({ request: stockRequest({ id: SERUM, soldOut: true }), env });
-    expect(response.status).toBe(200);
-    const listed = await (await stockGet({ request: new Request('https://example.test/api/stock'), env })).json();
-    expect(listed.soldOut).toEqual([SERUM]);
+    const listed = async () => (await (await stockGet({ request: new Request('https://example.test/api/stock'), env })).json()).soldOut;
+    expect((await stockPost({ request: stockRequest({ id: SERUM, soldOut: true }), env })).status).toBe(200);
+    expect(await listed()).toEqual([SERUM]);
+    await stockPost({ request: stockRequest({ id: '3d-false-eyelashes', soldOut: true }), env });
+    await stockPost({ request: stockRequest({ id: SERUM, soldOut: false }), env });
+    expect(await listed()).toEqual(['3d-false-eyelashes']);
   });
 
   test('ST-02 a wrong password or a treatment id is refused', async () => {
@@ -854,7 +857,7 @@ test.describe('Shop stock (sold out products)', () => {
 
   test('ST-03 checkout refuses a product marked sold out', async () => {
     const env = { STRIPE_SECRET_KEY: 'sk_test_x', SHOP_SETTINGS: memoryStore() };
-    await env.SHOP_SETTINGS.put('sold-out-products', JSON.stringify([SERUM]));
+    await env.SHOP_SETTINGS.put(`sold-out:${SERUM}`, 'yes');
     let stripeCalled = false;
     globalThis.fetch = async () => { stripeCalled = true; return new Response('{}', { status: 200 }); };
     const request = jsonRequest('https://example.test/api/checkout', {

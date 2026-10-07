@@ -29,7 +29,12 @@ export default function ShopStock({ password }) {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'The change could not be saved. Please try again.');
-      setSoldOut(new Set(data.soldOut));
+      setSoldOut((current) => {
+        const next = new Set(current);
+        if (makeSoldOut) next.add(id);
+        else next.delete(id);
+        return next;
+      });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -40,7 +45,7 @@ export default function ShopStock({ password }) {
   return (
     <section className="shop-stock" aria-labelledby="shop-stock-heading">
       <h2 id="shop-stock-heading" className="list-group-heading">Shop stock</h2>
-      <p className="shop-stock-intro">A product marked sold out cannot be added to the bag or bought until you untick it.</p>
+      <p className="shop-stock-intro">A product marked sold out cannot be added to the bag or bought until you untick it. The shop can take up to a minute to show a change.</p>
       {error && <p className="orders-error" role="alert">{error}</p>}
       <ul className="shop-stock-list">
         {products.map((product) => (

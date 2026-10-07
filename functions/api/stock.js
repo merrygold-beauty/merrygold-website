@@ -3,7 +3,8 @@
 // GET (public): { soldOut: [product ids] }, read by the shop's product cards
 // and pop-up so a sold out product cannot be added (src/hooks/useSoldOutProducts.js).
 // POST (staff, dashboard password) { id, soldOut }: switches one product,
-// from the Shop stock list on the orders page.
+// from the Shop stock list on the orders page. The shop can take up to a
+// minute to show the change (src/lib/shopStock.js says why).
 
 import { jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { isDashboardAuthorized, wrongPasswordResponse } from '../../src/lib/dashboardAuth.js';
@@ -32,7 +33,8 @@ export async function onRequestPost(context) {
     return jsonResponse({ error: 'That product was not found.' }, 400);
   }
   try {
-    return jsonResponse({ soldOut: await setSoldOut(env, body.id, body.soldOut) });
+    await setSoldOut(env, body.id, body.soldOut);
+    return jsonResponse({ id: body.id, soldOut: body.soldOut });
   } catch (err) {
     console.error('Sold out list could not be saved:', err.message);
     return jsonResponse({ error: 'The change could not be saved. Please try again.' }, 502);

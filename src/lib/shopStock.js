@@ -3,23 +3,28 @@
 // production, merrygold-shop-settings-preview for previews, so a test on a
 // preview never changes the live shop). Olu switches it from the orders page;
 // functions/api/stock.js serves it, and checkout.js refuses a sold out product.
+//
+// One key per product, never one shared list: KV can take up to a minute to
+// show a write everywhere, and a shared list rewritten from a stale read
+// would quietly undo a switch made moments earlier.
 
-const SOLD_OUT_KEY = 'sold-out-products';
+import catalogueIndex from '../data/catalogueIndex.js';
+
+const PRODUCT_IDS = catalogueIndex.filter((entry) => entry.kind === 'product').map((entry) => entry.id);
+
+function soldOutKey(productId) {
+  return `sold-out:${productId}`;
+}
 
 // The ids marked sold out. With no store bound (local development, tests)
 // nothing is sold out.
 export async function readSoldOut(env) {
   if (!env.SHOP_SETTINGS) return [];
-  const saved = await env.SHOP_SETTINGS.get(SOLD_OUT_KEY, 'json');
-  return Array.isArray(saved) ? saved : [];
+  const flags = await Promise.all(PRODUCT_IDS.map((id) => env.SHOP_SETTINGS.get(soldOutKey(id))));
+  return PRODUCT_IDS.filter((id, index) => flags[index] === 'yes');
 }
 
-// Returns the list as saved.
 export async function setSoldOut(env, productId, soldOut) {
-  const current = new Set(await readSoldOut(env));
-  if (soldOut) current.add(productId);
-  else current.delete(productId);
-  const ids = [...current].sort();
-  await env.SHOP_SETTINGS.put(SOLD_OUT_KEY, JSON.stringify(ids));
-  return ids;
+  if (soldOut) await env.SHOP_SETTINGS.put(soldOutKey(productId), 'yes');
+  else await env.SHOP_SETTINGS.delete(soldOutKey(productId));
 }
