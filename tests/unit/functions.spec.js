@@ -789,6 +789,15 @@ test.describe('Order management (orders page Move, Cancel and Mark as sent)', ()
     expect(emailsIn(calls)[0].subject).toBe('Your MerryGold order is cancelled');
   });
 
+  test('MB-15 a product order cancelled without a refund says order, not booking', async () => {
+    const calls = stubManagement({ session: paidProductOrder() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: false }), env: env() });
+    expect(response.status).toBe(200);
+    const [email] = emailsIn(calls);
+    expect(email.text).toContain('No refund has been made for this order.');
+    expect(email.text).not.toContain('booking');
+  });
+
   test('MB-13 mark as sent records the date and tracking on the payment and emails what is in the parcel', async () => {
     const calls = stubManagement({ session: paidProductOrder() });
     const response = await orderSentPost({ request: staffRequest('/api/order-sent', { session: 'cs_test_m1', tracking: 'RM123456789GB' }), env: env() });

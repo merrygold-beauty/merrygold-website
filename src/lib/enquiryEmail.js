@@ -233,9 +233,10 @@ export function buildCustomerBody(details) {
 // account), so the notice says to expect it.
 export function buildCancellationNotice({ customerName, treatment, appointmentDate, appointmentTime, refunded, amountPence, reference }) {
   const isBooking = Boolean(appointmentDate);
+  const kind = isBooking ? 'booking' : 'order';
   return {
-    subject: isBooking ? 'Your MerryGold booking is cancelled' : 'Your MerryGold order is cancelled',
-    heading: isBooking ? 'Your booking is cancelled' : 'Your order is cancelled',
+    subject: `Your MerryGold ${kind} is cancelled`,
+    heading: `Your ${kind} is cancelled`,
     greeting: `Dear ${customerName || 'customer'},`,
     paragraphs: [
       isBooking
@@ -243,7 +244,7 @@ export function buildCancellationNotice({ customerName, treatment, appointmentDa
         : 'Your order has been cancelled.',
       refunded
         ? `We have refunded ${formatPence(amountPence)} to the card you paid with. Stripe will also email you a refund receipt, and the money usually reaches your account within 5 to 10 working days.`
-        : 'No refund has been made for this booking. If you have a question about this, reply to this email.'
+        : `No refund has been made for this ${kind}. If you have a question about this, reply to this email.`
     ],
     ...closingContent(reference)
   };
