@@ -1,12 +1,12 @@
 // A paid checkout as the staff dashboard sees it. Used by orders.js (the
-// list) and the booking management functions (booking-times.js,
-// booking-move.js, booking-cancel.js), so all of them describe an order the
-// same way.
+// list) and the order management functions (booking-times.js,
+// booking-move.js, order-cancel.js, order-sent.js), so all of them describe
+// an order the same way.
 //
 // Where the current appointment lives: checkout.js writes the same metadata
 // to the Checkout Session and to its PaymentIntent. A completed session's
-// metadata is left as it was at payment; a move or a cancellation is
-// recorded on the PaymentIntent, so the PaymentIntent's copy wins.
+// metadata is left as it was at payment; a move, a cancellation or a
+// dispatch is recorded on the PaymentIntent, so the PaymentIntent's copy wins.
 
 import { stripeRequest } from './stripeRequest.js';
 
@@ -40,7 +40,7 @@ export function appointmentOf(session) {
 export function shapeOrder(session) {
   const metadata = bookingMetadata(session);
   const reference = paymentIntentId(session);
-  const cancelled = metadata.booking_status === 'cancelled';
+  const cancelled = metadata.order_status === 'cancelled';
   return {
     id: session.id,
     created: session.created,
@@ -57,11 +57,16 @@ export function shapeOrder(session) {
     })),
     appointmentDate: metadata.appointment_date || null,
     appointmentTime: metadata.appointment_time || null,
-    bookingStatus: cancelled ? 'cancelled' : 'booked',
+    cancelled,
     refunded: metadata.refund === 'full',
     movedFrom: metadata.moved_from || null,
-    // Move and Cancel need a time slot to act on and are pointless once cancelled.
-    canManage: !cancelled && Boolean(appointmentOf(session)),
+    sentAt: metadata.sent_at || null,
+    tracking: metadata.tracking || null,
+    // Which buttons the orders page shows. Move needs a time slot; Mark as
+    // sent needs something to post (every product order has an address).
+    canMove: !cancelled && Boolean(appointmentOf(session)),
+    canCancel: !cancelled,
+    canMarkSent: !cancelled && Boolean(metadata.delivery_address) && !metadata.sent_at,
     notes: metadata.notes || null,
     deliveryAddress: metadata.delivery_address || null,
     deliveryPostcode: metadata.delivery_postcode || null,

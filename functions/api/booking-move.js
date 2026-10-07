@@ -7,12 +7,12 @@
 // cannot be moved nothing else changes; the record and the email are best
 // effort and the answer says if either failed.
 
-import { jsonResponse } from '../../src/lib/functionsShared.js';
+import { jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { appointmentInterval, isBookableDate } from '../../src/lib/bookingSlots.js';
 import { freeTimesForMove } from '../../src/lib/bookingAvailability.js';
-import { eventIdFor, moveEvent } from '../../src/lib/googleCalendar.js';
+import { eventIdFor, isCalendarConfigured, moveEvent } from '../../src/lib/googleCalendar.js';
 import { bookingMetadata, paymentIntentId, recordOnPayment, shapeOrder, withRecorded } from '../../src/lib/bookingRecord.js';
-import { dashboardRequestRefusal, emailNotice, loadBookingToManage } from '../../src/lib/manageBooking.js';
+import { dashboardRequestRefusal, emailNotice, loadOrderToManage } from '../../src/lib/manageOrder.js';
 import { buildMoveNotice } from '../../src/lib/enquiryEmail.js';
 
 export async function onRequestPost(context) {
@@ -20,13 +20,15 @@ export async function onRequestPost(context) {
 
   const refusal = dashboardRequestRefusal(request, env);
   if (refusal) return refusal;
+  if (!isCalendarConfigured(env)) return unavailableResponse();
 
   const body = await request.json().catch(() => ({}));
   const { date, time } = body;
   if (!isBookableDate(date, Date.now())) return jsonResponse({ error: 'Please choose a date in the next 90 days.' }, 400);
 
-  const booking = await loadBookingToManage(env, body.session);
+  const booking = await loadOrderToManage(env, body.session);
   if (booking.response) return booking.response;
+  if (!booking.appointment) return jsonResponse({ error: 'This order has no appointment time to move.' }, 409);
   const { session, appointment } = booking;
   if (date === appointment.date && time === appointment.time) return jsonResponse({ error: 'That is already the booked time.' }, 400);
 

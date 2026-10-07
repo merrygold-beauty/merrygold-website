@@ -6,7 +6,9 @@ import { onRequestPost as checkoutPost } from '../../functions/api/checkout.js';
 import { onRequestGet as availabilityGet } from '../../functions/api/availability.js';
 import { onRequestGet as bookingTimesGet } from '../../functions/api/booking-times.js';
 import { onRequestPost as bookingMovePost } from '../../functions/api/booking-move.js';
-import { onRequestPost as bookingCancelPost } from '../../functions/api/booking-cancel.js';
+import { onRequestPost as orderCancelPost } from '../../functions/api/order-cancel.js';
+import { onRequestPost as orderSentPost } from '../../functions/api/order-sent.js';
+import { onRequestGet as stockGet, onRequestPost as stockPost } from '../../functions/api/stock.js';
 import { addDays, londonDateString, londonTimeToInstant } from '../../src/lib/bookingSlots.js';
 
 // Every test stubs globalThis.fetch to capture the outgoing Resend/Stripe
@@ -604,7 +606,7 @@ test.describe('POST /api/stripe-webhook with a booking time', () => {
   });
 });
 
-test.describe('Booking management (orders page Move and Cancel)', () => {
+test.describe('Order management (orders page Move, Cancel and Mark as sent)', () => {
   const PASSWORD = 'letmein';
   const env = () => ({ ORDERS_DASHBOARD_PASSWORD: PASSWORD, STRIPE_SECRET_KEY: 'sk_test_x', ...calendarEnv, ...NOTIFY_ENV });
   const APPOINTMENT = {
@@ -665,7 +667,7 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
 
   test('MB-01 a wrong password is refused with 401 and nothing is read', async () => {
     const calls = stubManagement();
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }, 'nope'), env: env() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }, 'nope'), env: env() });
     expect(response.status).toBe(401);
     expect(calls).toHaveLength(0);
   });
@@ -714,20 +716,21 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
 
   test('MB-06 a cancel with refund refunds first, then frees the calendar, records it and emails the customer', async () => {
     const calls = stubManagement();
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
     expect(response.status).toBe(200);
     const data = await response.json();
-    expect(data.order.bookingStatus).toBe('cancelled');
+    expect(data.order.cancelled).toBe(true);
     expect(data.order.refunded).toBe(true);
-    expect(data.order.canManage).toBe(false);
+    expect(data.order.canMove).toBe(false);
+    expect(data.order.canCancel).toBe(false);
     expect(data).toMatchObject({ calendarFreed: true, recordUpdated: true, customerEmailed: true });
 
     const refundIndex = calls.findIndex((call) => call.href.endsWith('/refunds'));
     const deleteIndex = calls.findIndex((call) => call.method === 'DELETE');
     expect(refundIndex).toBeGreaterThan(-1);
     expect(deleteIndex).toBeGreaterThan(refundIndex);
-    expect(calls[refundIndex].init.headers['Idempotency-Key']).toBe('booking-cancel-refund-cs_test_m1');
-    expect(paymentUpdate(calls).get('metadata[booking_status]')).toBe('cancelled');
+    expect(calls[refundIndex].init.headers['Idempotency-Key']).toBe('order-cancel-refund-cs_test_m1');
+    expect(paymentUpdate(calls).get('metadata[order_status]')).toBe('cancelled');
     expect(paymentUpdate(calls).get('metadata[refund]')).toBe('full');
     const [email] = emailsIn(calls);
     expect(email.subject).toBe('Your MerryGold booking is cancelled');
@@ -736,7 +739,7 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
 
   test('MB-07 a refund Stripe refuses stops the cancel before the calendar is touched', async () => {
     const calls = stubManagement({ refundResponse: () => new Response(JSON.stringify({ error: { message: 'insufficient balance' } }), { status: 400 }) });
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
     expect(response.status).toBe(502);
     expect(calls.some((call) => call.method === 'DELETE')).toBe(false);
     expect(paymentUpdate(calls)).toBeNull();
@@ -745,13 +748,13 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
 
   test('MB-08 a payment already refunded in Stripe counts as refunded', async () => {
     stubManagement({ refundResponse: () => new Response(JSON.stringify({ error: { code: 'charge_already_refunded', message: 'already' } }), { status: 400 }) });
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
     expect(response.status).toBe(200);
   });
 
   test('MB-09 a cancel without refund makes no refund and says so to the customer', async () => {
     const calls = stubManagement();
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: false }), env: env() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: false }), env: env() });
     expect(response.status).toBe(200);
     expect(calls.some((call) => call.href.endsWith('/refunds'))).toBe(false);
     expect(paymentUpdate(calls).get('metadata[refund]')).toBe('none');
@@ -759,10 +762,55 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
   });
 
   test('MB-10 an already cancelled booking is refused with 409 and no second refund', async () => {
-    const calls = stubManagement({ session: paidBooking({ booking_status: 'cancelled', refund: 'full' }) });
-    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    const calls = stubManagement({ session: paidBooking({ order_status: 'cancelled', refund: 'full' }) });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
     expect(response.status).toBe(409);
     expect(calls.some((call) => call.href.endsWith('/refunds'))).toBe(false);
+  });
+
+  // A product order: a serum with a delivery address, no appointment.
+  function paidProductOrder(intentMetadata = {}) {
+    const metadata = { customer_name: 'Client Name', phone: '07700 900123', delivery_address: '1 High Street', delivery_postcode: 'IG11 7AA' };
+    return {
+      ...paidBooking(),
+      metadata,
+      payment_intent: { id: 'pi_test_m1', metadata: { ...metadata, ...intentMetadata } },
+      line_items: { data: [{ description: 'Flawless Glow Extra Brightening Serum 100ml', quantity: 2, amount_total: 7000 }] }
+    };
+  }
+
+  test('MB-12 cancelling a product order refunds it and never touches the calendar', async () => {
+    const calls = stubManagement({ session: paidProductOrder() });
+    const response = await orderCancelPost({ request: staffRequest('/api/order-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    expect(response.status).toBe(200);
+    expect(calls.some((call) => call.href.endsWith('/refunds'))).toBe(true);
+    expect(calls.some((call) => call.href.includes('googleapis.com'))).toBe(false);
+    expect(emailsIn(calls)[0].subject).toBe('Your MerryGold order is cancelled');
+  });
+
+  test('MB-13 mark as sent records the date and tracking on the payment and emails what is in the parcel', async () => {
+    const calls = stubManagement({ session: paidProductOrder() });
+    const response = await orderSentPost({ request: staffRequest('/api/order-sent', { session: 'cs_test_m1', tracking: 'RM123456789GB' }), env: env() });
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(data.order.sentAt).toBeTruthy();
+    expect(data.order.tracking).toBe('RM123456789GB');
+    expect(data.order.canMarkSent).toBe(false);
+    expect(paymentUpdate(calls).get('metadata[tracking]')).toBe('RM123456789GB');
+    const [email] = emailsIn(calls);
+    expect(email.subject).toBe('Your MerryGold order is on its way');
+    expect(email.text).toContain('1 High Street, IG11 7AA');
+    expect(email.text).toContain('Flawless Glow Extra Brightening Serum 100ml x 2');
+    expect(email.text).toContain('Tracking number: RM123456789GB');
+  });
+
+  test('MB-14 an order already sent, or with nothing to post, cannot be marked as sent', async () => {
+    stubManagement({ session: paidProductOrder({ sent_at: '2026-10-07T10:00:00.000Z' }) });
+    const again = await orderSentPost({ request: staffRequest('/api/order-sent', { session: 'cs_test_m1' }), env: env() });
+    expect(again.status).toBe(409);
+    stubManagement();
+    const booking = await orderSentPost({ request: staffRequest('/api/order-sent', { session: 'cs_test_m1' }), env: env() });
+    expect(booking.status).toBe(409);
   });
 
   test('MB-11 the orders list reads a moved or cancelled booking from the payment, not the session', async () => {
@@ -772,6 +820,51 @@ test.describe('Booking management (orders page Move and Cancel)', () => {
     }), { status: 200 });
     const response = await ordersGet({ request: new Request('https://example.test/api/orders', { headers: { Authorization: `Bearer ${PASSWORD}` } }), env: env() });
     const { orders } = await response.json();
-    expect(orders[0]).toMatchObject({ appointmentTime: '15:00', movedFrom: `${BOOKING_DATE} 12:00`, bookingStatus: 'booked', canManage: true });
+    expect(orders[0]).toMatchObject({ appointmentTime: '15:00', movedFrom: `${BOOKING_DATE} 12:00`, cancelled: false, canMove: true, canCancel: true, canMarkSent: false });
+  });
+});
+
+test.describe('Shop stock (sold out products)', () => {
+  // A stand-in for the SHOP_SETTINGS KV namespace.
+  function memoryStore() {
+    const values = new Map();
+    return {
+      get: async (key, type) => (values.has(key) ? (type === 'json' ? JSON.parse(values.get(key)) : values.get(key)) : null),
+      put: async (key, value) => { values.set(key, value); }
+    };
+  }
+  const SERUM = 'flawless-glow-extra-brightening-serum';
+  const stockRequest = (body, password = 'letmein') => new Request('https://example.test/api/stock', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${password}` }, body: JSON.stringify(body)
+  });
+
+  test('ST-01 staff can mark a product sold out and the public list shows it', async () => {
+    const env = { ORDERS_DASHBOARD_PASSWORD: 'letmein', SHOP_SETTINGS: memoryStore() };
+    const response = await stockPost({ request: stockRequest({ id: SERUM, soldOut: true }), env });
+    expect(response.status).toBe(200);
+    const listed = await (await stockGet({ request: new Request('https://example.test/api/stock'), env })).json();
+    expect(listed.soldOut).toEqual([SERUM]);
+  });
+
+  test('ST-02 a wrong password or a treatment id is refused', async () => {
+    const env = { ORDERS_DASHBOARD_PASSWORD: 'letmein', SHOP_SETTINGS: memoryStore() };
+    expect((await stockPost({ request: stockRequest({ id: SERUM, soldOut: true }, 'nope'), env })).status).toBe(401);
+    expect((await stockPost({ request: stockRequest({ id: 'facial-gold', soldOut: true }), env })).status).toBe(400);
+  });
+
+  test('ST-03 checkout refuses a product marked sold out', async () => {
+    const env = { STRIPE_SECRET_KEY: 'sk_test_x', SHOP_SETTINGS: memoryStore() };
+    await env.SHOP_SETTINGS.put('sold-out-products', JSON.stringify([SERUM]));
+    let stripeCalled = false;
+    globalThis.fetch = async () => { stripeCalled = true; return new Response('{}', { status: 200 }); };
+    const request = jsonRequest('https://example.test/api/checkout', {
+      items: [{ id: SERUM, quantity: 1 }],
+      customer: { name: 'Jane Doe', email: 'jane@example.com', phone: '07700 900123' },
+      delivery: { address: '1 High Street', postcode: 'IG11 7AA' }
+    });
+    const response = await checkoutPost({ request, env });
+    expect(response.status).toBe(400);
+    expect((await response.json()).error).toMatch(/sold out/);
+    expect(stripeCalled).toBe(false);
   });
 });

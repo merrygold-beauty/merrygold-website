@@ -11,6 +11,7 @@
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { rateLimitResponse } from '../../src/lib/rateLimit.js';
 import { encodeForm } from '../../src/lib/stripeRequest.js';
+import { readSoldOut } from '../../src/lib/shopStock.js';
 import { catalogueById } from '../../src/lib/catalogueById.js';
 import { appointmentInterval, clashesWithBusy, freeStartTimes, isBookableDate } from '../../src/lib/bookingSlots.js';
 import { isCalendarConfigured } from '../../src/lib/googleCalendar.js';
@@ -127,6 +128,11 @@ export async function onRequestPost(context) {
   }
 
   const { priced } = itemsResult;
+
+  // A product can be marked sold out after a visitor put it in their bag.
+  const soldOut = new Set(await readSoldOut(env).catch(() => []));
+  const soldOutLine = priced.find(({ entry }) => entry.kind === 'product' && soldOut.has(entry.id));
+  if (soldOutLine) return badRequest(`${soldOutLine.entry.name} is sold out. Please remove it from your bag.`);
 
   const treatmentLine = priced.find(({ entry }) => entry.kind === 'treatment');
   let appointment = null;

@@ -1,6 +1,6 @@
 // Calls to the Stripe API from the Pages Functions, with plain fetch (no SDK,
-// see functions/api/checkout.js). Used by checkout.js and the booking
-// management functions (booking-cancel.js, booking-move.js).
+// see functions/api/checkout.js). Used by checkout.js and the order
+// management functions (order-cancel.js, order-sent.js).
 
 import { STRIPE_API_BASE } from './functionsShared.js';
 

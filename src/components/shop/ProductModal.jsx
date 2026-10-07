@@ -4,10 +4,12 @@ import { X, ShoppingBag, Check } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import useSheetOpen from '../../hooks/useSheetOpen';
 import useEscapeKey from '../../hooks/useEscapeKey';
+import useSoldOutProducts from '../../hooks/useSoldOutProducts';
 import './ProductModal.css';
 
 export default function ProductModal({ product, onClose }) {
   const { addToCart, openCheckout } = useShop();
+  const soldOut = useSoldOutProducts();
 
   useSheetOpen(product != null);
   useEscapeKey(product != null, onClose);
@@ -122,21 +124,29 @@ export default function ProductModal({ product, onClose }) {
 
             {/* Actions */}
             <div className="modal-actions-strip">
-              <button
-                type="button"
-                className="btn btn-secondary flex-1"
-                onClick={handleAddBag}
-              >
-                <ShoppingBag size={16} />
-                <span>Add</span>
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary flex-1"
-                onClick={handleAcquire}
-              >
-                <span>Buy Now</span>
-              </button>
+              {soldOut.has(product.id) ? (
+                <button type="button" className="btn btn-secondary flex-1" disabled>
+                  <span>Sold out</span>
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-secondary flex-1"
+                    onClick={handleAddBag}
+                  >
+                    <ShoppingBag size={16} />
+                    <span>Add</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary flex-1"
+                    onClick={handleAcquire}
+                  >
+                    <span>Buy Now</span>
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="modal-guarantee-note">

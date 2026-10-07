@@ -227,16 +227,20 @@ export function buildCustomerBody(details) {
   return lines.join('\n');
 }
 
-// The notice sent when the clinic cancels a booking from the orders page.
-// Stripe sends its own refund receipt as well (customer refund emails are on
-// in the Stripe account), so the notice says to expect it.
+// The notice sent when the clinic cancels an order from the orders page: a
+// booking (appointmentDate given) or a product order. Stripe sends its own
+// refund receipt as well (customer refund emails are on in the Stripe
+// account), so the notice says to expect it.
 export function buildCancellationNotice({ customerName, treatment, appointmentDate, appointmentTime, refunded, amountPence, reference }) {
+  const isBooking = Boolean(appointmentDate);
   return {
-    subject: 'Your MerryGold booking is cancelled',
-    heading: 'Your booking is cancelled',
+    subject: isBooking ? 'Your MerryGold booking is cancelled' : 'Your MerryGold order is cancelled',
+    heading: isBooking ? 'Your booking is cancelled' : 'Your order is cancelled',
     greeting: `Dear ${customerName || 'customer'},`,
     paragraphs: [
-      `Your booking for ${treatment || 'your treatment'} on ${formatAppointment(appointmentDate, appointmentTime)} has been cancelled.`,
+      isBooking
+        ? `Your booking for ${treatment || 'your treatment'} on ${formatAppointment(appointmentDate, appointmentTime)} has been cancelled.`
+        : 'Your order has been cancelled.',
       refunded
         ? `We have refunded ${formatPence(amountPence)} to the card you paid with. Stripe will also email you a refund receipt, and the money usually reaches your account within 5 to 10 working days.`
         : 'No refund has been made for this booking. If you have a question about this, reply to this email.'
@@ -254,6 +258,22 @@ export function buildMoveNotice({ customerName, treatment, appointmentDate, appo
     paragraphs: [
       `Your ${treatment || 'treatment'} appointment is now on ${formatAppointment(appointmentDate, appointmentTime)}.`,
       `It was previously booked for ${formatAppointment(previousDate, previousTime)}.`
+    ],
+    ...closingContent(reference)
+  };
+}
+
+// The notice sent when the clinic marks a product order as posted.
+export function buildSentNotice({ customerName, items, deliveryTo, tracking, reference }) {
+  const contents = items.map((item) => `${item.name} x ${item.quantity}`).join(', ');
+  return {
+    subject: 'Your MerryGold order is on its way',
+    heading: 'Your order is on its way',
+    greeting: `Dear ${customerName || 'customer'},`,
+    paragraphs: [
+      `We have posted your order to ${deliveryTo}.`,
+      `In the parcel: ${contents}.`,
+      ...(tracking ? [`Tracking number: ${tracking}`] : [])
     ],
     ...closingContent(reference)
   };

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import SEO from "../components/common/SEO";
-import ManageBookingDialog from "../components/orders/ManageBookingDialog";
+import ManageOrderDialog from "../components/orders/ManageOrderDialog";
+import ShopStock from "../components/orders/ShopStock";
 import "./OrdersDashboard.css";
 
 const TOKEN_KEY = "merrygold_orders_token";
@@ -40,22 +41,23 @@ function appointmentText(order) {
   return order.appointmentTime ? `${order.appointmentDate} at ${order.appointmentTime}` : order.appointmentDate;
 }
 
-// Under the appointment: a cancelled booking says so (and whether it was
-// refunded), a moved one says where from.
-function BookingStatus({ order }) {
-  if (order.bookingStatus === "cancelled") {
-    return <div className="order-booking-status">{order.refunded ? "Cancelled, refunded" : "Cancelled, not refunded"}</div>;
-  }
-  if (order.movedFrom) return <div className="order-booking-status">Moved from {order.movedFrom}</div>;
-  return null;
+// What has happened to an order since it was paid: cancelled (and whether
+// refunded), moved, or posted.
+function OrderStatus({ order }) {
+  const lines = [];
+  if (order.cancelled) lines.push(order.refunded ? "Cancelled, refunded" : "Cancelled, not refunded");
+  if (order.movedFrom) lines.push(`Moved from ${order.movedFrom}`);
+  if (order.sentAt) lines.push(`Sent ${formatDate(Date.parse(order.sentAt) / 1000)}${order.tracking ? `, tracking ${order.tracking}` : ""}`);
+  return lines.map((line) => <div key={line} className="order-booking-status">{line}</div>);
 }
 
-function BookingActions({ order, onManage }) {
-  if (!order.canManage) return null;
+function OrderActions({ order, onManage }) {
+  if (!order.canMove && !order.canCancel && !order.canMarkSent) return null;
   return (
     <div className="order-booking-actions">
-      <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "move")}>Move</button>
-      <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "cancel")}>Cancel</button>
+      {order.canMarkSent && <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "sent")}>Mark as sent</button>}
+      {order.canMove && <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "move")}>Move</button>}
+      {order.canCancel && <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "cancel")}>Cancel</button>}
     </div>
   );
 }
@@ -76,8 +78,8 @@ function OrderCard({ order, onManage }) {
       </ul>
       <p className="list-row-meta price">{formatMoney(order.amountTotal, order.currency)}</p>
       <p className="order-card-detail">{order.appointmentDate ? `Appointment: ${appointmentText(order)}` : "No appointment"}</p>
-      <BookingStatus order={order} />
-      <BookingActions order={order} onManage={onManage} />
+      <OrderStatus order={order} />
+      <OrderActions order={order} onManage={onManage} />
       {delivery && <p className="order-card-detail">Delivery: {delivery}</p>}
       <a className="order-card-stripe" href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a>
     </div>
@@ -127,7 +129,7 @@ export default function OrdersDashboard() {
   const [nextCursor, setNextCursor] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [managing, setManaging] = useState(null); // { order, action } while the Move or Cancel dialog is open
+  const [managing, setManaging] = useState(null); // { order, action } while the Move, Cancel or Mark as sent dialog is open
   const [notice, setNotice] = useState("");
 
   // The one place that talks to /api/orders: sign-in, refresh and load-more
@@ -254,8 +256,8 @@ export default function OrdersDashboard() {
                       <td>{formatMoney(order.amountTotal, order.currency)}</td>
                       <td>
                         <div>{appointmentText(order) || "No appointment"}</div>
-                        <BookingStatus order={order} />
-                        <BookingActions order={order} onManage={openManage} />
+                        <OrderStatus order={order} />
+                        <OrderActions order={order} onManage={openManage} />
                       </td>
                       <td>{[order.deliveryAddress, order.deliveryPostcode].filter(Boolean).join(", ") || "No delivery"}</td>
                       <td><a href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a></td>
@@ -284,12 +286,14 @@ export default function OrdersDashboard() {
                 Load more
               </button>
             )}
+
+            <ShopStock password={password} />
           </>
         )}
       </div>
 
       {managing && (
-        <ManageBookingDialog
+        <ManageOrderDialog
           order={managing.order}
           action={managing.action}
           password={password}

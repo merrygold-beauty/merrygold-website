@@ -72,7 +72,16 @@ production; any other branch gets a preview deployment. Build command
 `npm run build`, output directory `dist`.
 
 Variables are set in the Pages project, separately for production and preview;
-`.env.example` lists every name and what happens when one is missing. Production
+`.env.example` lists every name and what happens when one is missing. The project
+also binds one Workers KV namespace as `SHOP_SETTINGS`, which holds the products
+marked sold out on the orders page: `merrygold-shop-settings` for production and
+`merrygold-shop-settings-preview` for previews, so a test never changes the live shop.
+
+The orders page (`/admin/orders`, behind `ORDERS_DASHBOARD_PASSWORD`) can move or
+cancel a booking, cancel or mark as sent a product order, and mark products sold
+out. Moves, cancellations and dispatches are recorded on the Stripe payment's
+metadata (see `src/lib/bookingRecord.js`), so the live Stripe key needs Checkout
+Sessions, PaymentIntents and Charges and Refunds, all with Write. Production
 holds the live Stripe key and webhook secret and preview holds the test ones, so
 only production takes real payments.
 

@@ -182,8 +182,8 @@
   margin: 2rem auto 0;
 }
 
-/* Booking management: the status line, the Move and Cancel buttons, the
-   result message and the dialog (src/components/orders/ManageBookingDialog.jsx). */
+/* Order management: the status lines, the Mark as sent, Move and Cancel buttons, the
+   result message and the dialog (src/components/orders/ManageOrderDialog.jsx). */
 .orders-notice {
   margin: 0 0 1.5rem;
   padding: 0.85rem 1rem;
@@ -276,4 +276,63 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
+}
+
+.booking-dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0 0 1.25rem;
+}
+
+.booking-dialog-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.booking-dialog-field input {
+  padding: 0.75rem 0.9rem;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-border-light);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+/* The Shop stock list under the orders (src/components/orders/ShopStock.jsx). */
+.shop-stock {
+  margin-top: 3rem;
+}
+
+.shop-stock-intro {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.shop-stock-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shop-stock-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.shop-stock-list label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
 }

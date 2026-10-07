@@ -1,9 +1,11 @@
 import React from 'react';
 import { useShop } from '../../context/ShopContext';
+import useSoldOutProducts from '../../hooks/useSoldOutProducts';
 import './ProductCard.css';
 
 export default function ProductCard({ product, onQuickView }) {
   const { addToCart, openCheckout } = useShop();
+  const isSoldOut = useSoldOutProducts().has(product.id);
 
   const handleBuyNow = (e) => {
     e.stopPropagation();
@@ -49,21 +51,29 @@ export default function ProductCard({ product, onQuickView }) {
         <div className="product-card-footer">
           <span className="product-price">{product.priceDisplay}</span>
           <div className="product-card-actions">
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm product-add"
-              onClick={handleAddBag}
-              aria-label="Add to formulation bag"
-            >
-              <span>Add</span>
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm product-buy"
-              onClick={handleBuyNow}
-            >
-              <span>Buy</span>
-            </button>
+            {isSoldOut ? (
+              <button type="button" className="btn btn-secondary btn-sm" disabled>
+                <span>Sold out</span>
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm product-add"
+                  onClick={handleAddBag}
+                  aria-label="Add to formulation bag"
+                >
+                  <span>Add</span>
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm product-buy"
+                  onClick={handleBuyNow}
+                >
+                  <span>Buy</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

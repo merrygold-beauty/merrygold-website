@@ -1,7 +1,8 @@
 // The staff dashboard's one shared password (ORDERS_DASHBOARD_PASSWORD), sent
 // as "Authorization: Bearer <password>". Checked by every dashboard endpoint:
-// orders.js, booking-times.js, booking-move.js and booking-cancel.js. Since
-// 2026-10-07 it also authorises refunds and booking changes.
+// orders.js, stock.js, booking-times.js, booking-move.js, order-cancel.js and
+// order-sent.js. Since 2026-10-07 it also authorises refunds, booking changes
+// and stock changes.
 
 import { jsonResponse, timingSafeEqual } from './functionsShared.js';
 

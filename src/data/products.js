@@ -23,8 +23,7 @@ export const products = [
     actives: [],
     benefits: [],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   },
   {
     id: 'flawless-glow-extra-brightening-cream',
@@ -41,8 +40,7 @@ export const products = [
     actives: [],
     benefits: [],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   },
   {
     id: 'flawless-glow-brightening-black-serum',
@@ -64,8 +62,7 @@ export const products = [
       'Improves texture and leaves skin soft, refreshed and renewed'
     ],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   },
   {
     id: 'revive-your-radiance',
@@ -85,8 +82,7 @@ export const products = [
       'Natural, organic ingredients'
     ],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   },
   {
     id: 'organic-golden-glow-body-oil',
@@ -106,8 +102,7 @@ export const products = [
       'Deep nourishment'
     ],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   },
   {
     id: '3d-false-eyelashes',
@@ -124,7 +119,6 @@ export const products = [
     actives: [],
     benefits: [],
     howToUse: '',
-    ingredients: INGREDIENTS_IN_CLINIC,
-    inStock: true
+    ingredients: INGREDIENTS_IN_CLINIC
   }
 ];
