@@ -19,7 +19,7 @@ export function unavailableResponse() {
 // Constant-time compare over two equal-length strings, for anything checked
 // against a secret (a webhook signature, a dashboard password): a length
 // mismatch is rejected outright, since there is no timing signal worth
-// protecting there. Used by stripe-webhook.js and orders.js.
+// protecting there. Used by stripe-webhook.js and src/lib/dashboardAuth.js.
 export function timingSafeEqual(a, b) {
   if (a.length !== b.length) return false;
   let mismatch = 0;

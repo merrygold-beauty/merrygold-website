@@ -181,3 +181,99 @@
   display: block;
   margin: 2rem auto 0;
 }
+
+/* Booking management: the status line, the Move and Cancel buttons, the
+   result message and the dialog (src/components/orders/ManageBookingDialog.jsx). */
+.orders-notice {
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  background-color: var(--color-gold-subtle);
+  border: 1px solid var(--color-border-gold);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.order-booking-status {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.order-booking-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.order-booking-actions .btn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+}
+
+.booking-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(20, 12, 7, 0.55);
+}
+
+.booking-dialog {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: 1.75rem;
+  background-color: var(--color-ivory-card);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--shape-card);
+}
+
+.booking-dialog-heading {
+  margin: 0 0 0.5rem;
+  font-size: var(--text-xl);
+  color: var(--color-espresso);
+}
+
+.booking-dialog-summary,
+.booking-dialog-note {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.booking-dialog-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: none;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.booking-dialog-choices legend {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.booking-dialog-choices label {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+.booking-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}

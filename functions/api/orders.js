@@ -5,54 +5,23 @@
 // per-user login: this is a small clinic with one person checking orders,
 // not a multi-account system.
 
-import { STRIPE_API_BASE, jsonResponse, unavailableResponse, timingSafeEqual } from '../../src/lib/functionsShared.js';
+import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
+import { isDashboardAuthorized, wrongPasswordResponse } from '../../src/lib/dashboardAuth.js';
+import { shapeOrder } from '../../src/lib/bookingRecord.js';
 
 const PAGE_LIMIT = 50;
-
-function unauthorized() {
-  return jsonResponse({ error: 'Wrong password.' }, 401);
-}
-
-function isAuthorized(request, env) {
-  const [scheme, password] = (request.headers.get('Authorization') || '').split(' ');
-  if (scheme !== 'Bearer' || !password) return false;
-  return timingSafeEqual(password, env.ORDERS_DASHBOARD_PASSWORD);
-}
-
-function shapeOrder(session) {
-  const metadata = session.metadata || {};
-  return {
-    id: session.id,
-    created: session.created,
-    livemode: session.livemode,
-    customerName: metadata.customer_name || session.customer_details?.name || '',
-    customerEmail: session.customer_details?.email || '',
-    phone: metadata.phone || '',
-    amountTotal: session.amount_total,
-    currency: session.currency,
-    items: (session.line_items?.data || []).map((line) => ({
-      name: line.description,
-      quantity: line.quantity,
-      amountTotal: line.amount_total
-    })),
-    appointmentDate: metadata.appointment_date || null,
-    appointmentTime: metadata.appointment_time || null,
-    notes: metadata.notes || null,
-    deliveryAddress: metadata.delivery_address || null,
-    deliveryPostcode: metadata.delivery_postcode || null,
-    reference: session.payment_intent,
-    stripeUrl: `https://dashboard.stripe.com/${session.livemode ? '' : 'test/'}payments/${session.payment_intent}`
-  };
-}
 
 export async function onRequestGet(context) {
   const { request, env } = context;
 
   if (!env.ORDERS_DASHBOARD_PASSWORD || !env.STRIPE_SECRET_KEY) return unavailableResponse();
-  if (!isAuthorized(request, env)) return unauthorized();
+  if (!isDashboardAuthorized(request, env)) return wrongPasswordResponse();
 
   const cursor = new URL(request.url).searchParams.get('cursor');
-  const params = new URLSearchParams({ limit: String(PAGE_LIMIT), status: 'complete', 'expand[]': 'data.line_items' });
+  const params = new URLSearchParams({ limit: String(PAGE_LIMIT), status: 'complete' });
+  // The PaymentIntent carries any move or cancellation (see src/lib/bookingRecord.js).
+  params.append('expand[]', 'data.line_items');
+  params.append('expand[]', 'data.payment_intent');
   if (cursor) params.set('starting_after', cursor);
 
   let response;

@@ -99,6 +99,48 @@ export async function eventIdFor(text) {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
+function eventPath(env, id) {
+  return `/calendars/${encodeURIComponent(env.BOOKING_CALENDAR_ID)}/events/${id}`;
+}
+
+// An event's current { startMs, endMs } (Olu may have dragged it), or null
+// when it is not there: never created, deleted, or cancelled in the calendar.
+export async function getEvent(env, id) {
+  const response = await calendarFetch(env, eventPath(env, id));
+  if (response.status === 404 || response.status === 410) return null;
+  const data = await response.json();
+  if (!response.ok) throw new Error(`Google event read failed: ${data.error?.message || response.status}`);
+  if (data.status === 'cancelled') return null;
+  return { startMs: Date.parse(data.start.dateTime), endMs: Date.parse(data.end.dateTime) };
+}
+
+// Throws on failure, including an event that no longer exists.
+export async function moveEvent(env, id, { startMs, endMs }) {
+  const response = await calendarFetch(env, eventPath(env, id), {
+    method: 'PATCH',
+    body: JSON.stringify({
+      start: { dateTime: new Date(startMs).toISOString(), timeZone: BOOKING_TIME_ZONE },
+      end: { dateTime: new Date(endMs).toISOString(), timeZone: BOOKING_TIME_ZONE }
+    })
+  });
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(`Google event move failed: ${data.error?.message || response.status}`);
+  }
+}
+
+// Returns 'deleted', or 'already-gone' when there was nothing to delete.
+// Throws on any other failure.
+export async function deleteEvent(env, id) {
+  const response = await calendarFetch(env, eventPath(env, id), { method: 'DELETE' });
+  if (response.status === 404 || response.status === 410) return 'already-gone';
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(`Google event delete failed: ${data.error?.message || response.status}`);
+  }
+  return 'deleted';
+}
+
 // Returns 'added', or 'already-added' when an event with this id exists.
 // Throws on any other failure.
 export async function addEvent(env, { id, summary, description, startMs, endMs }) {

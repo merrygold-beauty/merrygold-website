@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import SEO from "../components/common/SEO";
+import ManageBookingDialog from "../components/orders/ManageBookingDialog";
 import "./OrdersDashboard.css";
 
 const TOKEN_KEY = "merrygold_orders_token";
@@ -39,7 +40,27 @@ function appointmentText(order) {
   return order.appointmentTime ? `${order.appointmentDate} at ${order.appointmentTime}` : order.appointmentDate;
 }
 
-function OrderCard({ order }) {
+// Under the appointment: a cancelled booking says so (and whether it was
+// refunded), a moved one says where from.
+function BookingStatus({ order }) {
+  if (order.bookingStatus === "cancelled") {
+    return <div className="order-booking-status">{order.refunded ? "Cancelled, refunded" : "Cancelled, not refunded"}</div>;
+  }
+  if (order.movedFrom) return <div className="order-booking-status">Moved from {order.movedFrom}</div>;
+  return null;
+}
+
+function BookingActions({ order, onManage }) {
+  if (!order.canManage) return null;
+  return (
+    <div className="order-booking-actions">
+      <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "move")}>Move</button>
+      <button type="button" className="btn btn-secondary" onClick={() => onManage(order, "cancel")}>Cancel</button>
+    </div>
+  );
+}
+
+function OrderCard({ order, onManage }) {
   const delivery = [order.deliveryAddress, order.deliveryPostcode].filter(Boolean).join(", ");
   return (
     <div className="order-card">
@@ -55,6 +76,8 @@ function OrderCard({ order }) {
       </ul>
       <p className="list-row-meta price">{formatMoney(order.amountTotal, order.currency)}</p>
       <p className="order-card-detail">{order.appointmentDate ? `Appointment: ${appointmentText(order)}` : "No appointment"}</p>
+      <BookingStatus order={order} />
+      <BookingActions order={order} onManage={onManage} />
       {delivery && <p className="order-card-detail">Delivery: {delivery}</p>}
       <a className="order-card-stripe" href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a>
     </div>
@@ -104,6 +127,8 @@ export default function OrdersDashboard() {
   const [nextCursor, setNextCursor] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [managing, setManaging] = useState(null); // { order, action } while the Move or Cancel dialog is open
+  const [notice, setNotice] = useState("");
 
   // The one place that talks to /api/orders: sign-in, refresh and load-more
   // all call this, so there is only one place that turns a failure into the
@@ -149,6 +174,20 @@ export default function OrdersDashboard() {
     }
   };
 
+  const openManage = (order, action) => {
+    setNotice("");
+    setManaging({ order, action });
+  };
+
+  const closeManage = useCallback(() => setManaging(null), []);
+
+  // Shows the booking as the server now describes it, without reloading the list.
+  const handleManaged = (updatedOrder, message) => {
+    setOrders((current) => current.map((order) => (order.id === updatedOrder.id ? updatedOrder : order)));
+    setManaging(null);
+    setNotice(message);
+  };
+
   const handleSignOut = () => {
     sessionStorage.removeItem(TOKEN_KEY);
     setPassword(null);
@@ -171,6 +210,7 @@ export default function OrdersDashboard() {
 
       <div className="container orders-body">
         {error && <p className="orders-error" role="alert">{error}</p>}
+        {notice && <p className="orders-notice" role="status">{notice}</p>}
 
         {!password ? (
           <SignInForm password={passwordInput} onPasswordChange={setPasswordInput} onSubmit={handleSignIn} submitting={loading} />
@@ -212,7 +252,11 @@ export default function OrdersDashboard() {
                         ))}
                       </td>
                       <td>{formatMoney(order.amountTotal, order.currency)}</td>
-                      <td>{appointmentText(order) || "No appointment"}</td>
+                      <td>
+                        <div>{appointmentText(order) || "No appointment"}</div>
+                        <BookingStatus order={order} />
+                        <BookingActions order={order} onManage={openManage} />
+                      </td>
                       <td>{[order.deliveryAddress, order.deliveryPostcode].filter(Boolean).join(", ") || "No delivery"}</td>
                       <td><a href={order.stripeUrl} target="_blank" rel="noopener noreferrer">View in Stripe</a></td>
                     </tr>
@@ -225,7 +269,7 @@ export default function OrdersDashboard() {
               {groupByDate(orders).map((group) => (
                 <section key={group.label}>
                   <h2 className="list-group-heading">{group.label}</h2>
-                  {group.orders.map((order) => <OrderCard key={order.id} order={order} />)}
+                  {group.orders.map((order) => <OrderCard key={order.id} order={order} onManage={openManage} />)}
                 </section>
               ))}
             </div>
@@ -243,6 +287,16 @@ export default function OrdersDashboard() {
           </>
         )}
       </div>
+
+      {managing && (
+        <ManageBookingDialog
+          order={managing.order}
+          action={managing.action}
+          password={password}
+          onClose={closeManage}
+          onDone={handleManaged}
+        />
+      )}
     </div>
   );
 }

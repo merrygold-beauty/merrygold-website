@@ -9,8 +9,8 @@
 // being open, and by then the webhook has written the booking to the calendar.
 
 import { STRIPE_API_BASE } from './functionsShared.js';
-import { appointmentInterval, dayWindow, parseTime } from './bookingSlots.js';
-import { busyBlocks } from './googleCalendar.js';
+import { appointmentInterval, dayWindow, freeStartTimes, parseTime, withoutInterval } from './bookingSlots.js';
+import { busyBlocks, eventIdFor, getEvent } from './googleCalendar.js';
 
 // More open checkouts than this inside 30 minutes is not a real situation
 // for one clinic, so the first page of results is all there is.
@@ -48,4 +48,18 @@ export async function takenBlocksForDay(env, date, holderKey) {
     })
   ]);
   return [...calendarBlocks, ...holds];
+}
+
+// Where a paid booking could move to on one day: the same rules and the same
+// calendar and holds as a new booking, except that the booking's own event
+// counts as free. Its interval is read from the calendar, not from Stripe,
+// because Olu may already have dragged it. Returns { times, eventFound };
+// with eventFound false there is no event to move. Throws if the calendar
+// cannot be read.
+export async function freeTimesForMove(env, sessionId, appointment, date) {
+  const ownEvent = await getEvent(env, await eventIdFor(sessionId));
+  if (!ownEvent) return { times: [], eventFound: false };
+  const taken = withoutInterval(await takenBlocksForDay(env, date, null), ownEvent);
+  const times = freeStartTimes({ date, durationMinutes: appointment.minutes, busy: taken, nowMs: Date.now() });
+  return { times, eventFound: true };
 }

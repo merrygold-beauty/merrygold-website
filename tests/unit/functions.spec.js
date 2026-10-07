@@ -4,6 +4,9 @@ import { onRequestPost as webhookPost } from '../../functions/api/stripe-webhook
 import { onRequestGet as ordersGet } from '../../functions/api/orders.js';
 import { onRequestPost as checkoutPost } from '../../functions/api/checkout.js';
 import { onRequestGet as availabilityGet } from '../../functions/api/availability.js';
+import { onRequestGet as bookingTimesGet } from '../../functions/api/booking-times.js';
+import { onRequestPost as bookingMovePost } from '../../functions/api/booking-move.js';
+import { onRequestPost as bookingCancelPost } from '../../functions/api/booking-cancel.js';
 import { addDays, londonDateString, londonTimeToInstant } from '../../src/lib/bookingSlots.js';
 
 // Every test stubs globalThis.fetch to capture the outgoing Resend/Stripe
@@ -598,5 +601,177 @@ test.describe('POST /api/stripe-webhook with a booking time', () => {
     const response = await deliverBooking();
     expect((await response.json()).calendar).toBe('added');
     expect(emails(calls)[0].text).not.toContain('Calendar:');
+  });
+});
+
+test.describe('Booking management (orders page Move and Cancel)', () => {
+  const PASSWORD = 'letmein';
+  const env = () => ({ ORDERS_DASHBOARD_PASSWORD: PASSWORD, STRIPE_SECRET_KEY: 'sk_test_x', ...calendarEnv, ...NOTIFY_ENV });
+  const APPOINTMENT = {
+    customer_name: 'Client Name', phone: '07700 900123', appointment_treatment: 'Gold Facial',
+    appointment_date: BOOKING_DATE, appointment_time: '12:00', appointment_minutes: '60'
+  };
+
+  function paidBooking(intentMetadata = {}) {
+    return {
+      id: 'cs_test_m1', payment_status: 'paid', livemode: false, created: 1700000000, amount_total: 20000, currency: 'gbp',
+      customer_details: { email: 'client@example.com' }, metadata: APPOINTMENT,
+      payment_intent: { id: 'pi_test_m1', metadata: { ...APPOINTMENT, ...intentMetadata } },
+      line_items: { data: [{ description: 'Gold Facial', quantity: 1, amount_total: 20000 }] }
+    };
+  }
+
+  // Google (token, event read, freeBusy, move, delete), Stripe (session read,
+  // refund, payment update) and Resend. The booking's own event sits at 12:00.
+  function stubManagement({ session = paidBooking(), busy, eventExists = true, refundResponse } = {}) {
+    const calls = [];
+    globalThis.fetch = async (url, init = {}) => {
+      const href = String(url);
+      const method = init.method || 'GET';
+      calls.push({ href, method, init });
+      const json = (body, status = 200) => new Response(JSON.stringify(body), { status });
+      if (href.startsWith('https://oauth2.googleapis.com/token')) return json({ access_token: 'google-token', expires_in: 3600 });
+      if (href.endsWith('/freeBusy')) return json({ calendars: { [CALENDAR_ID]: { busy: busy || [{ start: londonIso('12:00'), end: londonIso('13:00') }] } } });
+      if (href.includes('/events/')) {
+        if (method === 'GET') {
+          return eventExists
+            ? json({ status: 'confirmed', start: { dateTime: londonIso('12:00') }, end: { dateTime: londonIso('13:00') } })
+            : json({ error: { message: 'Not Found' } }, 404);
+        }
+        return method === 'DELETE' ? new Response(null, { status: 204 }) : json({ id: 'event' });
+      }
+      if (href.includes('/checkout/sessions?status=open')) return json({ data: [] });
+      if (href.includes('/checkout/sessions/cs_test_m1')) return json(session);
+      if (href.endsWith('/refunds')) return refundResponse ? refundResponse() : json({ id: 're_1', status: 'succeeded' });
+      if (href.includes('/payment_intents/pi_test_m1')) return json({ id: 'pi_test_m1' });
+      return json({ id: 'email_1' });
+    };
+    return calls;
+  }
+
+  function staffRequest(path, body, password = PASSWORD) {
+    return new Request(`https://example.test${path}`, {
+      method: body ? 'POST' : 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${password}`, 'CF-Connecting-IP': `198.51.100.${nextClientNumber++ % 250}` },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  const emailsIn = (calls) => calls.filter((call) => call.href === 'https://api.resend.com/emails').map((call) => JSON.parse(call.init.body));
+  const paymentUpdate = (calls) => {
+    const call = calls.find((c) => c.href.includes('/payment_intents/pi_test_m1') && c.method === 'POST');
+    return call ? new URLSearchParams(call.init.body) : null;
+  };
+
+  test('MB-01 a wrong password is refused with 401 and nothing is read', async () => {
+    const calls = stubManagement();
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }, 'nope'), env: env() });
+    expect(response.status).toBe(401);
+    expect(calls).toHaveLength(0);
+  });
+
+  test('MB-02 move times count the booking\'s own slot as free', async () => {
+    stubManagement();
+    const response = await bookingTimesGet({ request: staffRequest(`/api/booking-times?session=cs_test_m1&date=${BOOKING_DATE}`), env: env() });
+    expect(response.status).toBe(200);
+    const { times } = await response.json();
+    expect(times).toContain('12:00');
+    expect(times).toContain('12:15');
+  });
+
+  test('MB-03 a move patches the event, records the new time on the payment and emails the customer', async () => {
+    const calls = stubManagement();
+    const response = await bookingMovePost({ request: staffRequest('/api/booking-move', { session: 'cs_test_m1', date: BOOKING_DATE, time: '15:00' }), env: env() });
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(data.order.appointmentTime).toBe('15:00');
+    expect(data.order.movedFrom).toBe(`${BOOKING_DATE} 12:00`);
+    expect(data.customerEmailed).toBe(true);
+
+    const patch = calls.find((call) => call.method === 'PATCH');
+    expect(JSON.parse(patch.init.body).start.dateTime).toBe(londonIso('15:00'));
+    expect(paymentUpdate(calls).get('metadata[appointment_time]')).toBe('15:00');
+    const [email] = emailsIn(calls);
+    expect(email.subject).toBe('Your MerryGold booking has moved');
+    expect(email.text).toContain('at 15:00');
+    expect(email.text).toContain('previously booked for');
+  });
+
+  test('MB-04 a move to a taken time is refused with 409 and nothing changes', async () => {
+    const calls = stubManagement({ busy: [{ start: londonIso('12:00'), end: londonIso('13:00') }, { start: londonIso('15:00'), end: londonIso('16:00') }] });
+    const response = await bookingMovePost({ request: staffRequest('/api/booking-move', { session: 'cs_test_m1', date: BOOKING_DATE, time: '15:00' }), env: env() });
+    expect(response.status).toBe(409);
+    expect(calls.some((call) => call.method === 'PATCH')).toBe(false);
+    expect(paymentUpdate(calls)).toBeNull();
+  });
+
+  test('MB-05 a booking no longer in the calendar cannot be moved', async () => {
+    stubManagement({ eventExists: false });
+    const response = await bookingMovePost({ request: staffRequest('/api/booking-move', { session: 'cs_test_m1', date: BOOKING_DATE, time: '15:00' }), env: env() });
+    expect(response.status).toBe(409);
+    expect((await response.json()).error).toMatch(/not in the calendar/);
+  });
+
+  test('MB-06 a cancel with refund refunds first, then frees the calendar, records it and emails the customer', async () => {
+    const calls = stubManagement();
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(data.order.bookingStatus).toBe('cancelled');
+    expect(data.order.refunded).toBe(true);
+    expect(data.order.canManage).toBe(false);
+    expect(data).toMatchObject({ calendarFreed: true, recordUpdated: true, customerEmailed: true });
+
+    const refundIndex = calls.findIndex((call) => call.href.endsWith('/refunds'));
+    const deleteIndex = calls.findIndex((call) => call.method === 'DELETE');
+    expect(refundIndex).toBeGreaterThan(-1);
+    expect(deleteIndex).toBeGreaterThan(refundIndex);
+    expect(calls[refundIndex].init.headers['Idempotency-Key']).toBe('booking-cancel-refund-cs_test_m1');
+    expect(paymentUpdate(calls).get('metadata[booking_status]')).toBe('cancelled');
+    expect(paymentUpdate(calls).get('metadata[refund]')).toBe('full');
+    const [email] = emailsIn(calls);
+    expect(email.subject).toBe('Your MerryGold booking is cancelled');
+    expect(email.text).toContain('We have refunded £200.00');
+  });
+
+  test('MB-07 a refund Stripe refuses stops the cancel before the calendar is touched', async () => {
+    const calls = stubManagement({ refundResponse: () => new Response(JSON.stringify({ error: { message: 'insufficient balance' } }), { status: 400 }) });
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    expect(response.status).toBe(502);
+    expect(calls.some((call) => call.method === 'DELETE')).toBe(false);
+    expect(paymentUpdate(calls)).toBeNull();
+    expect(emailsIn(calls)).toHaveLength(0);
+  });
+
+  test('MB-08 a payment already refunded in Stripe counts as refunded', async () => {
+    stubManagement({ refundResponse: () => new Response(JSON.stringify({ error: { code: 'charge_already_refunded', message: 'already' } }), { status: 400 }) });
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    expect(response.status).toBe(200);
+  });
+
+  test('MB-09 a cancel without refund makes no refund and says so to the customer', async () => {
+    const calls = stubManagement();
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: false }), env: env() });
+    expect(response.status).toBe(200);
+    expect(calls.some((call) => call.href.endsWith('/refunds'))).toBe(false);
+    expect(paymentUpdate(calls).get('metadata[refund]')).toBe('none');
+    expect(emailsIn(calls)[0].text).toContain('No refund has been made');
+  });
+
+  test('MB-10 an already cancelled booking is refused with 409 and no second refund', async () => {
+    const calls = stubManagement({ session: paidBooking({ booking_status: 'cancelled', refund: 'full' }) });
+    const response = await bookingCancelPost({ request: staffRequest('/api/booking-cancel', { session: 'cs_test_m1', refund: true }), env: env() });
+    expect(response.status).toBe(409);
+    expect(calls.some((call) => call.href.endsWith('/refunds'))).toBe(false);
+  });
+
+  test('MB-11 the orders list reads a moved or cancelled booking from the payment, not the session', async () => {
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      data: [{ ...paidBooking({ appointment_time: '15:00', moved_from: `${BOOKING_DATE} 12:00` }) }],
+      has_more: false
+    }), { status: 200 });
+    const response = await ordersGet({ request: new Request('https://example.test/api/orders', { headers: { Authorization: `Bearer ${PASSWORD}` } }), env: env() });
+    const { orders } = await response.json();
+    expect(orders[0]).toMatchObject({ appointmentTime: '15:00', movedFrom: `${BOOKING_DATE} 12:00`, bookingStatus: 'booked', canManage: true });
   });
 });

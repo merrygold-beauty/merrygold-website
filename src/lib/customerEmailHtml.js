@@ -1,6 +1,7 @@
-// The branded HTML version of the customer's booking or order confirmation,
-// sent alongside the plain text (see buildCustomerContent in enquiryEmail.js,
-// which both versions render from).
+// The branded HTML version of every email a customer receives: the booking
+// or order confirmation, and the notices when a booking is cancelled or
+// moved. Each is sent alongside a plain text version, and both render from
+// the same content object in enquiryEmail.js, so they can never differ.
 //
 // Built the way email clients need: tables for layout, every style inline,
 // no web fonts and no CSS the clients strip (Gmail drops <body> backgrounds
@@ -37,26 +38,13 @@ function detailRow(label, value, { strong = false } = {}) {
 </tr>`;
 }
 
-export function buildCustomerHtml(details) {
-  const content = buildCustomerContent(details);
-  const heading = content.appointment ? 'Your booking is paid' : 'Your order is paid';
-
-  const rows = [
-    ...content.lines.map((line) => detailRow(line.label, line.amount)),
-    detailRow('Total paid', content.total, { strong: true })
-  ].join('\n');
-
-  const dateBlock = content.appointment
-    ? `<p style="${P}"><strong>${escapeHtml(content.appointmentLabel)}:</strong> ${escapeHtml(content.appointment)}</p>
-<p style="${P}">${escapeHtml(content.confirmNote)}</p>`
-    : '';
-  const deliveryBlock = content.deliveryTo
-    ? `<p style="${P}"><strong>We will send your order to:</strong> ${escapeHtml(content.deliveryTo)}</p>`
-    : '';
-
+// The page every customer email shares: the logo band, the card with its
+// heading, then bodyHtml, then the clinic's footer. heading and preheader
+// are plain text; bodyHtml is already escaped by the caller.
+function emailShell({ heading, preheader, bodyHtml }) {
   return `<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(heading)}</title></head>
 <body style="margin:0;padding:0;background:${PAGE_BG};-webkit-text-size-adjust:100%;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(content.intro)}</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${PAGE_BG};">
 <tr><td align="center" style="padding:28px 12px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:560px;background:${CARD_BG};border-radius:8px;overflow:hidden;">
@@ -66,16 +54,7 @@ export function buildCustomerHtml(details) {
 <tr><td style="height:3px;background:${GOLD};font-size:0;line-height:0;">&nbsp;</td></tr>
 <tr><td style="padding:32px 32px 8px;">
 <h1 style="font-family:${SERIF};font-size:26px;line-height:1.3;font-weight:400;color:${INK};margin:0 0 20px;">${escapeHtml(heading)}</h1>
-<p style="${P}">${escapeHtml(content.greeting)}</p>
-<p style="${P}">${escapeHtml(content.intro)}</p>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;border-top:1px solid ${RULE};">
-${rows}
-</table>
-${dateBlock}
-${deliveryBlock}
-<p style="${P}"><strong>Your reference:</strong> <span style="font-family:Consolas,Menlo,monospace;font-size:13px;color:${MUTED};">${escapeHtml(content.reference)}</span></p>
-<p style="${P}">${escapeHtml(content.changeNote)}</p>
-<p style="${P}"><a href="${content.termsUrl}" style="color:${INK};text-decoration:underline;">Booking and cancellation terms</a></p>
+${bodyHtml}
 </td></tr>
 <tr><td style="padding:8px 32px 32px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};">
@@ -90,4 +69,51 @@ ${escapeHtml(formatClinicAddress())}<br>
 </td></tr>
 </table>
 </body></html>`;
+}
+
+function paragraph(text) {
+  return `<p style="${P}">${escapeHtml(text)}</p>`;
+}
+
+function labelledParagraph(label, value) {
+  return `<p style="${P}"><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</p>`;
+}
+
+// The reference, how to change anything and the terms link: the close of
+// every customer email.
+function closingBlocks({ reference, changeNote, termsUrl }) {
+  return [
+    `<p style="${P}"><strong>Your reference:</strong> <span style="font-family:Consolas,Menlo,monospace;font-size:13px;color:${MUTED};">${escapeHtml(reference)}</span></p>`,
+    paragraph(changeNote),
+    `<p style="${P}"><a href="${termsUrl}" style="color:${INK};text-decoration:underline;">Booking and cancellation terms</a></p>`
+  ].join('\n');
+}
+
+export function buildCustomerHtml(details) {
+  const content = buildCustomerContent(details);
+  const rows = [
+    ...content.lines.map((line) => detailRow(line.label, line.amount)),
+    detailRow('Total paid', content.total, { strong: true })
+  ].join('\n');
+
+  const bodyHtml = [
+    paragraph(content.greeting),
+    paragraph(content.intro),
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;border-top:1px solid ${RULE};">
+${rows}
+</table>`,
+    content.appointment ? labelledParagraph(content.appointmentLabel, content.appointment) : '',
+    content.appointment ? paragraph(content.confirmNote) : '',
+    content.deliveryTo ? labelledParagraph('We will send your order to', content.deliveryTo) : '',
+    closingBlocks(content)
+  ].filter(Boolean).join('\n');
+
+  return emailShell({ heading: content.appointment ? 'Your booking is paid' : 'Your order is paid', preheader: content.intro, bodyHtml });
+}
+
+// A cancelled or moved booking (buildCancellationNotice and buildMoveNotice
+// in enquiryEmail.js write the words).
+export function buildNoticeHtml(notice) {
+  const bodyHtml = [paragraph(notice.greeting), ...notice.paragraphs.map(paragraph), closingBlocks(notice)].join('\n');
+  return emailShell({ heading: notice.heading, preheader: notice.paragraphs[0], bodyHtml });
 }

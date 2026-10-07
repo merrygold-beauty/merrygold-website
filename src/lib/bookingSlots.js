@@ -111,6 +111,19 @@ export function clashesWithBusy({ startMs, endMs }, busy) {
   return busy.some((block) => block.startMs < endMs + gapMs && block.endMs > startMs - gapMs);
 }
 
+// The busy blocks with one interval cut out of them: used when moving a
+// booking, so its own current time counts as free. Google merges touching
+// events into one busy block, so the cut can leave a piece either side.
+export function withoutInterval(busy, { startMs, endMs }) {
+  return busy.flatMap((block) => {
+    if (block.endMs <= startMs || block.startMs >= endMs) return [block];
+    const pieces = [];
+    if (block.startMs < startMs) pieces.push({ startMs: block.startMs, endMs: startMs });
+    if (block.endMs > endMs) pieces.push({ startMs: endMs, endMs: block.endMs });
+    return pieces;
+  });
+}
+
 // The window to ask the calendar about for one day: opening hours widened by
 // the gap, so a booking that ends just before opening still counts.
 export function dayWindow(dateString) {

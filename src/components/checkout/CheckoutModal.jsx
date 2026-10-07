@@ -251,8 +251,7 @@ export default function CheckoutModal() {
             {hasTreatment && (
               <>
                 <AppointmentPicker
-                  treatmentId={treatmentLine.product.id}
-                  holderKey={holderKey}
+                  timesUrlFor={(date) => `/api/availability?${new URLSearchParams({ treatment: treatmentLine.product.id, date, holder: holderKey })}`}
                   date={formData.date}
                   time={formData.time}
                   refreshCount={timesRefreshCount}

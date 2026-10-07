@@ -10,6 +10,7 @@
 
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
 import { rateLimitResponse } from '../../src/lib/rateLimit.js';
+import { encodeForm } from '../../src/lib/stripeRequest.js';
 import { catalogueById } from '../../src/lib/catalogueById.js';
 import { appointmentInterval, clashesWithBusy, freeStartTimes, isBookableDate } from '../../src/lib/bookingSlots.js';
 import { isCalendarConfigured } from '../../src/lib/googleCalendar.js';
@@ -31,28 +32,6 @@ function badRequest(message) {
 
 function truncate(value, max) {
   return value.length > max ? value.slice(0, max) : value;
-}
-
-// Flattens nested objects and arrays into Stripe's bracket form encoding,
-// e.g. { line_items: [{ quantity: 1 }] } -> [["line_items[0][quantity]", "1"]].
-function encodeForm(value, prefix = '') {
-  const pairs = [];
-  for (const [key, val] of Object.entries(value)) {
-    if (val === undefined || val === null) continue;
-    const paramKey = prefix ? `${prefix}[${key}]` : key;
-    if (Array.isArray(val)) {
-      val.forEach((item, index) => {
-        const arrayKey = `${paramKey}[${index}]`;
-        if (typeof item === 'object') pairs.push(...encodeForm(item, arrayKey));
-        else pairs.push([arrayKey, String(item)]);
-      });
-    } else if (typeof val === 'object') {
-      pairs.push(...encodeForm(val, paramKey));
-    } else {
-      pairs.push([paramKey, String(val)]);
-    }
-  }
-  return pairs;
 }
 
 // Looks up each bag line in the price index and checks its quantity. Returns

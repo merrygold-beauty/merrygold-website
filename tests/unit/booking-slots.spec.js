@@ -5,7 +5,8 @@ import {
   freeStartTimes,
   isBookableDate,
   londonDateString,
-  londonTimeToInstant
+  londonTimeToInstant,
+  withoutInterval
 } from '../../src/lib/bookingSlots.js';
 import catalogueIndex from '../../src/data/catalogueIndex.js';
 
@@ -98,5 +99,17 @@ test.describe('free start times', () => {
 
   test('SLT-24 a treatment longer than the day offers no times', () => {
     expect(freeStartTimes({ date: '2026-11-01', durationMinutes: 9 * 60, busy: [], nowMs: longAgo })).toEqual([]);
+  });
+});
+
+test.describe('moving a booking', () => {
+  test('SLT-30 cutting a booking out of a merged busy block leaves the pieces either side', () => {
+    const at = (time) => londonTimeToInstant('2026-11-02', Number(time.slice(0, 2)) * 60 + Number(time.slice(3)));
+    const busy = [{ startMs: at('11:00'), endMs: at('14:00') }, { startMs: at('16:00'), endMs: at('17:00') }];
+    expect(withoutInterval(busy, { startMs: at('12:00'), endMs: at('13:00') })).toEqual([
+      { startMs: at('11:00'), endMs: at('12:00') },
+      { startMs: at('13:00'), endMs: at('14:00') },
+      { startMs: at('16:00'), endMs: at('17:00') }
+    ]);
   });
 });

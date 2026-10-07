@@ -5,14 +5,13 @@
 // the fields the page shows.
 
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse } from '../../src/lib/functionsShared.js';
-
-const SESSION_ID_PATTERN = /^cs_(test|live)_[A-Za-z0-9]+$/;
+import { isSessionId } from '../../src/lib/bookingRecord.js';
 
 export async function onRequestGet(context) {
   const { request, env } = context;
   const sessionId = new URL(request.url).searchParams.get('session_id');
 
-  if (!sessionId || !SESSION_ID_PATTERN.test(sessionId)) {
+  if (!isSessionId(sessionId)) {
     return jsonResponse({ error: 'That does not look like a valid checkout session.' }, 400);
   }
 

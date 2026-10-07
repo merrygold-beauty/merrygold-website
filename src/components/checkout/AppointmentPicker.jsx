@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { DAYS_AHEAD, addDays, londonDateString } from '../../lib/bookingSlots';
 
-// The date field and the free start times for one treatment. Times come from
-// /api/availability, which reads the clinic calendar; the chosen time is
-// checked again at checkout and after payment.
+// The date field and the free start times for one treatment. Used by the
+// checkout (times from /api/availability) and by the orders page's Move
+// dialog (times from /api/booking-times, which needs the dashboard password,
+// passed as authorization). timesUrlFor(date) gives the address to ask.
 //
-// refreshCount is bumped by the checkout when Stripe answers that a time has
-// just been taken, so the list reloads without the customer changing the date.
-export default function AppointmentPicker({ treatmentId, holderKey, date, time, refreshCount, onDateChange, onTimeChange }) {
+// refreshCount is bumped by the caller when the server answers that a time
+// has just been taken, so the list reloads without the date changing.
+//
+// Its styles (.form-field, .appointment-times) live in CheckoutModal.css,
+// which every page loads, because Layout renders the checkout on all of them.
+export default function AppointmentPicker({ timesUrlFor, authorization, date, time, refreshCount, onDateChange, onTimeChange }) {
   // Each answer remembers which request it belongs to, so the list is
   // "loading" whenever the latest request has not answered yet, with no
   // separate flag to keep in step.
-  const requestKey = date ? `${treatmentId}|${date}|${refreshCount}` : null;
+  const timesUrl = date ? timesUrlFor(date) : null;
+  const requestKey = timesUrl ? `${timesUrl}|${refreshCount}` : null;
   const [answer, setAnswer] = useState({ key: null, times: [], error: '' });
   const [today] = useState(() => londonDateString(Date.now()));
 
   useEffect(() => {
     if (!requestKey) return undefined;
     let cancelled = false;
-    const query = new URLSearchParams({ treatment: treatmentId, date, holder: holderKey });
-    fetch(`/api/availability?${query}`)
+    const headers = authorization ? { Authorization: `Bearer ${authorization}` } : {};
+    fetch(timesUrl, { headers })
       .then(async (response) => {
         const data = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(data.error || 'Free times could not be loaded. Please try again, or call us to book.');
@@ -29,7 +34,7 @@ export default function AppointmentPicker({ treatmentId, holderKey, date, time, 
         if (!cancelled) setAnswer({ key: requestKey, times: [], error: err.message });
       });
     return () => { cancelled = true; };
-  }, [requestKey, treatmentId, date, holderKey]);
+  }, [requestKey, timesUrl, authorization]);
 
   const status = !requestKey ? 'idle' : answer.key !== requestKey ? 'loading' : answer.error ? 'error' : 'loaded';
   const { times, error: errorMessage } = answer;
