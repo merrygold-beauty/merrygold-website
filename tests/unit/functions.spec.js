@@ -9,6 +9,7 @@ import { onRequestPost as bookingMovePost } from '../../functions/api/booking-mo
 import { onRequestPost as orderCancelPost } from '../../functions/api/order-cancel.js';
 import { onRequestPost as orderSentPost } from '../../functions/api/order-sent.js';
 import { onRequestGet as stockGet, onRequestPost as stockPost } from '../../functions/api/stock.js';
+import { orderRecipients } from '../../src/lib/notify.js';
 import { addDays, londonDateString, londonTimeToInstant } from '../../src/lib/bookingSlots.js';
 
 // Every test stubs globalThis.fetch to capture the outgoing Resend/Stripe
@@ -869,5 +870,26 @@ test.describe('Shop stock (sold out products)', () => {
     expect(response.status).toBe(400);
     expect((await response.json()).error).toMatch(/sold out/);
     expect(stripeCalled).toBe(false);
+  });
+});
+
+test.describe('Clinic email routing', () => {
+  const LIVE = { NOTIFY_TO_EMAIL: 'hello@clinic.test', NOTIFY_BOOKINGS_EMAIL: 'bookings@clinic.test', NOTIFY_ORDERS_EMAIL: 'orders@clinic.test' };
+
+  test('NT-01 bookings go to bookings@, product orders to orders@, an order with both to both', () => {
+    expect(orderRecipients(LIVE, { hasAppointment: true, hasProducts: false })).toEqual(['bookings@clinic.test']);
+    expect(orderRecipients(LIVE, { hasAppointment: false, hasProducts: true })).toEqual(['orders@clinic.test']);
+    expect(orderRecipients(LIVE, { hasAppointment: true, hasProducts: true })).toEqual(['bookings@clinic.test', 'orders@clinic.test']);
+  });
+
+  test('NT-02 with no booking or order address set, everything goes to NOTIFY_TO_EMAIL (the preview test inbox)', () => {
+    const preview = { NOTIFY_TO_EMAIL: 'test-inbox@clinic.test' };
+    expect(orderRecipients(preview, { hasAppointment: true, hasProducts: true })).toEqual(['test-inbox@clinic.test']);
+    expect(orderRecipients(preview, { hasAppointment: false, hasProducts: true })).toEqual(['test-inbox@clinic.test']);
+  });
+
+  test('NT-03 one side unset falls back on its own, the other keeps its address', () => {
+    const half = { NOTIFY_TO_EMAIL: 'hello@clinic.test', NOTIFY_ORDERS_EMAIL: 'orders@clinic.test' };
+    expect(orderRecipients(half, { hasAppointment: true, hasProducts: true })).toEqual(['hello@clinic.test', 'orders@clinic.test']);
   });
 });

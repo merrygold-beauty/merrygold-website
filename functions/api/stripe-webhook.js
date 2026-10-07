@@ -11,7 +11,7 @@
 // calendar event cannot be duplicated, because its id comes from the session.
 
 import { STRIPE_API_BASE, jsonResponse, unavailableResponse, timingSafeEqual } from '../../src/lib/functionsShared.js';
-import { isNotifyConfigured, sendClinicEmail, sendCustomerEmail } from '../../src/lib/notify.js';
+import { isNotifyConfigured, orderRecipients, sendClinicEmail, sendCustomerEmail } from '../../src/lib/notify.js';
 import { buildOrderSubject, buildOrderBody, buildCustomerSubject, buildCustomerBody, formatPence } from '../../src/lib/enquiryEmail.js';
 import { buildCustomerHtml } from '../../src/lib/customerEmailHtml.js';
 import { GAP_MINUTES, appointmentInterval, clashesWithBusy, parseTime } from '../../src/lib/bookingSlots.js';
@@ -173,7 +173,9 @@ export async function onRequestPost(context) {
   });
 
   try {
-    await sendClinicEmail(env, { subject, text, replyTo: customerEmail || undefined });
+    // Bookings and product orders go to different clinic addresses (see orderRecipients).
+    const to = orderRecipients(env, { hasAppointment: Boolean(metadata.appointment_date), hasProducts: Boolean(metadata.delivery_address) });
+    await sendClinicEmail(env, { subject, text, replyTo: customerEmail || undefined, to });
   } catch (err) {
     console.error('Stripe webhook email send failed:', err.message);
     return jsonResponse({ error: 'The order email could not be sent.' }, 500);

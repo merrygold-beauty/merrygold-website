@@ -37,11 +37,31 @@ async function sendEmail(env, { to, subject, text, html, replyTo }) {
   }
 }
 
+function addressList(value) {
+  return (value || '').split(',').map((address) => address.trim()).filter(Boolean);
+}
+
+// Who at the clinic gets a paid order's email. Live, bookings go to
+// bookings@ (NOTIFY_BOOKINGS_EMAIL) and product orders to orders@
+// (NOTIFY_ORDERS_EMAIL), both aliases of the hello@ Zoho mailbox, so Olu can
+// tell them apart; an order with both goes to both. Either one left unset
+// falls back to NOTIFY_TO_EMAIL, which is how every preview test reaches the
+// test inbox only.
+export function orderRecipients(env, { hasAppointment, hasProducts }) {
+  const fallback = addressList(env.NOTIFY_TO_EMAIL);
+  const orFallback = (value) => (addressList(value).length ? addressList(value) : fallback);
+  const to = [
+    ...(hasAppointment ? orFallback(env.NOTIFY_BOOKINGS_EMAIL) : []),
+    ...(hasProducts ? orFallback(env.NOTIFY_ORDERS_EMAIL) : [])
+  ];
+  return to.length ? [...new Set(to)] : fallback;
+}
+
 // Throws on failure. Callers decide what that means for their own HTTP
 // response: enquiry.js turns it into a 502 for the visitor, stripe-webhook.js
-// turns it into a 500 so Stripe retries the delivery.
-export async function sendClinicEmail(env, { subject, text, replyTo }) {
-  const to = env.NOTIFY_TO_EMAIL.split(',').map((address) => address.trim()).filter(Boolean);
+// turns it into a 500 so Stripe retries the delivery. to defaults to
+// NOTIFY_TO_EMAIL, where enquiries go.
+export async function sendClinicEmail(env, { subject, text, replyTo, to = addressList(env.NOTIFY_TO_EMAIL) }) {
   await sendEmail(env, { to, subject, text, replyTo });
 }
 
