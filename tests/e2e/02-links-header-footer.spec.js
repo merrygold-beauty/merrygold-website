@@ -214,6 +214,21 @@ test.describe('Header and hero social links', () => {
     await expect(ui.footer(page).getByRole('link', { name: social })).toHaveCount(0);
   });
 
+  test('HDR-21 while the social links are off, the consultation button opens WhatsApp in their place', async ({ page }) => {
+    await page.goto('/');
+    const { clinicData } = await importAppData(page, '/src/data/clinic.js');
+    test.skip(clinicData.social.showLinks, 'social links are switched on');
+    const name = 'Ojuabe Beauty Consultation';
+    const heroBar = page.locator('.hero-bar');
+    await expect(heroBar.getByRole('link', { name })).toBeVisible();
+    await expect(heroBar.getByRole('link', { name })).toHaveAttribute('href', 'https://wa.me/447946200515');
+
+    await page.evaluate(() => window.scrollTo(0, 300));
+    await expect(ui.header(page).getByRole('link', { name })).toBeVisible();
+    await expect(ui.header(page).getByRole('link', { name })).toHaveAttribute('href', 'https://wa.me/447946200515');
+    await expect(heroBar.getByRole('link', { name })).toBeHidden();
+  });
+
   test('HDR-15 the hero bar carries the main nav and Book before scroll, then the header takes over', async ({ page }, testInfo) => {
     await page.goto('/');
     const heroBar = page.locator('.hero-bar');

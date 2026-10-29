@@ -21,10 +21,17 @@ import './Navbar.css';
 // keyboard user or the accessibility crawl never lands on two identical
 // "MerryGold Instagram" links at once.
 function SocialLinks({ className, hidden }) {
-  // While the links are down (social.showLinks in clinic.js) the empty
-  // wrapper still renders: it carries the logo-to-nav spacing in the header
-  // and fills the first grid column of the hero bar.
-  if (!clinicData.social.showLinks) return <div className={className} />;
+  // While the links are down (social.showLinks in clinic.js) the wrapper
+  // still renders: it carries the logo-to-nav spacing in the header and fills
+  // the first grid column of the hero bar. It holds the temporary
+  // consultation button meanwhile; that goes when the links come back.
+  if (!clinicData.social.showLinks) {
+    return (
+      <div className={className} aria-hidden={hidden || undefined}>
+        <ConsultationWhatsAppButton hidden={hidden} />
+      </div>
+    );
+  }
   return (
     <div className={className} aria-hidden={hidden || undefined}>
       <a
@@ -58,6 +65,20 @@ function SocialLinks({ className, hidden }) {
         <FacebookIcon size={20} />
       </a>
     </div>
+  );
+}
+
+function ConsultationWhatsAppButton({ hidden }) {
+  return (
+    <a
+      href={clinicData.consultation.whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn btn-primary btn-sm consultation-btn"
+      tabIndex={hidden ? -1 : undefined}
+    >
+      {clinicData.consultation.label}
+    </a>
   );
 }
 

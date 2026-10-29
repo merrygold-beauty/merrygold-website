@@ -72,6 +72,16 @@
   margin-right: 2rem;
 }
 
+/* The temporary consultation button in the social links' place. Smaller
+   text than .btn-sm so the long label fits beside the nav links without
+   wrapping them, and beside the bag and menu on a 360px phone. Scoped under
+   .btn so it outranks .btn-sm in global.css, which loads later. */
+.btn.consultation-btn {
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.65rem;
+}
+
 .social-icon-link {
   width: 36px;
   height: 36px;

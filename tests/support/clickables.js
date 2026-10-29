@@ -32,10 +32,12 @@ export const CLICKABLE_RULES = [
   { zone: 'header', role: 'button', name: 'Toggle navigation menu', covers: 'MOB-01' },
   { zone: 'header', role: 'link', name: ANY, href: /^\/treatments\/[a-z-]+$/, covers: 'HDR-10' },
   { zone: 'header', role: 'link', name: /^MerryGold (Instagram|Facebook|TikTok)$/, covers: 'HDR-12, HDR-13' },
+  { zone: 'header', role: 'link', name: 'Ojuabe Beauty Consultation', covers: 'HDR-21' },
 
   // Duplicate social icons, main nav and Book over the home hero, shown only
   // until the visitor scrolls and the header's own copy takes over.
   { zone: 'hero-bar', role: 'link', name: /^MerryGold (Instagram|Facebook|TikTok)$/, covers: 'HDR-12, HDR-13' },
+  { zone: 'hero-bar', role: 'link', name: 'Ojuabe Beauty Consultation', covers: 'HDR-21' },
   { zone: 'hero-bar', role: 'link', name: /^(Home|Treatments|Results|Shop|About us|Contact us)$/, covers: 'HDR-14' },
   { zone: 'hero-bar', role: 'button', name: 'Find my treatment', covers: 'HDR-14' },
   { zone: 'hero-bar', role: 'link', name: 'Book an appointment', covers: 'HDR-14' },

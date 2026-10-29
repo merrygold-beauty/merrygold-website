@@ -7,6 +7,10 @@ export const SITE_ORIGIN = "https://www.merrygoldbeautyclinics.com";
 export const WHATSAPP_E164 = "447939402111";
 export const WHATSAPP_DISPLAY = "+44 7939 402111";
 
+// The clinic phone line (calls), which Olu also uses on WhatsApp for the
+// consultation button below.
+const PHONE_E164 = "447946200515";
+
 const CLINIC_EMAIL = "hello@merrygoldbeautyclinics.com";
 
 export function buildWhatsAppUrl(message) {
@@ -43,7 +47,7 @@ export const clinicData = {
   },
   contact: {
     phone: "+44 794 620 0515",
-    phoneHref: "tel:+447946200515",
+    phoneHref: `tel:+${PHONE_E164}`,
     whatsappUrl: buildWhatsAppUrl("Hello MerryGold, I would like to enquire about a treatment."),
     email: CLINIC_EMAIL,
     emailHref: `mailto:${CLINIC_EMAIL}`,
@@ -94,6 +98,12 @@ export const clinicData = {
       reviewAverage: null
     }
   ],
+  // Temporary, asked for by Olu on 2026-10-29: a button in the header where
+  // the social links sit, shown only while showLinks below is false.
+  consultation: {
+    label: "Ojuabe Beauty Consultation",
+    whatsappUrl: `https://wa.me/${PHONE_E164}`
+  },
   social: {
     // Taken down on 2026-09-28 while the owner refreshes all three accounts.
     // Set to true to show them again in the header, footer and schema, but
