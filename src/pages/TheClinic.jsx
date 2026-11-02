@@ -28,7 +28,7 @@ export default function TheClinic() {
                 <img src={photo.src} alt={photo.alt} />
                 <div className="sanctuary-caption">
                   <h2>{photo.caption}</h2>
-                  <p>Suite C, Weller House, Longbridge Road, Barking.</p>
+                  <p>{clinicData.contact.address.street}, {clinicData.contact.address.area}.</p>
                 </div>
               </div>
             ))}

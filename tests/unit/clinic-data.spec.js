@@ -29,7 +29,7 @@ test.describe('Clinic facts and business data', () => {
   });
 
   test('UNT-C04 the address reads street, area, city and postcode', () => {
-    expect(formatClinicAddress()).toBe('Suite C, Weller House, Longbridge Road, Barking, London IG11 8RT');
+    expect(formatClinicAddress()).toBe('Suite C, 58/60 Weller House, Longbridge Road, Barking, London IG11 8RT');
   });
 
   test('UNT-C05 the legal entity matches Companies House', () => {

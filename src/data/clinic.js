@@ -52,7 +52,7 @@ export const clinicData = {
     email: CLINIC_EMAIL,
     emailHref: `mailto:${CLINIC_EMAIL}`,
     address: {
-      street: "Suite C, Weller House, Longbridge Road",
+      street: "Suite C, 58/60 Weller House, Longbridge Road",
       area: "Barking",
       city: "London",
       postalCode: "IG11 8RT",
@@ -159,8 +159,10 @@ export function getLocalBusinessSchema() {
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 51.5367,
-      "longitude": 0.0827
+      // The shared front door at Weller House on Longbridge Road, 2 m from Adecco's shopfront
+      // (agreed with Julius and Olu 2026-11-02). Keep it matching the Google Business Profile pin.
+      "latitude": 51.54065,
+      "longitude": 0.08323
     },
     "openingHoursSpecification": [
       {
