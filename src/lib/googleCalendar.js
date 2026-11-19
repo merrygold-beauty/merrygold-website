@@ -69,25 +69,37 @@ async function calendarFetch(env, path, init = {}) {
   });
 }
 
-// The calendar's busy blocks between two instants, as { startMs, endMs }.
-// Private events come back as busy blocks too, without their details.
-// Throws on any failure: the caller decides whether that blocks anything.
+// The booking calendar plus any extra calendars named in
+// BOOKING_BUSY_CALENDAR_IDS (comma separated). Fresha and Treatwell write their
+// bookings into calendars of their own inside the clinic's Google account, so
+// their times only block the website if those calendars are read as well.
+function busyCalendarIds(env) {
+  const extra = (env.BOOKING_BUSY_CALENDAR_IDS || '').split(',').map((id) => id.trim()).filter(Boolean);
+  return [...new Set([env.BOOKING_CALENDAR_ID, ...extra])];
+}
+
+// Busy blocks across every calendar above between two instants, as
+// { startMs, endMs }. Private events come back as busy blocks too, without
+// their details. Throws if any calendar cannot be read: a missed calendar
+// would offer a time that is already taken.
 export async function busyBlocks(env, startMs, endMs) {
+  const calendarIds = busyCalendarIds(env);
   const response = await calendarFetch(env, '/freeBusy', {
     method: 'POST',
     body: JSON.stringify({
       timeMin: new Date(startMs).toISOString(),
       timeMax: new Date(endMs).toISOString(),
       timeZone: BOOKING_TIME_ZONE,
-      items: [{ id: env.BOOKING_CALENDAR_ID }]
+      items: calendarIds.map((id) => ({ id }))
     })
   });
   const data = await response.json();
-  const calendar = data.calendars?.[env.BOOKING_CALENDAR_ID];
-  if (!response.ok || !calendar || calendar.errors) {
-    throw new Error(`Google freeBusy failed: ${data.error?.message || JSON.stringify(calendar?.errors) || response.status}`);
-  }
-  return calendar.busy.map((block) => ({ startMs: Date.parse(block.start), endMs: Date.parse(block.end) }));
+  if (!response.ok) throw new Error(`Google freeBusy failed: ${data.error?.message || response.status}`);
+  return calendarIds.flatMap((id) => {
+    const calendar = data.calendars?.[id];
+    if (!calendar || calendar.errors) throw new Error(`Google freeBusy failed for ${id}: ${JSON.stringify(calendar?.errors) || 'missing'}`);
+    return calendar.busy.map((block) => ({ startMs: Date.parse(block.start), endMs: Date.parse(block.end) }));
+  });
 }
 
 // A calendar event id that is the same every time for the same text. Google

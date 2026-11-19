@@ -69,7 +69,7 @@ ${pkcs8}
 
 // Stands in for Google (token, freeBusy, event insert), Stripe (open sessions,
 // new session, line items) and Resend. Records every call.
-function stubServices({ busy = [], openSessions = [], freeBusyStatus = 200, insertStatus = 200, lineItems = [] } = {}) {
+function stubServices({ busy = [], extraCalendars = {}, openSessions = [], freeBusyStatus = 200, insertStatus = 200, lineItems = [] } = {}) {
   const calls = [];
   globalThis.fetch = async (url, init = {}) => {
     const href = String(url);
@@ -77,7 +77,7 @@ function stubServices({ busy = [], openSessions = [], freeBusyStatus = 200, inse
     const json = (body, status = 200) => new Response(JSON.stringify(body), { status });
     if (href.startsWith('https://oauth2.googleapis.com/token')) return json({ access_token: 'google-token', expires_in: 3600 });
     if (href.endsWith('/freeBusy')) {
-      return freeBusyStatus === 200 ? json({ calendars: { [CALENDAR_ID]: { busy } } }) : json({ error: { message: 'backend error' } }, freeBusyStatus);
+      return freeBusyStatus === 200 ? json({ calendars: { [CALENDAR_ID]: { busy }, ...extraCalendars } }) : json({ error: { message: 'backend error' } }, freeBusyStatus);
     }
     if (href.includes('/events')) return json({ id: 'event' }, insertStatus);
     if (href.includes('/checkout/sessions?status=open')) return json({ data: openSessions });
@@ -459,6 +459,23 @@ test.describe('GET /api/availability', () => {
     const response = await availabilityGet({ request: availabilityRequest({}), env: env() });
     expect(response.status).toBe(502);
     expect((await response.json()).error).toMatch(/call us/);
+  });
+
+  test('AV-06 a booking in an extra calendar (Fresha, Treatwell) blocks its time too', async () => {
+    const calls = stubServices({ extraCalendars: { 'fresha@group.calendar.google.com': { busy: [{ start: londonIso('12:00'), end: londonIso('13:00') }] } } });
+    const response = await availabilityGet({ request: availabilityRequest({}), env: { ...env(), BOOKING_BUSY_CALENDAR_IDS: ' fresha@group.calendar.google.com ,' } });
+    expect(response.status).toBe(200);
+    const { times } = await response.json();
+    expect(times).toContain('10:00');
+    expect(times).not.toContain('12:00');
+    const freeBusyBody = JSON.parse(calls.find((call) => call.url.endsWith('/freeBusy')).init.body);
+    expect(freeBusyBody.items).toEqual([{ id: CALENDAR_ID }, { id: 'fresha@group.calendar.google.com' }]);
+  });
+
+  test('AV-07 an extra calendar the website cannot read answers 502, never a time that may be taken', async () => {
+    stubServices({ extraCalendars: { 'fresha@group.calendar.google.com': { errors: [{ domain: 'global', reason: 'notFound' }] } } });
+    const response = await availabilityGet({ request: availabilityRequest({}), env: { ...env(), BOOKING_BUSY_CALENDAR_IDS: 'fresha@group.calendar.google.com' } });
+    expect(response.status).toBe(502);
   });
 });
 
