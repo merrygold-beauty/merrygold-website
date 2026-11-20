@@ -9,7 +9,7 @@ export default function Privacy() {
       heading="Privacy Policy"
       title="Privacy Policy | MerryGold Beauty Clinic"
       description="How MerryGold Beauty Clinic collects, uses, and stores personal information for bookings, shop orders, enquiries, and clinic care."
-      updated="6 October 2026"
+      updated="20 November 2026"
     >
       <p>
         This notice explains what personal information {clinicData.legalName} ("MerryGold", "we") collects, why we use it, and the choices you have. We are the data controller. Company No. {clinicData.companyNumber}, registered in {clinicData.jurisdiction}.
@@ -50,6 +50,7 @@ export default function Privacy() {
       <ul>
         <li>Stripe, to take payment. Card data is entered securely on Stripe's checkout.</li>
         <li>Google, which runs the clinic's appointment calendar. When you book and pay for a treatment, your name, telephone number, email, the treatment, your notes and the payment reference are added to that calendar so the clinic can see your appointment. The booking page reads the calendar only to show which times are free.</li>
+        <li>Fresha, the clinic's booking system, which shows your appointment in the clinic's diary.</li>
         <li>WhatsApp (Meta), if you send us a WhatsApp message, including a training enquiry. Meta provides that service under its own terms.</li>
         <li>Our email delivery provider, to send your contact, consultation, or training enquiry to the clinic's inbox.</li>
         <li>The {ASSISTANT_NAME} concierge provider, only when that live connection is switched on, so a reply can be generated. If it is not connected, answers stay on this site.</li>
