@@ -26,6 +26,8 @@ send enquiries, and ask questions of Goldie, the site's chat assistant.
 - Treatwell cannot read Google or Fresha, so the site serves it a busy-only feed of
   those calendars at `/api/busy-feed/<BUSY_FEED_KEY>.ics` (no names or details).
   Treatwell bookings reach nothing else: the clinic adds them to Fresha by hand.
+  `.github/workflows/busy-feed-check.yml` checks the feed daily, emails on a failure
+  and sends a short "working" email every Monday (secrets `BUSY_FEED_URL`, `RESEND_API_KEY`).
 
 ## Layout
 

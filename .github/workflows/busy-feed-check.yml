@@ -1,0 +1,62 @@
+# Daily check of the busy-times feed Treatwell reads (functions/api/busy-feed).
+# Treatwell says nothing when a feed stops working, so this does: an email
+# when the feed fails, and a short "working" email every Monday so a stopped
+# check is noticed too. Run it by hand from the Actions tab; tick
+# "force_failure" to prove the alert email arrives.
+#
+# Repository secrets: BUSY_FEED_URL (the full feed address, key included),
+# RESEND_API_KEY. ALERT_EMAIL below is where both emails go.
+
+name: Busy feed check
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      force_failure:
+        description: 'Check a wrong address on purpose, to test the alert email'
+        type: boolean
+        default: false
+      send_working_email:
+        description: 'Send the Monday "working" email now'
+        type: boolean
+        default: false
+
+env:
+  ALERT_EMAIL: merrygoldbeautyclinic@gmail.com
+  FROM_EMAIL: MerryGold website <bookings@merrygoldbeautyclinics.com>
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the feed
+        env:
+          BUSY_FEED_URL: ${{ secrets.BUSY_FEED_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FORCE_FAILURE: ${{ inputs.force_failure }}
+          SEND_WORKING_EMAIL: ${{ inputs.send_working_email }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          send_email() {
+            jq -n --arg from "$FROM_EMAIL" --arg to "$ALERT_EMAIL" --arg subject "$1" --arg text "$2" \
+              '{from: $from, to: [$to], subject: $subject, text: $text}' |
+              curl -sS --fail -X POST https://api.resend.com/emails \
+                -H "Authorization: Bearer $RESEND_API_KEY" -H 'Content-Type: application/json' -d @- > /dev/null
+          }
+
+          url="$BUSY_FEED_URL"
+          if [ "$FORCE_FAILURE" = "true" ]; then url="${url%/*}/wrong-key.ics"; fi
+
+          status=$(curl -s -o feed.ics -w '%{http_code}' --max-time 30 "$url" || echo "no answer")
+          if [ "$status" = "200" ] && head -c 15 feed.ics | grep -q 'BEGIN:VCALENDAR' && grep -q 'END:VCALENDAR' feed.ics; then
+            echo "Feed answered normally."
+            if [ "$(date -u +%u)" = "1" ] || [ "$SEND_WORKING_EMAIL" = "true" ]; then
+              send_email "MerryGold Treatwell feed: working" "The busy-times feed Treatwell reads answered normally today. This email comes every Monday. If one does not arrive, the daily check has stopped: $RUN_URL"
+            fi
+          else
+            echo "Feed check failed: $status"
+            send_email "MerryGold Treatwell feed: not working" "The busy-times feed Treatwell reads did not answer properly (status $status). Until it is fixed, Treatwell cannot see website or Fresha bookings, so a time could be booked twice. Details: $RUN_URL"
+            exit 1
+          fi
