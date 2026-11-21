@@ -19,10 +19,13 @@ send enquiries, and ask questions of Goldie, the site's chat assistant.
 - The clinic's Google Calendar holds the bookings. Checkout offers only the start
   times the calendar shows free (rules in `src/lib/bookingSlots.js`), an unpaid
   checkout holds its time for 31 minutes, and the Stripe webhook adds each paid
-  booking to the calendar. Times taken in Fresha and Treatwell, which keep their
-  bookings in calendars of their own in the same Google account, block a slot too
+  booking to the calendar. Times taken in Fresha, which keeps its bookings in
+  calendars of its own in the same Google account, block a slot too
   (`BOOKING_BUSY_CALENDAR_IDS`). Preview and production share the one calendar, so a
   test booking on the preview lands in the clinic's real calendar: delete it after.
+- Treatwell cannot read Google or Fresha, so the site serves it a busy-only feed of
+  those calendars at `/api/busy-feed/<BUSY_FEED_KEY>.ics` (no names or details).
+  Treatwell bookings reach nothing else: the clinic adds them to Fresha by hand.
 
 ## Layout
 

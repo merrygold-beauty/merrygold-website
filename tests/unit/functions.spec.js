@@ -4,6 +4,7 @@ import { onRequestPost as webhookPost } from '../../functions/api/stripe-webhook
 import { onRequestGet as ordersGet } from '../../functions/api/orders.js';
 import { onRequestPost as checkoutPost } from '../../functions/api/checkout.js';
 import { onRequestGet as availabilityGet } from '../../functions/api/availability.js';
+import { onRequestGet as busyFeedGet } from '../../functions/api/busy-feed/[file].js';
 import { onRequestGet as bookingTimesGet } from '../../functions/api/booking-times.js';
 import { onRequestPost as bookingMovePost } from '../../functions/api/booking-move.js';
 import { onRequestPost as orderCancelPost } from '../../functions/api/order-cancel.js';
@@ -461,7 +462,7 @@ test.describe('GET /api/availability', () => {
     expect((await response.json()).error).toMatch(/call us/);
   });
 
-  test('AV-06 a booking in an extra calendar (Fresha, Treatwell) blocks its time too', async () => {
+  test('AV-06 a booking in an extra calendar (Fresha) blocks its time too', async () => {
     const calls = stubServices({ extraCalendars: { 'fresha@group.calendar.google.com': { busy: [{ start: londonIso('12:00'), end: londonIso('13:00') }] } } });
     const response = await availabilityGet({ request: availabilityRequest({}), env: { ...env(), BOOKING_BUSY_CALENDAR_IDS: ' fresha@group.calendar.google.com ,' } });
     expect(response.status).toBe(200);
@@ -917,5 +918,70 @@ test.describe('Clinic email routing', () => {
   test('NT-03 one side unset falls back on its own, the other keeps its address', () => {
     const half = { NOTIFY_TO_EMAIL: 'hello@clinic.test', NOTIFY_ORDERS_EMAIL: 'orders@clinic.test' };
     expect(orderRecipients(half, { hasAppointment: true, hasProducts: true })).toEqual(['hello@clinic.test', 'orders@clinic.test']);
+  });
+});
+
+test.describe('GET /api/busy-feed/<key>.ics', () => {
+  const FEED_KEY = 'feed-key-0123456789abcdef';
+  const env = () => ({ ...calendarEnv, BUSY_FEED_KEY: FEED_KEY, BOOKING_BUSY_CALENDAR_IDS: 'fresha@group.calendar.google.com' });
+  const feedGet = (file, feedEnv = env()) => busyFeedGet({ request: new Request(`https://example.test/api/busy-feed/${file}`), env: feedEnv, params: { file } });
+  const events = (ics) => ics.split('BEGIN:VEVENT').slice(1);
+
+  test('BF-01 a wrong key, a missing .ics or no key set answers 404 and reads no calendar', async () => {
+    const calls = stubServices();
+    for (const [file, feedEnv] of [['wrong.ics', env()], [FEED_KEY, env()], [`${FEED_KEY}.ics`, { ...env(), BUSY_FEED_KEY: '' }]]) {
+      const response = await feedGet(file, feedEnv);
+      expect(response.status).toBe(404);
+    }
+    expect(calls).toHaveLength(0);
+  });
+
+  test('BF-02 the clinic and Fresha calendars come out as one busy-only iCalendar feed', async () => {
+    const calls = stubServices({
+      busy: [{ start: londonIso('12:00'), end: londonIso('13:00') }],
+      extraCalendars: { 'fresha@group.calendar.google.com': { busy: [{ start: londonIso('12:30'), end: londonIso('14:00') }, { start: londonIso('16:00'), end: londonIso('16:30') }] } }
+    });
+    const response = await feedGet(`${FEED_KEY}.ics`);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toBe('text/calendar; charset=utf-8');
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
+    const ics = await response.text();
+    expect(ics.startsWith('BEGIN:VCALENDAR\r\nVERSION:2.0\r\n')).toBe(true);
+    expect(ics.endsWith('END:VCALENDAR\r\n')).toBe(true);
+    expect(ics.replace(/\r\n/g, '')).not.toContain('\n');
+    const compact = (iso) => iso.replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const found = events(ics).map((event) => [event.match(/DTSTART:(\S+)/)[1], event.match(/DTEND:(\S+)/)[1]]);
+    expect(found).toEqual([[compact(londonIso('12:00')), compact(londonIso('14:00'))], [compact(londonIso('16:00')), compact(londonIso('16:30'))]]);
+    for (const event of events(ics)) expect(event).toContain('SUMMARY:Busy');
+    const freeBusyBody = JSON.parse(calls.find((call) => call.url.endsWith('/freeBusy')).init.body);
+    expect(freeBusyBody.items).toEqual([{ id: CALENDAR_ID }, { id: 'fresha@group.calendar.google.com' }]);
+  });
+
+  test('BF-03 the same booking keeps the same UID from one read to the next', async () => {
+    const busy = [{ start: londonIso('12:00'), end: londonIso('13:00') }];
+    stubServices({ busy, extraCalendars: { 'fresha@group.calendar.google.com': { busy: [] } } });
+    const first = await (await feedGet(`${FEED_KEY}.ics`)).text();
+    stubServices({ busy, extraCalendars: { 'fresha@group.calendar.google.com': { busy: [] } } });
+    const second = await (await feedGet(`${FEED_KEY}.ics`)).text();
+    const uid = (ics) => ics.match(/UID:(\S+)/)[1];
+    expect(uid(first)).toBe(uid(second));
+  });
+
+  test('BF-04 no bookings gives a valid calendar with no events', async () => {
+    stubServices({ extraCalendars: { 'fresha@group.calendar.google.com': { busy: [] } } });
+    const response = await feedGet(`${FEED_KEY}.ics`);
+    expect(response.status).toBe(200);
+    const ics = await response.text();
+    expect(events(ics)).toHaveLength(0);
+    expect(ics).toContain('END:VCALENDAR');
+  });
+
+  test('BF-05 a calendar the website cannot read answers 502, never an empty calendar', async () => {
+    stubServices({ extraCalendars: { 'fresha@group.calendar.google.com': { errors: [{ domain: 'global', reason: 'notFound' }] } } });
+    const unreadable = await feedGet(`${FEED_KEY}.ics`);
+    expect(unreadable.status).toBe(502);
+    expect(await unreadable.text()).not.toContain('VCALENDAR');
+    stubServices({ freeBusyStatus: 500 });
+    expect((await feedGet(`${FEED_KEY}.ics`)).status).toBe(502);
   });
 });

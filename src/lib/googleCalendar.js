@@ -1,7 +1,8 @@
 // The clinic's Google Calendar, reached through a Google Cloud service
 // account (website-bookings@merrygold-website.iam.gserviceaccount.com) that
 // the calendar is shared with. Used by functions/api/availability.js,
-// functions/api/checkout.js and functions/api/stripe-webhook.js.
+// functions/api/checkout.js, functions/api/stripe-webhook.js and
+// functions/api/busy-feed/[file].js.
 //
 // Signs its own token request with WebCrypto (an RS256 JWT, Google's
 // "service account" flow) because Pages Functions cannot run Google's Node
@@ -70,9 +71,10 @@ async function calendarFetch(env, path, init = {}) {
 }
 
 // The booking calendar plus any extra calendars named in
-// BOOKING_BUSY_CALENDAR_IDS (comma separated). Fresha and Treatwell write their
-// bookings into calendars of their own inside the clinic's Google account, so
-// their times only block the website if those calendars are read as well.
+// BOOKING_BUSY_CALENDAR_IDS (comma separated). Fresha writes its bookings into
+// calendars of its own inside the clinic's Google account, so its times only
+// block the website if those calendars are read as well. Treatwell writes to
+// no calendar; it reads this site's busy feed instead (src/lib/busyFeed.js).
 function busyCalendarIds(env) {
   const extra = (env.BOOKING_BUSY_CALENDAR_IDS || '').split(',').map((id) => id.trim()).filter(Boolean);
   return [...new Set([env.BOOKING_CALENDAR_ID, ...extra])];
