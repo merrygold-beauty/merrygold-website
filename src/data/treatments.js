@@ -1339,7 +1339,7 @@ export const treatments = [
     subcategory: "Laser hair removal by area",
     guide: "laser-hair-removal",
     image: null,
-    tagline: "Six comprehensive full body laser sessions for permanent results.",
+    tagline: "Six comprehensive full body laser sessions for long-lasting hair reduction.",
     about: "A course of six laser hair removal sessions for the full body, paid for together.",
     duration: "1 hour",
     price: 1150,
