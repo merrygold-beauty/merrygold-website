@@ -45,11 +45,13 @@ test.describe('Clinic facts and business data', () => {
     expect(schema.address.streetAddress).toBe(clinicData.contact.address.street);
     expect(schema.address.postalCode).toBe(CLINIC.postcode);
     expect(digits(schema.telephone)).toBe(digits(clinicData.contact.phone));
-    // The social profiles leave the schema while the site's links are down.
+    // Fresha Marketplace listing stays in sameAs; social profiles leave while links are down.
+    expect(schema.sameAs).toContain(clinicData.contact.freshaBookingUrl);
     if (clinicData.social.showLinks) {
       expect(schema.sameAs).toEqual(expect.arrayContaining([CLINIC.instagram, CLINIC.tiktok]));
     } else {
-      expect(schema.sameAs).toBeUndefined();
+      expect(schema.sameAs).not.toContain(CLINIC.instagram);
+      expect(schema.sameAs).not.toContain(CLINIC.tiktok);
     }
     expect(schema.image).toMatch(/^https:\/\//);
   });

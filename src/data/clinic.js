@@ -61,7 +61,10 @@ export const clinicData = {
     // The clinic's commission-free Treatwell booking link (Treatwell Connect,
     // Online booking, Booking link). Treatwell keeps its own diary, separate
     // from the site's bookings.
-    treatwellBookingUrl: "https://trea.tw/bGnj8v279digB9A3f"
+    treatwellBookingUrl: "https://trea.tw/bGnj8v279digB9A3f",
+    // Public Fresha Marketplace listing (live since 2026-11-24). Linked in
+    // LocalBusiness sameAs so Google connects the clinic entity and indexes it.
+    freshaBookingUrl: "https://www.fresha.com/en-GB/a/merrygold-beauty-and-aesthetics-clinic-barking-longbridge-road-zy7tjg9p"
   },
   transport: "Two-minute walk from Barking station.",
   amenities: [
@@ -131,13 +134,16 @@ export function getLocalBusinessSchema() {
     "@id": SITE_ORIGIN,
     "url": SITE_ORIGIN,
     "telephone": clinicData.contact.phone,
-    ...(clinicData.social.showLinks && {
-      "sameAs": [
-        clinicData.social.tiktok,
-        clinicData.social.instagram,
-        clinicData.social.facebook
-      ]
-    }),
+    "sameAs": [
+      clinicData.contact.freshaBookingUrl,
+      ...(clinicData.social.showLinks
+        ? [
+            clinicData.social.tiktok,
+            clinicData.social.instagram,
+            clinicData.social.facebook
+          ]
+        : [])
+    ],
     "priceRange": "££-£££",
     "address": {
       "@type": "PostalAddress",
